@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/home"
+            android:title="Home"
+            android:icon="@drawable/home"/>
+        <item
+            android:id="@+id/upcoming"
+            android:title="Upcoming"
+            android:icon="@drawable/calendar"/>
+        <item
+            android:id="@+id/photos"
+            android:title="Photos"
+            android:icon="@drawable/camera"/>
+        <item
+            android:id="@+id/browse"
+            android:title="Browse"
+            android:icon="@drawable/tune"/>
+        <item
+            android:id="@+id/notification"
+            android:title="Notifications"
+            android:icon="@drawable/clipboard"/>
+        <item
+            android:id="@+id/setting"
+            android:title="Setting"
+            android:icon="@drawable/setting"/>
+        <item
+            android:id="@+id/logout"
+            android:title="Logout"
+            android:icon="@drawable/signout"/>
+    </group>
+</menu>
