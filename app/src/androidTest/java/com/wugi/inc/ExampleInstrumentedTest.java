@@ -1,4 +1,4 @@
-package com.wugi.wugi;
+package com.wugi.inc;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "32778858010",
+    "firebase_url": "https://wugi-345fa.firebaseio.com",
+    "project_id": "wugi-345fa",
+    "storage_bucket": "wugi-345fa.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:32778858010:android:c50cf25454031eac",
+        "android_client_info": {
+          "package_name": "com.wugi.inc"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "32778858010-0nm2v7qrufgdgot9gfn5i2hvn7opb2ve.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA-jJ4b5mhI1nTHGW2c394ZnItn2NTVWfs"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

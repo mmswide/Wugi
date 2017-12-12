@@ -1,4 +1,4 @@
-package com.wugi.wugi;
+package com.wugi.inc;
 
 import org.junit.Test;
 

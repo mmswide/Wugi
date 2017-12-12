@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.wugi.inc.activities.GuestActivity">
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/AppTheme.PopupOverlay">
+            <Button
+                android:layout_width="?attr/actionBarSize"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:textColor="#FFF"
+                style="@style/TextAppearance.Widget.ActionBar.Subtitle"
+                android:text="DECLINE"/>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="?attr/actionBarSize"
+                android:padding="@dimen/margin"
+                android:gravity="center"
+                android:adjustViewBounds="true"
+                android:src="@drawable/logo"
+                android:layout_gravity="center"
+                android:scaleType="fitCenter"/>
+            <Button
+                android:layout_width="?attr/actionBarSize"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_marginRight="@dimen/margin"
+                style="@style/TextAppearance.Widget.ActionBar.Subtitle"
+                android:background="@null"
+                android:textColor="#FFF"
+                android:text="ACCEPT"/>
+        </android.support.v7.widget.Toolbar>
+
+    </android.support.design.widget.AppBarLayout>
+
+    <WebView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </WebView>
+
+</LinearLayout>

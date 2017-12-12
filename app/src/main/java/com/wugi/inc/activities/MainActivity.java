@@ -1,4 +1,4 @@
-package com.wugi.wugi;
+package com.wugi.inc.activities;
 
 import android.net.Uri;
 import android.support.design.widget.NavigationView;
@@ -14,9 +14,10 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.wugi.wugi.fragments.FragmentOne;
+import com.wugi.inc.R;
+import com.wugi.inc.fragments.HomeFragment;
 
-public class MainActivity extends AppCompatActivity implements FragmentOne.OnFragmentInteractionListener {
+public class MainActivity extends AppCompatActivity implements HomeFragment.OnFragmentInteractionListener {
 
     private DrawerLayout drawerLayout;
     private Toolbar toolbar;
@@ -31,7 +32,7 @@ public class MainActivity extends AppCompatActivity implements FragmentOne.OnFra
         if (savedInstanceState == null) {
             Fragment fragment = null;
             Class fragmentClass = null;
-            fragmentClass = FragmentOne.class;
+            fragmentClass = HomeFragment.class;
             try {
                 fragment = (Fragment) fragmentClass.newInstance();
             } catch (Exception e) {
@@ -59,12 +60,12 @@ public class MainActivity extends AppCompatActivity implements FragmentOne.OnFra
                 switch (id){
                     case R.id.home:
                         Toast.makeText(getApplicationContext(),"Home",Toast.LENGTH_SHORT).show();
-                        fragmentClass = FragmentOne.class;
+                        fragmentClass = HomeFragment.class;
                         drawerLayout.closeDrawers();
                         break;
                     case R.id.upcoming:
                         Toast.makeText(getApplicationContext(),"Upcoming",Toast.LENGTH_SHORT).show();
-                        fragmentClass = FragmentOne.class;
+                        fragmentClass = HomeFragment.class;
                         drawerLayout.closeDrawers();
                         break;
                     case R.id.photos:
