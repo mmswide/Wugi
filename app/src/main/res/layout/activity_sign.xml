@@ -22,6 +22,7 @@
                     android:adjustViewBounds="true"
                     android:src="@drawable/logo_bg" />
                 <ImageButton
+                    android:id="@+id/dismissButton"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:layout_margin="10dp"
@@ -39,6 +40,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1">
                 <Button
+                    android:id="@+id/signupButton"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@android:color/transparent"
@@ -46,6 +48,7 @@
                     android:textColor="@android:color/white" />
 
                 <ImageView
+                    android:id="@+id/signupMark"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:layout_gravity="bottom|center"
@@ -56,6 +59,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1">
                 <Button
+                    android:id="@+id/signinButton"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@android:color/transparent"
@@ -63,7 +67,7 @@
                     android:textAllCaps="false"
                     android:textColor="@android:color/white" />
                 <ImageView
-                    android:id="@+id/imageView2"
+                    android:id="@+id/signinMark"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:layout_gravity="bottom|center"
@@ -71,6 +75,7 @@
             </FrameLayout>
         </LinearLayout>
         <LinearLayout
+            android:id="@+id/signinLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
@@ -82,7 +87,7 @@
                 android:orientation="vertical">
 
                 <EditText
-                    android:id="@+id/dfa"
+                    android:id="@+id/inEmail"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -93,7 +98,7 @@
                     android:textAlignment="center"/>
 
                 <EditText
-                    android:id="@+id/afsaf"
+                    android:id="@+id/inPassword"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -107,6 +112,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin">
                     <Button
+                        android:id="@+id/sign_in_button"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="@drawable/black_rounded_shape"
@@ -128,6 +134,7 @@
 
         </LinearLayout>
         <LinearLayout
+            android:id="@+id/signupLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
@@ -140,17 +147,19 @@
                     android:layout_weight="1"
                     android:orientation="vertical">
                     <EditText
+                        android:id="@+id/firstName"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:lines="1"
                         android:hint="First"
-                        android:inputType="none"
+                        android:inputType="text"
                         android:textAlignment="center"/>
                     <EditText
+                        android:id="@+id/lastName"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="Last"
-                        android:inputType="none"
+                        android:inputType="text"
                         android:lines="1"
                         android:textAlignment="center"/>
                 </LinearLayout>
@@ -159,6 +168,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1">
                     <ImageView
+                        android:id="@+id/ivImage"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:src="@drawable/profile"
@@ -172,7 +182,7 @@
                 android:orientation="vertical">
 
                 <EditText
-                    android:id="@+id/editText"
+                    android:id="@+id/upEmail"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -182,7 +192,17 @@
                     android:textAlignment="center"/>
 
                 <EditText
-                    android:id="@+id/editText3"
+                    android:id="@+id/upPassword"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="Password"
+                    android:lines="1"
+                    android:inputType="textPassword"
+                    android:textAlignment="center" />
+
+                <EditText
+                    android:id="@+id/upConfirmPassword"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -191,15 +211,7 @@
                     android:inputType="textPassword"
                     android:textAlignment="center"/>
 
-                <EditText
-                    android:id="@+id/editText2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:hint="Password"
-                    android:lines="1"
-                    android:inputType="textPassword"
-                    android:textAlignment="center" />
+
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
@@ -209,6 +221,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1">
                     <Button
+                        android:id="@+id/datePickerButton"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="@android:color/transparent"
@@ -237,6 +250,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1">
                     <Button
+                        android:id="@+id/sign_up_button"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_margin="@dimen/margin"

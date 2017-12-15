@@ -1,5 +1,6 @@
 package com.wugi.inc.activities;
 
+import android.media.Image;
 import android.net.Uri;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -11,16 +12,23 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.squareup.picasso.Picasso;
 import com.wugi.inc.R;
 import com.wugi.inc.fragments.HomeFragment;
+import com.wugi.inc.fragments.SettingFragment;
 
-public class MainActivity extends AppCompatActivity implements HomeFragment.OnFragmentInteractionListener {
+public class MainActivity extends AppCompatActivity implements HomeFragment.OnFragmentInteractionListener,
+        SettingFragment.OnFragmentInteractionListener {
 
     private DrawerLayout drawerLayout;
     private Toolbar toolbar;
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +36,9 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnFr
         setContentView(R.layout.activity_main);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        mAuth = FirebaseAuth.getInstance();
+
 
         if (savedInstanceState == null) {
             Fragment fragment = null;
@@ -82,6 +93,7 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnFr
                         break;
                     case R.id.setting:
                         Toast.makeText(getApplicationContext(),"Setting",Toast.LENGTH_SHORT).show();
+                        fragmentClass = SettingFragment.class;
                         drawerLayout.closeDrawers();
                         break;
                     case R.id.logout:
@@ -99,9 +111,19 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnFr
                 return true;
             }
         });
-        View header = navigationView.getHeaderView(0);
-        TextView tv_email = (TextView)header.findViewById(R.id.tv_email);
-        tv_email.setText("raj.amalw@learn2crack.com");
+        FirebaseUser mUser = mAuth.getCurrentUser();
+        if (mUser != null) {
+            String uid = mAuth.getCurrentUser().getUid();
+            String imageUrl = mAuth.getCurrentUser().getPhotoUrl().toString();
+            String email = mAuth.getCurrentUser().getEmail().toString();
+
+            View header = navigationView.getHeaderView(0);
+            ImageView iv_profile = (ImageView) header.findViewById(R.id.iv_profile);
+            Picasso.with(this).load(imageUrl).into(iv_profile);
+            TextView tv_email = (TextView)header.findViewById(R.id.tv_email);
+            tv_email.setText(email);
+        }
+
         drawerLayout = (DrawerLayout)findViewById(R.id.drawer);
 
         ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.drawer_open,R.string.drawer_close){

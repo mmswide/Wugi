@@ -5,4 +5,8 @@
     <dimen name="title_size">28sp</dimen>
     <dimen name="corner_radius">20dp</dimen>
     <dimen name="margin">8dp</dimen>
+    <dimen name="text_size">20sp</dimen>
+    <dimen name="space_width">1dp</dimen>
+    <dimen name="space_height">20dp</dimen>
+    <dimen name="margin_left">15dp</dimen>
 </resources>

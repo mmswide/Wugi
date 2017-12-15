@@ -111,7 +111,7 @@ public class HomeFragment extends Fragment {
         todayStr = "2017-12-01" + " 04:00:00 +0000";
 
         Date convertedDate = new Date();
-        SimpleDateFormat outputFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ssZZZZZ", Locale.ENGLISH);
+        SimpleDateFormat outputFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss ZZZZZ");
         try {
             convertedDate = outputFormat.parse(todayStr);
 
