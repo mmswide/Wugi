@@ -17,12 +17,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.firebase.client.Firebase;
@@ -54,6 +57,7 @@ import java.util.Calendar;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class SignActivity extends AppCompatActivity {
 
@@ -64,7 +68,7 @@ public class SignActivity extends AppCompatActivity {
     @BindView(R.id.signinLayout)    LinearLayout signinLayout;
     @BindView(R.id.signupButton)    Button signupButton;
     @BindView(R.id.signinButton)    Button signinButton;
-    @BindView(R.id.ivImage)         ImageView ivImage;
+    @BindView(R.id.ivImage)         CircleImageView ivImage;
     @BindView(R.id.datePickerButton) Button datePickerButton;
     @BindView(R.id.inEmail)         EditText inInputEmail;
     @BindView(R.id.inPassword)      EditText inInputPassword;
@@ -73,6 +77,7 @@ public class SignActivity extends AppCompatActivity {
     @BindView(R.id.upEmail)         EditText upInputEmail;
     @BindView(R.id.upPassword)      EditText upInputPassword;
     @BindView(R.id.upConfirmPassword) EditText upInputConfirm;
+    @BindView(R.id.spinner)         Spinner genderSpinner;
 
     private boolean isSignup;
     private int REQUEST_CAMERA = 0, SELECT_FILE = 1;
@@ -84,6 +89,7 @@ public class SignActivity extends AppCompatActivity {
     private Bitmap profileBitmap;
     private Uri mUri;
     private String dateStr;
+    private String gender;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,6 +112,27 @@ public class SignActivity extends AppCompatActivity {
         this.isSignup = isSignup;
 
         initView(isSignup);
+
+        ArrayAdapter adapter = ArrayAdapter.createFromResource(
+                this, R.array.genders, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        genderSpinner.setAdapter(adapter);
+
+        final String[] genders = getResources().getStringArray(R.array.genders);
+        gender = genders[genders.length-1];
+        genderSpinner.setSelection(genders.length-1);
+
+        genderSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                gender = genders[i];
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
     }
 
     void initView(boolean isSignup) {
@@ -114,6 +141,7 @@ public class SignActivity extends AppCompatActivity {
             signinMarkImageView.setVisibility(View.GONE);
             signupLayout.setVisibility(View.VISIBLE);
             signinLayout.setVisibility(View.GONE);
+
         } else {
             signupMarkImageView.setVisibility(View.GONE);
             signinMarkImageView.setVisibility(View.VISIBLE);
@@ -209,6 +237,7 @@ public class SignActivity extends AppCompatActivity {
 
         if (TextUtils.isEmpty(firstName)) {
             inputFirstName.setError("Required.");
+            Toast.makeText(getApplicationContext(), "Please input first name.", Toast.LENGTH_SHORT).show();
             valid = false;
         } else {
             inputFirstName.setError(null);
@@ -216,6 +245,7 @@ public class SignActivity extends AppCompatActivity {
 
         if (TextUtils.isEmpty(lastName)) {
             inputLastName.setError("Required.");
+            Toast.makeText(getApplicationContext(), "Please input last name.", Toast.LENGTH_SHORT).show();
             valid = false;
         } else {
             inputLastName.setError(null);
@@ -223,6 +253,7 @@ public class SignActivity extends AppCompatActivity {
 
         if (TextUtils.isEmpty(email)) {
             upInputEmail.setError("Required.");
+            Toast.makeText(getApplicationContext(), "Please input email.", Toast.LENGTH_SHORT).show();
             valid = false;
         } else {
             upInputEmail.setError(null);
@@ -230,6 +261,7 @@ public class SignActivity extends AppCompatActivity {
 
         if (TextUtils.isEmpty(password)) {
             upInputPassword.setError("Required.");
+            Toast.makeText(getApplicationContext(), "Please input password.", Toast.LENGTH_SHORT).show();
             valid = false;
         } else {
             if (password.length() < 6) {
@@ -241,6 +273,7 @@ public class SignActivity extends AppCompatActivity {
         }
         if (TextUtils.isEmpty(confirmPassword)) {
             upInputConfirm.setError("Required.");
+            Toast.makeText(getApplicationContext(), "Please input confirm password.", Toast.LENGTH_SHORT).show();
             valid = false;
         } else {
             upInputConfirm.setError(null);
@@ -300,7 +333,7 @@ public class SignActivity extends AppCompatActivity {
                                                 @Override
                                                 public void onComplete(@NonNull Task<Void> task) {
                                                     if (task.isSuccessful()) {
-                                                        User user = new User(mAuth.getCurrentUser().getUid(), firstName, lastName, email, "gender",downloadUrl.toString(),true,dateStr);
+                                                        User user = new User(mAuth.getCurrentUser().getUid(), firstName, lastName, email, gender, downloadUrl.toString(),true,dateStr);
 
                                                         DocumentReference reference = db.document("Users/" + currentUser.getUid());
                                                         reference.set(user).addOnSuccessListener(new OnSuccessListener<Void>() {

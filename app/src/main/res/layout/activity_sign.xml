@@ -83,19 +83,23 @@
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="90"
+                android:layout_weight="80"
                 android:orientation="vertical">
-
+                <Space
+                    android:layout_width="@dimen/space_width"
+                    android:layout_height="@dimen/space_height" />
                 <EditText
                     android:id="@+id/inEmail"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:layout_marginTop="@dimen/margin"
                     android:hint="E-mail"
                     android:lines="1"
                     android:inputType="textEmailAddress"
                     android:textAlignment="center"/>
+                <Space
+                    android:layout_width="@dimen/space_width"
+                    android:layout_height="@dimen/space_height" />
 
                 <EditText
                     android:id="@+id/inPassword"
@@ -104,13 +108,14 @@
                     android:layout_weight="1"
                     android:hint="Password"
                     android:lines="1"
-                    android:layout_marginTop="@dimen/margin"
                     android:inputType="textPassword"
                     android:textAlignment="center" />
+                <Space
+                    android:layout_width="@dimen/space_width"
+                    android:layout_height="@dimen/space_height" />
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin">
+                    android:layout_height="wrap_content">
                     <Button
                         android:id="@+id/sign_in_button"
                         android:layout_width="match_parent"
@@ -120,10 +125,12 @@
                         android:textColor="@android:color/black"
                         android:text="Sign in" />
                 </LinearLayout>
+                <Space
+                    android:layout_width="@dimen/space_width"
+                    android:layout_height="@dimen/space_height" />
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin">
+                    android:layout_height="wrap_content">
                     <Button
                         style="@style/AppTheme.FBRoundedCornerMaterialButton"
                         android:layout_width="match_parent"
@@ -137,138 +144,146 @@
             android:id="@+id/signupLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:gravity="center"
+            android:weightSum="100">
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-                    <EditText
-                        android:id="@+id/firstName"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:lines="1"
-                        android:hint="First"
-                        android:inputType="text"
-                        android:textAlignment="center"/>
-                    <EditText
-                        android:id="@+id/lastName"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="Last"
-                        android:inputType="text"
-                        android:lines="1"
-                        android:textAlignment="center"/>
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1">
-                    <ImageView
-                        android:id="@+id/ivImage"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/profile"
-                        android:adjustViewBounds="true"/>
-                </LinearLayout>
-
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <EditText
-                    android:id="@+id/upEmail"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:hint="E-mail"
-                    android:lines="1"
-                    android:inputType="textEmailAddress"
-                    android:textAlignment="center"/>
-
-                <EditText
-                    android:id="@+id/upPassword"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:hint="Password"
-                    android:lines="1"
-                    android:inputType="textPassword"
-                    android:textAlignment="center" />
-
-                <EditText
-                    android:id="@+id/upConfirmPassword"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:lines="1"
-                    android:hint="Confirm Password"
-                    android:inputType="textPassword"
-                    android:textAlignment="center"/>
-
-
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:orientation="vertical"
+                android:layout_weight="80">
                 <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1">
-                    <Button
-                        android:id="@+id/datePickerButton"
-                        android:layout_width="match_parent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+                        <EditText
+                            android:id="@+id/firstName"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:lines="1"
+                            android:hint="First"
+                            android:inputType="text"
+                            android:textAlignment="center"/>
+                        <EditText
+                            android:id="@+id/lastName"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="Last"
+                            android:inputType="text"
+                            android:lines="1"
+                            android:textAlignment="center"/>
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:background="@android:color/transparent"
-                        android:text="22 Nov 2017"
-                        android:textAllCaps="false"
-                        android:textColor="@android:color/black"/>
+                        android:layout_weight="1">
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:id="@+id/ivImage"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/profile"/>
+                    </LinearLayout>
+
                 </LinearLayout>
                 <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1">
-                    <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <EditText
+                        android:id="@+id/upEmail"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="@android:color/transparent"
-                        android:textAllCaps="false"
-                        android:text="Other"
-                        android:textColor="@android:color/black" />
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:hint="E-mail"
+                        android:lines="1"
+                        android:inputType="textEmailAddress"
+                        android:textAlignment="center"/>
+
+                    <EditText
+                        android:id="@+id/upPassword"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:hint="Password"
+                        android:lines="1"
+                        android:inputType="textPassword"
+                        android:textAlignment="center" />
+
+                    <EditText
+                        android:id="@+id/upConfirmPassword"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:lines="1"
+                        android:hint="Confirm Password"
+                        android:inputType="textPassword"
+                        android:textAlignment="center"/>
+
+
                 </LinearLayout>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
                 <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1">
-                    <Button
-                        android:id="@+id/sign_up_button"
-                        android:layout_width="match_parent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <LinearLayout
+                        android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_margin="@dimen/margin"
-                        android:background="@drawable/black_rounded_shape"
-                        android:textAllCaps="false"
-                        android:textColor="@android:color/black"
-                        android:text="Create Account" />
+                        android:layout_weight="1">
+                        <Button
+                            android:id="@+id/datePickerButton"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@android:color/transparent"
+                            android:text="Birthday"
+                            android:textAllCaps="false"
+                            android:textColor="@android:color/black"/>
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center">
+                        <Spinner
+                            android:id="@+id/spinner"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:textAllCaps="false"
+                            android:text="Gender"
+                            android:textAlignment="center"
+                            android:textColor="@android:color/black" />
+                    </LinearLayout>
                 </LinearLayout>
                 <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1">
-                    <Button
-                        style="@style/AppTheme.FBRoundedCornerMaterialButton"
-                        android:layout_margin="@dimen/margin"
-                        android:layout_width="match_parent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <LinearLayout
+                        android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:text="Sign In With F" />
+                        android:layout_weight="1">
+                        <Button
+                            android:id="@+id/sign_up_button"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_margin="@dimen/margin"
+                            android:background="@drawable/black_rounded_shape"
+                            android:textAllCaps="false"
+                            android:textColor="@android:color/black"
+                            android:text="Create Account" />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1">
+                        <Button
+                            style="@style/AppTheme.FBRoundedCornerMaterialButton"
+                            android:layout_margin="@dimen/margin"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:text="Sign In With F" />
+                    </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>

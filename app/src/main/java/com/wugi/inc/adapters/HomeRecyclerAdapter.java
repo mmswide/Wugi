@@ -1,38 +1,42 @@
 package com.wugi.inc.adapters;
 
 import android.content.Context;
+import android.os.Handler;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
 import com.squareup.picasso.Picasso;
+import com.viewpagerindicator.CirclePageIndicator;
 import com.wugi.inc.R;
 import com.wugi.inc.models.Event;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * Created by storm on 12/11/2017.
  */
 
-public class HomeRecyclerAdapter extends RecyclerView.Adapter<HomeRecyclerAdapter.HomeViewHolder> {
+public class HomeRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private Context mContext;
     private List<Event> eventList;
+    private List<Event> featuredEventList;
 
-    public class HomeViewHolder extends RecyclerView.ViewHolder {
-        public ImageView thumbnail;
+    private static final int TYPE_HEADER = 0;
+    private static final int TYPE_ITEM = 1;
 
-        public HomeViewHolder(View view) {
-            super(view);
-            thumbnail = (ImageView) view.findViewById(R.id.thumbnail);
-        }
-    }
+    HomePagerAdapter pagerAdapter;
+    private static int currentPage = 0;
+    private static int NUM_PAGES = 0;
 
-    public void refresh(ArrayList<Event> items) {
+    public void refresh(ArrayList<Event> items, ArrayList<Event> featuredEvents) {
         this.eventList = items;
+        this.featuredEventList = featuredEvents;
         notifyDataSetChanged();
     }
 
@@ -42,27 +46,104 @@ public class HomeRecyclerAdapter extends RecyclerView.Adapter<HomeRecyclerAdapte
     }
 
     @Override
-    public HomeViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.home_row, parent, false);
-        return new HomeViewHolder(itemView);
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        if (viewType == TYPE_HEADER) {
+            View layoutView = LayoutInflater.from(parent.getContext()).inflate(R.layout.home_header_layout, parent, false);
+            return new HomeHeaderViewHolder(layoutView);
+        } else if (viewType == TYPE_ITEM) {
+            View itemView = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.home_row, parent, false);
+            return new HomeViewHolder(itemView);
+        }
+        throw new RuntimeException("No match for " + viewType + ".");
+
     }
 
     @Override
-    public void onBindViewHolder(HomeViewHolder holder, int position) {
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         Event event = eventList.get(position);
-        Picasso.with(mContext).load(event.getImageThumbURL()).into(holder.thumbnail);
+        if(holder instanceof HomeHeaderViewHolder){
+            HomeHeaderViewHolder headerViewHolder = (HomeHeaderViewHolder) holder;
+            final ViewPager viewPager = headerViewHolder.viewPager;
+            pagerAdapter = new HomePagerAdapter(mContext, featuredEventList);
+            viewPager.setAdapter(pagerAdapter);
 
-        holder.thumbnail.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+            CirclePageIndicator indicator = headerViewHolder.indicator;
 
-            }
-        });
+            indicator.setViewPager(viewPager);
+
+            final float density = mContext.getResources().getDisplayMetrics().density;
+
+            //Set circle indicator radius
+            indicator.setRadius(5 * density);
+
+            NUM_PAGES =featuredEventList.size();
+
+            // Auto start of viewpager
+            final Handler handler = new Handler();
+            final Runnable Update = new Runnable() {
+                public void run() {
+                    if (currentPage == NUM_PAGES) {
+                        currentPage = 0;
+                    }
+                    viewPager.setCurrentItem(currentPage++, true);
+                }
+            };
+            Timer swipeTimer = new Timer();
+            swipeTimer.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    handler.post(Update);
+                }
+            }, 3000, 3000);
+
+            // Pager listener over indicator
+            indicator.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+
+                @Override
+                public void onPageSelected(int position) {
+                    currentPage = position;
+
+                }
+
+                @Override
+                public void onPageScrolled(int pos, float arg1, int arg2) {
+
+                }
+
+                @Override
+                public void onPageScrollStateChanged(int pos) {
+
+                }
+            });
+
+        }else if(holder instanceof HomeViewHolder){
+            Picasso.with(mContext).load(event.getImageThumbURL()).into(((HomeViewHolder) holder).thumbnail);
+
+            ((HomeViewHolder) holder).thumbnail.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                }
+            });
+        }
+    }
+    private Event getItem(int position) {
+        return eventList.get(position);
     }
 
     @Override
     public int getItemCount() {
         return this.eventList.size();
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        if (isPositionHeader(position))
+            return TYPE_HEADER;
+        return TYPE_ITEM;
+    }
+    public boolean isPositionHeader(int position) {
+        return position == 0;
     }
 }

@@ -9,4 +9,6 @@
     <dimen name="space_width">1dp</dimen>
     <dimen name="space_height">20dp</dimen>
     <dimen name="margin_left">15dp</dimen>
+    <dimen name="nav_header_height">190dp</dimen>
+    <dimen name="iv_profile_height">100dp</dimen>
 </resources>

@@ -1,5 +1,6 @@
 package com.wugi.inc.activities;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.webkit.WebView;
@@ -29,7 +30,9 @@ public class GuestActivity extends AppCompatActivity {
     }
     @OnClick(R.id.acceptButton)
     public void accept() {
-
+        Intent intent = new Intent(GuestActivity.this, MainActivity.class);
+        startActivity(intent);
+        finish();
     }
     @OnClick(R.id.declineButton)
     public void decline() {

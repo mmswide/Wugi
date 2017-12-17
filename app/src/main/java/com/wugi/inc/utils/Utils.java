@@ -7,11 +7,14 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
+import android.util.DisplayMetrics;
+import android.util.TypedValue;
 import android.view.WindowManager;
 
 import com.wugi.inc.R;
@@ -22,6 +25,22 @@ import com.wugi.inc.R;
 
 public class Utils {
     public static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 123;
+
+
+
+    public static float convertPixelsToDp(float px){
+        DisplayMetrics metrics = Resources.getSystem().getDisplayMetrics();
+        float dp = px / (metrics.densityDpi / 160f);
+        return Math.round(dp);
+    }
+    /**
+     * Converting dp to pixel
+     */
+    public static float convertDpToPixel(float dp){
+        DisplayMetrics metrics = Resources.getSystem().getDisplayMetrics();
+        float px = dp * (metrics.densityDpi / 160f);
+        return Math.round(px);
+    }
 
     public static ProgressDialog createProgressDialog(Context mContext) {
         ProgressDialog dialog = new ProgressDialog(mContext);

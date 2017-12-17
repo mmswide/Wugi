@@ -67,6 +67,7 @@ public class HomeFragment extends Fragment {
     private HomeRecyclerAdapter adapter;
     private Context mContext;
     private ArrayList<Event> eventList = new ArrayList<Event>();
+    private ArrayList<Event> featuredEventList = new ArrayList<Event>();
 
     private void getEvents() {
         Date today = getTodayFormat();
@@ -92,9 +93,13 @@ public class HomeFragment extends Fragment {
                                 Log.d(TAG, document.getId() + " => " + document.getData());
                                 Event event = new Event(document);
 
-                                HomeFragment.this.eventList.add(event);
+                                if (event.getFeature() == 1) {
+                                    HomeFragment.this.eventList.add(event);
+                                } else if (event.getFeature() == 2) {
+                                    HomeFragment.this.featuredEventList.add(event);
+                                }
                             }
-                            HomeFragment.this.adapter.refresh(eventList);
+                            HomeFragment.this.adapter.refresh(eventList, featuredEventList);
                         } else {
                             Log.w(TAG, "Error getting documents.", task.getException());
                         }
@@ -163,21 +168,22 @@ public class HomeFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
         adapter = new HomeRecyclerAdapter(mContext, eventList);
-        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(mContext, 2);
+
+        final GridLayoutManager layoutManager = new GridLayoutManager(mContext, 2);
         recyclerView.setLayoutManager(layoutManager);
-        recyclerView.addItemDecoration(new GridSpacingItemDecoration(2, dpToPx(10), true));
+
+        recyclerView.addItemDecoration(new GridSpacingItemDecoration(2, (int) Utils.convertDpToPixel(0), true));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
 
-        return view;
-    }
+        layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+            @Override
+            public int getSpanSize(int position) {
+                return adapter.isPositionHeader(position) ? layoutManager.getSpanCount() : 1;
+            }
+        });
 
-    /**
-     * Converting dp to pixel
-     */
-    private int dpToPx(int dp) {
-        Resources r = getResources();
-        return Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, r.getDisplayMetrics()));
+        return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event

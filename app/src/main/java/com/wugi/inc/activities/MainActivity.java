@@ -1,5 +1,6 @@
 package com.wugi.inc.activities;
 
+import android.content.Intent;
 import android.media.Image;
 import android.net.Uri;
 import android.support.design.widget.NavigationView;
@@ -10,6 +11,8 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -22,8 +25,10 @@ import com.squareup.picasso.Picasso;
 import com.wugi.inc.R;
 import com.wugi.inc.fragments.HomeFragment;
 import com.wugi.inc.fragments.SettingFragment;
+import com.wugi.inc.fragments.UpcomingFragment;
 
 public class MainActivity extends AppCompatActivity implements HomeFragment.OnFragmentInteractionListener,
+        UpcomingFragment.OnFragmentInteractionListener,
         SettingFragment.OnFragmentInteractionListener {
 
     private DrawerLayout drawerLayout;
@@ -60,6 +65,13 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnFr
     public void initNavigationDrawer() {
 
         NavigationView navigationView = (NavigationView)findViewById(R.id.navigation_view);
+        Menu menuNav = navigationView.getMenu();
+        MenuItem item = menuNav.findItem(R.id.setting);
+        if (mAuth.getCurrentUser() == null) {
+            item.setVisible(false);
+        } else {
+            item.setVisible(true);
+        }
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(MenuItem menuItem) {
@@ -76,7 +88,7 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnFr
                         break;
                     case R.id.upcoming:
                         Toast.makeText(getApplicationContext(),"Upcoming",Toast.LENGTH_SHORT).show();
-                        fragmentClass = HomeFragment.class;
+                        fragmentClass = UpcomingFragment.class;
                         drawerLayout.closeDrawers();
                         break;
                     case R.id.photos:
@@ -97,7 +109,14 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnFr
                         drawerLayout.closeDrawers();
                         break;
                     case R.id.logout:
+                        drawerLayout.closeDrawers();
+                        FirebaseAuth.getInstance().signOut();
+
+                        Intent intent = new Intent(MainActivity.this, EnterActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(intent);
                         finish();
+                        return true;
                 }
 
                 try {
@@ -112,16 +131,26 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnFr
             }
         });
         FirebaseUser mUser = mAuth.getCurrentUser();
+
+        View headerView= LayoutInflater.from(this).inflate(R.layout.nav_header, null);
+        View header = navigationView.getHeaderView(0);
         if (mUser != null) {
+            if (header != null) {
+                navigationView.removeHeaderView(headerView);
+            }
+            navigationView.addHeaderView(headerView);
             String uid = mAuth.getCurrentUser().getUid();
             String imageUrl = mAuth.getCurrentUser().getPhotoUrl().toString();
             String email = mAuth.getCurrentUser().getEmail().toString();
 
-            View header = navigationView.getHeaderView(0);
-            ImageView iv_profile = (ImageView) header.findViewById(R.id.iv_profile);
+            ImageView iv_profile = (ImageView) headerView.findViewById(R.id.iv_profile);
             Picasso.with(this).load(imageUrl).into(iv_profile);
-            TextView tv_email = (TextView)header.findViewById(R.id.tv_email);
+            TextView tv_email = (TextView)headerView.findViewById(R.id.tv_email);
             tv_email.setText(email);
+
+        } else {
+            if (header != null)
+                navigationView.removeHeaderView(headerView);
         }
 
         drawerLayout = (DrawerLayout)findViewById(R.id.drawer);
