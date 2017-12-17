@@ -23,6 +23,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.squareup.picasso.Picasso;
 import com.wugi.inc.R;
+import com.wugi.inc.fragments.BrowseFragment;
 import com.wugi.inc.fragments.GalleryFragment;
 import com.wugi.inc.fragments.HomeFragment;
 import com.wugi.inc.fragments.SettingFragment;
@@ -94,11 +95,12 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnFr
                         break;
                     case R.id.photos:
                         Toast.makeText(getApplicationContext(),"Photos",Toast.LENGTH_SHORT).show();
+                        fragmentClass = GalleryFragment.class;
                         drawerLayout.closeDrawers();
                         break;
                     case R.id.browse:
                         Toast.makeText(getApplicationContext(),"Browse",Toast.LENGTH_SHORT).show();
-                        fragmentClass = GalleryFragment.class;
+                        fragmentClass = BrowseFragment.class;
                         drawerLayout.closeDrawers();
                         break;
                     case R.id.notification:

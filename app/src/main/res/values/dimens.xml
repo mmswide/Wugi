@@ -11,4 +11,5 @@
     <dimen name="margin_left">15dp</dimen>
     <dimen name="nav_header_height">190dp</dimen>
     <dimen name="iv_profile_height">100dp</dimen>
+    <dimen name="iv_icon_width">30dp</dimen>
 </resources>
