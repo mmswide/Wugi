@@ -167,7 +167,7 @@ public class HomeFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
-        adapter = new HomeRecyclerAdapter(mContext, eventList);
+        adapter = new HomeRecyclerAdapter(mContext, eventList, featuredEventList);
 
         final GridLayoutManager layoutManager = new GridLayoutManager(mContext, 2);
         recyclerView.setLayoutManager(layoutManager);

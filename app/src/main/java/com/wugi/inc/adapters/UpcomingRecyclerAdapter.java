@@ -1,16 +1,28 @@
 package com.wugi.inc.adapters;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
+import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 import com.wugi.inc.R;
+import com.wugi.inc.fragments.UpcomingFragment;
 import com.wugi.inc.models.Event;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -20,9 +32,6 @@ import java.util.List;
 public class UpcomingRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private Context mContext;
     private List<Event> eventList;
-
-    private static final int TYPE_HEADER = 0;
-    private static final int TYPE_ITEM = 1;
 
     public void refresh(ArrayList<Event> items) {
         this.eventList = items;
@@ -36,25 +45,17 @@ public class UpcomingRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.V
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        if (viewType == TYPE_HEADER) {
-            View layoutView = LayoutInflater.from(parent.getContext()).inflate(R.layout.upcoming_header_layout, parent, false);
-            return new UpcomingHeaderViewHolder(layoutView);
-        } else if (viewType == TYPE_ITEM) {
-            View itemView = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.upcoming_row, parent, false);
-            return new UpcomingViewHolder(itemView);
-        }
-        throw new RuntimeException("No match for " + viewType + ".");
+        View itemView = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.upcoming_row, parent, false);
+        return new UpcomingViewHolder(itemView);
 
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        Event event = eventList.get(position);
-        if(holder instanceof UpcomingHeaderViewHolder){
-            UpcomingHeaderViewHolder headerViewHolder = (UpcomingHeaderViewHolder) holder;
-
-        }else if(holder instanceof UpcomingViewHolder){
+        if(holder instanceof UpcomingViewHolder){
+            Event event = eventList.get(position);
             Picasso.with(mContext).load(event.getImageThumbURL()).into(((UpcomingViewHolder) holder).thumbnail);
 
             ((UpcomingViewHolder) holder).thumbnail.setOnClickListener(new View.OnClickListener() {
@@ -65,22 +66,9 @@ public class UpcomingRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.V
             });
         }
     }
-    private Event getItem(int position) {
-        return eventList.get(position);
-    }
 
     @Override
     public int getItemCount() {
         return this.eventList.size();
-    }
-
-    @Override
-    public int getItemViewType(int position) {
-        if (isPositionHeader(position))
-            return TYPE_HEADER;
-        return TYPE_ITEM;
-    }
-    public boolean isPositionHeader(int position) {
-        return position == 0;
     }
 }

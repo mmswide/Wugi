@@ -5,169 +5,212 @@
     android:padding="5dp"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <LinearLayout
+            android:id="@+id/ll_first"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:tag="0">
+
             <TextView
                 android:id="@+id/tv_first"
-                android:paddingTop="5dp"
-                android:text="Mon"
-                android:paddingBottom="2dp"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:paddingBottom="2dp"
+                android:paddingTop="5dp"
+                android:text="Mon" />
+
             <TextView
                 android:id="@+id/tv_firstNum"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/circle_shape"
                 android:padding="5dp"
                 android:text="12"
+                android:textAlignment="center"
                 android:textColor="@android:color/white"
-                android:background="@drawable/circle_shape"
-                android:textSize="15sp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:textSize="15sp" />
         </LinearLayout>
+
         <LinearLayout
+            android:id="@+id/ll_second"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:tag="1">
+
             <TextView
                 android:id="@+id/tv_second"
-                android:paddingTop="5dp"
-                android:text="Mon"
-                android:paddingBottom="2dp"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:paddingBottom="2dp"
+                android:paddingTop="5dp"
+                android:text="Mon" />
+
             <TextView
                 android:id="@+id/tv_secondNum"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/circle_shape"
                 android:padding="5dp"
                 android:text="12"
+                android:textAlignment="center"
                 android:textColor="@android:color/white"
-                android:background="@drawable/circle_shape"
-                android:textSize="15sp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:textSize="15sp" />
         </LinearLayout>
+
         <LinearLayout
+            android:id="@+id/ll_third"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:tag="2">
+
             <TextView
                 android:id="@+id/tv_third"
-                android:paddingTop="5dp"
-                android:text="Mon"
-                android:paddingBottom="2dp"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:paddingBottom="2dp"
+                android:paddingTop="5dp"
+                android:text="Mon" />
+
             <TextView
                 android:id="@+id/tv_thirdNum"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/circle_shape"
                 android:padding="5dp"
                 android:text="12"
+                android:textAlignment="center"
                 android:textColor="@android:color/white"
-                android:background="@drawable/circle_shape"
-                android:textSize="15sp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:textSize="15sp" />
         </LinearLayout>
+
         <LinearLayout
+            android:id="@+id/ll_forth"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:tag="3">
+
             <TextView
                 android:id="@+id/tv_fourth"
-                android:paddingTop="5dp"
-                android:text="Mon"
-                android:paddingBottom="2dp"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:paddingBottom="2dp"
+                android:paddingTop="5dp"
+                android:text="Mon" />
+
             <TextView
                 android:id="@+id/tv_fourthNum"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/circle_shape"
                 android:padding="5dp"
                 android:text="12"
+                android:textAlignment="center"
                 android:textColor="@android:color/white"
-                android:background="@drawable/circle_shape"
-                android:textSize="15sp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:textSize="15sp" />
         </LinearLayout>
+
         <LinearLayout
+            android:id="@+id/ll_fifth"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:tag="4">
+
             <TextView
                 android:id="@+id/tv_fifth"
-                android:paddingTop="5dp"
-                android:text="Mon"
-                android:paddingBottom="2dp"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:paddingBottom="2dp"
+                android:paddingTop="5dp"
+                android:text="Mon" />
+
             <TextView
                 android:id="@+id/tv_fifthNum"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/circle_shape"
                 android:padding="5dp"
                 android:text="12"
+                android:textAlignment="center"
                 android:textColor="@android:color/white"
-                android:background="@drawable/circle_shape"
-                android:textSize="15sp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:textSize="15sp" />
         </LinearLayout>
+
         <LinearLayout
+            android:id="@+id/ll_sixth"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:tag="5">
+
             <TextView
                 android:id="@+id/tv_sixth"
-                android:paddingTop="5dp"
-                android:text="Mon"
-                android:paddingBottom="2dp"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:paddingBottom="2dp"
+                android:paddingTop="5dp"
+                android:text="Mon" />
+
             <TextView
                 android:id="@+id/tv_sixthNum"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/circle_shape"
                 android:padding="5dp"
                 android:text="12"
+                android:textAlignment="center"
                 android:textColor="@android:color/white"
-                android:background="@drawable/circle_shape"
-                android:textSize="15sp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:textSize="15sp" />
         </LinearLayout>
+
         <LinearLayout
+            android:id="@+id/ll_seventh"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:tag="6">
+
             <TextView
                 android:id="@+id/tv_seventh"
-                android:paddingTop="5dp"
-                android:text="Mon"
-                android:paddingBottom="2dp"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:paddingBottom="2dp"
+                android:paddingTop="5dp"
+                android:text="Mon" />
+
             <TextView
                 android:id="@+id/tv_seventhNum"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/circle_shape"
                 android:padding="5dp"
                 android:text="12"
+                android:textAlignment="center"
                 android:textColor="@android:color/white"
-                android:background="@drawable/circle_shape"
-                android:textSize="15sp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:textSize="15sp" />
         </LinearLayout>
 
     </LinearLayout>

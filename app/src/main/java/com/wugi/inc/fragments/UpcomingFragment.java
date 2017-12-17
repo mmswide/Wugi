@@ -2,17 +2,26 @@ package com.wugi.inc.fragments;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -65,6 +74,15 @@ public class UpcomingFragment extends Fragment {
     ArrayList<Event> filtered = new ArrayList<Event>();
     private int selectedIndex = 0;
     private Date activeDate;
+
+    TextView tv_first, tv_firstNum;
+    TextView tv_second, tv_secondNum;
+    TextView tv_third, tv_thirdNum;
+    TextView tv_forth, tv_forthNum;
+    TextView tv_fifth, tv_fifthNum;
+    TextView tv_sixth, tv_sixthNum;
+    TextView tv_seventh, tv_seventhNum;
+    LinearLayout ll_first, ll_second, ll_third, ll_forth, ll_fifth, ll_sixth, ll_seventh;
 
     private void getEvents() {
         Date today = getTodayFormat();
@@ -128,7 +146,7 @@ public class UpcomingFragment extends Fragment {
         Date today = new Date();
         String todayStr = sdf.format(today);
 
-        todayStr = "2017-12-01" + " 04:00:00 +0000";
+        todayStr = "2017-12-01" + " 07:00:00 +0000";
         Date convertedDate = new Date();
         SimpleDateFormat outputFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss ZZZZZ");
 
@@ -160,8 +178,8 @@ public class UpcomingFragment extends Fragment {
     private void getActiveData() {
         this.filtered.clear();
         for (Event event : this.eventList) {
-            Date nextDate = this.getNextDate(event.getStartDate());
-            if (event.getStartDate().after(this.activeDate) && nextDate.before(this.activeDate)) {
+            Date nextDate = this.getNextDate(this.activeDate);
+            if (event.getStartDate().after(this.activeDate) && event.getStartDate().before(nextDate)) {
                 filtered.add(event);
             }
         }
@@ -193,6 +211,29 @@ public class UpcomingFragment extends Fragment {
         activeDate = this.daysList.get(index);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    private void setActiveData(int index) {
+        ArrayList<TextView> tvArrays = new ArrayList<TextView>();
+        tvArrays.add(tv_firstNum);
+        tvArrays.add(tv_secondNum);
+        tvArrays.add(tv_thirdNum);
+        tvArrays.add(tv_forthNum);
+        tvArrays.add(tv_fifthNum);
+        tvArrays.add(tv_sixthNum);
+        tvArrays.add(tv_seventhNum);
+        Drawable transparentDrawable = new ColorDrawable(Color.TRANSPARENT);
+        for (int i=0; i < tvArrays.size(); i++) {
+            TextView textView = tvArrays.get(i);
+            if (i == index) {
+                textView.setBackground(mContext.getDrawable(R.drawable.circle_shape));
+                textView.setTextColor(ContextCompat.getColor(mContext, R.color.White));
+            } else {
+                textView.setBackground(transparentDrawable);
+                textView.setTextColor(ContextCompat.getColor(mContext, R.color.black));
+            }
+        }
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -201,18 +242,102 @@ public class UpcomingFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
         getNextSevenDays();
+
         selectedIndex = 0;
         setActiveDate(selectedIndex);
-
-
         getEvents();
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    public void getSelectedData(int index) {
+        selectedIndex = index;
+        setActiveDate(selectedIndex);
+
+        getActiveData();
+        UpcomingFragment.this.adapter.refresh(filtered);
+    }
+
+    private String getDayOfWeek(Date d) {
+        SimpleDateFormat sdf = new SimpleDateFormat("EEE");
+        String dayOfTheWeek = sdf.format(d);
+        return dayOfTheWeek;
+    }
+    private String getDayFromDate(Date date) {
+        String dayStr = (String) DateFormat.format("dd",   date);
+        return dayStr;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_upcoming, container, false);
+
+        tv_first = (TextView) view.findViewById(R.id.tv_first);
+        tv_firstNum = (TextView) view.findViewById(R.id.tv_firstNum);
+        tv_second = (TextView) view.findViewById(R.id.tv_second);
+        tv_secondNum = (TextView) view.findViewById(R.id.tv_secondNum);
+        tv_third = (TextView) view.findViewById(R.id.tv_third);
+        tv_thirdNum = (TextView) view.findViewById(R.id.tv_thirdNum);
+        tv_forth = (TextView) view.findViewById(R.id.tv_fourth);
+        tv_forthNum = (TextView) view.findViewById(R.id.tv_fourthNum);
+        tv_fifth = (TextView) view.findViewById(R.id.tv_fifth);
+        tv_fifthNum = (TextView) view.findViewById(R.id.tv_fifthNum);
+        tv_sixth = (TextView) view.findViewById(R.id.tv_sixth);
+        tv_sixthNum = (TextView) view.findViewById(R.id.tv_sixthNum);
+        tv_seventh = (TextView) view.findViewById(R.id.tv_seventh);
+        tv_seventhNum = (TextView) view.findViewById(R.id.tv_seventhNum);
+
+        ll_first = (LinearLayout) view.findViewById(R.id.ll_first);
+        ll_second = (LinearLayout) view.findViewById(R.id.ll_second);
+        ll_third = (LinearLayout) view.findViewById(R.id.ll_third);
+        ll_forth = (LinearLayout) view.findViewById(R.id.ll_forth);
+        ll_fifth = (LinearLayout) view.findViewById(R.id.ll_fifth);
+        ll_sixth = (LinearLayout) view.findViewById(R.id.ll_sixth);
+        ll_seventh = (LinearLayout) view.findViewById(R.id.ll_seventh);
+
+
+        tv_first.setText(getDayOfWeek(this.daysList.get(0)));
+        tv_second.setText(getDayOfWeek(this.daysList.get(1)));
+        tv_third.setText(getDayOfWeek(this.daysList.get(2)));
+        tv_forth.setText(getDayOfWeek(this.daysList.get(3)));
+        tv_fifth.setText(getDayOfWeek(this.daysList.get(4)));
+        tv_sixth.setText(getDayOfWeek(this.daysList.get(5)));
+        tv_seventh.setText(getDayOfWeek(this.daysList.get(6)));
+
+        tv_firstNum.setText(getDayFromDate(this.daysList.get(0)));
+        tv_secondNum.setText(getDayFromDate(this.daysList.get(1)));
+        tv_thirdNum.setText(getDayFromDate(this.daysList.get(2)));
+        tv_forthNum.setText(getDayFromDate(this.daysList.get(3)));
+        tv_fifthNum.setText(getDayFromDate(this.daysList.get(4)));
+        tv_sixthNum.setText(getDayFromDate(this.daysList.get(5)));
+        tv_seventhNum.setText(getDayFromDate(this.daysList.get(6)));
+
+        ArrayList<LinearLayout> llArrays = new ArrayList<LinearLayout>();
+        llArrays.add(ll_first);
+        llArrays.add(ll_second);
+        llArrays.add(ll_third);
+        llArrays.add(ll_forth);
+        llArrays.add(ll_fifth);
+        llArrays.add(ll_sixth);
+        llArrays.add(ll_seventh);
+
+        setActiveData(0);
+
+        for (int i=0; i < llArrays.size(); i++) {
+            LinearLayout layout = llArrays.get(i);
+            final int index = i;
+            layout.setOnClickListener(new View.OnClickListener() {
+                @RequiresApi(api = Build.VERSION_CODES.M)
+                @Override
+                public void onClick(View view) {
+                    setActiveData(index);
+                    getSelectedData(index);
+                }
+            });
+        }
+
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
         adapter = new UpcomingRecyclerAdapter(mContext, filtered);
 
@@ -222,13 +347,6 @@ public class UpcomingFragment extends Fragment {
         recyclerView.addItemDecoration(new GridSpacingItemDecoration(2, (int) Utils.convertDpToPixel(0), true));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
-
-        layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
-            @Override
-            public int getSpanSize(int position) {
-                return adapter.isPositionHeader(position) ? layoutManager.getSpanCount() : 1;
-            }
-        });
 
         return view;
     }
@@ -243,6 +361,7 @@ public class UpcomingFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        mContext = context;
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
         } else {

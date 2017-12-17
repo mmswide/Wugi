@@ -40,9 +40,10 @@ public class HomeRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         notifyDataSetChanged();
     }
 
-    public HomeRecyclerAdapter(Context mContext, List<Event> eventList) {
+    public HomeRecyclerAdapter(Context mContext, List<Event> eventList, List<Event> featuredEventList) {
         this.mContext = mContext;
         this.eventList = eventList;
+        this.featuredEventList = featuredEventList;
     }
 
     @Override
@@ -61,7 +62,7 @@ public class HomeRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        Event event = eventList.get(position);
+
         if(holder instanceof HomeHeaderViewHolder){
             HomeHeaderViewHolder headerViewHolder = (HomeHeaderViewHolder) holder;
             final ViewPager viewPager = headerViewHolder.viewPager;
@@ -118,6 +119,7 @@ public class HomeRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             });
 
         }else if(holder instanceof HomeViewHolder){
+            Event event = eventList.get(position - 1);
             Picasso.with(mContext).load(event.getImageThumbURL()).into(((HomeViewHolder) holder).thumbnail);
 
             ((HomeViewHolder) holder).thumbnail.setOnClickListener(new View.OnClickListener() {
@@ -128,13 +130,10 @@ public class HomeRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             });
         }
     }
-    private Event getItem(int position) {
-        return eventList.get(position);
-    }
 
     @Override
     public int getItemCount() {
-        return this.eventList.size();
+        return this.eventList.size() + 1;
     }
 
     @Override

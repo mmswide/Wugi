@@ -4,6 +4,7 @@
     <color name="colorPrimaryDark">#000000</color>
     <color name="colorAccent">#FF4081</color>
     <color name="White">#FFFFFF</color>
+    <color name="black">#000000</color>
     <color name="fb_color">#3b5998</color>
 
 </resources>
