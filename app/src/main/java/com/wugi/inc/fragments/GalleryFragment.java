@@ -83,7 +83,7 @@ public class GalleryFragment extends Fragment {
         final ProgressDialog progressDialog = Utils.createProgressDialog(getContext());
         db.collection("Gallery")
                 .whereEqualTo("active", true)
-                .orderBy("eventDate", Query.Direction.DESCENDING)
+                .orderBy("eventDate", Query.Direction.ASCENDING)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -111,6 +111,8 @@ public class GalleryFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
+        getGalleries();
     }
 
     @Override

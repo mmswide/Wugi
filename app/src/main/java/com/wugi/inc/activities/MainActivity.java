@@ -26,11 +26,15 @@ import com.wugi.inc.R;
 import com.wugi.inc.fragments.BrowseFragment;
 import com.wugi.inc.fragments.GalleryFragment;
 import com.wugi.inc.fragments.HomeFragment;
+import com.wugi.inc.fragments.NotificationFragment;
 import com.wugi.inc.fragments.SettingFragment;
 import com.wugi.inc.fragments.UpcomingFragment;
 
 public class MainActivity extends AppCompatActivity implements HomeFragment.OnFragmentInteractionListener,
         UpcomingFragment.OnFragmentInteractionListener,
+        GalleryFragment.OnFragmentInteractionListener,
+        BrowseFragment.OnFragmentInteractionListener,
+        NotificationFragment.OnFragmentInteractionListener,
         SettingFragment.OnFragmentInteractionListener {
 
     private DrawerLayout drawerLayout;
@@ -105,6 +109,7 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnFr
                         break;
                     case R.id.notification:
                         Toast.makeText(getApplicationContext(),"Notification",Toast.LENGTH_SHORT).show();
+                        fragmentClass = NotificationFragment.class;
                         drawerLayout.closeDrawers();
                         break;
                     case R.id.setting:

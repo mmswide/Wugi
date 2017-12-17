@@ -29,6 +29,7 @@ public class PhotoFragment extends Fragment {
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+    Context mContext;
 
     public PhotoFragment() {
         // Required empty public constructor
@@ -78,6 +79,7 @@ public class PhotoFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        mContext = context;
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
         } else {

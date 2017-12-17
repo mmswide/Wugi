@@ -12,4 +12,15 @@
         android:scaleType="fitXY"
         android:adjustViewBounds="true"
         android:src="@mipmap/ic_launcher" />
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Title"
+        android:textColor="@color/White"
+        android:paddingBottom="10dp"
+        android:paddingRight="10dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignBottom="@+id/thumbnail"
+        style="@android:style/TextAppearance.Large"/>
 </RelativeLayout>

@@ -2,18 +2,23 @@ package com.wugi.inc.fragments;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.GridLayoutManager;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -24,11 +29,10 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.wugi.inc.R;
 import com.wugi.inc.adapters.BrowseRecyclerAdapter;
-import com.wugi.inc.adapters.HomeRecyclerAdapter;
 import com.wugi.inc.models.BrowseEvent;
-import com.wugi.inc.models.Event;
+import com.wugi.inc.models.BrowseVenueType;
+import com.wugi.inc.models.Type;
 import com.wugi.inc.utils.Utils;
-import com.wugi.inc.views.GridSpacingItemDecoration;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -39,15 +43,7 @@ import java.util.GregorianCalendar;
 
 import static android.content.ContentValues.TAG;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link BrowseFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link BrowseFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class BrowseFragment extends Fragment {
+public class BrowseFragment extends Fragment implements View.OnClickListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -57,6 +53,7 @@ public class BrowseFragment extends Fragment {
     private String mParam1;
     private String mParam2;
     private ArrayList<BrowseEvent> browseEventList = new ArrayList<BrowseEvent>();
+    private ArrayList<BrowseVenueType> browseVenueTYpeList = new ArrayList<BrowseVenueType>();
     private BrowseRecyclerAdapter adapter;
 
     FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -64,6 +61,9 @@ public class BrowseFragment extends Fragment {
     private Context mContext;
 
     private OnFragmentInteractionListener mListener;
+
+    TextView tv_event, tv_venue, tv_type;
+    private Type type;
 
     public BrowseFragment() {
         // Required empty public constructor
@@ -116,8 +116,8 @@ public class BrowseFragment extends Fragment {
         cal.add(Calendar.DAY_OF_YEAR, 7);
         Date weekDate = cal.getTime();
 
+        this.browseEventList.clear();
         final ProgressDialog progressDialog = Utils.createProgressDialog(getContext());
-
         db.collection("Event")
                 .whereGreaterThanOrEqualTo("startDate", today)
                 .whereLessThanOrEqualTo("startDate", weekDate)
@@ -127,24 +127,97 @@ public class BrowseFragment extends Fragment {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         progressDialog.dismiss();
+
                         if (task.isSuccessful()) {
                             for (DocumentSnapshot document : task.getResult()) {
                                 Log.d(TAG, document.getId() + " => " + document.getData());
 
                                 if (document.getDocumentReference("browseEvent") != null) {
+                                    final ProgressDialog dialog = Utils.createProgressDialog(getContext());
                                     DocumentReference browseEventReference = document.getDocumentReference("browseEvent");
                                     db.collection("BrowseEvent").document(browseEventReference.getId()).get()
                                             .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                                                 @Override
                                                 public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                                    dialog.dismiss();
                                                     if (task.isSuccessful()) {
                                                         DocumentSnapshot document = task.getResult();
                                                         if (document != null) {
                                                             Log.d(TAG, "DocumentSnapshot data: " + task.getResult().getData());
                                                             BrowseEvent browseEvent = new BrowseEvent(document);
-                                                            BrowseFragment.this.browseEventList.add(browseEvent);
 
-                                                            BrowseFragment.this.adapter.refresh(browseEventList);
+                                                            boolean flag = false;
+                                                            for (BrowseEvent event : browseEventList) {
+                                                                if (event.getDocumentId() == browseEvent.getDocumentId()) {
+                                                                    flag = true;
+                                                                    break;
+                                                                }
+                                                            }
+                                                            if (flag == false) {
+                                                                BrowseFragment.this.browseEventList.add(browseEvent);
+                                                                BrowseFragment.this.adapter.refresh(browseEventList, null, Type.EVENT_TYPE);
+                                                            }
+
+
+
+
+
+                                                        } else {
+                                                            Log.d(TAG, "No such document");
+                                                        }
+                                                    } else {
+                                                        Log.d(TAG, "get failed with ", task.getException());
+                                                    }
+                                                }
+                                            });
+                                }
+                            }
+                        } else {
+                            Log.w(TAG, "Error getting documents.", task.getException());
+                        }
+                    }
+                });
+    }
+
+    private void getTypeData() {
+        this.browseVenueTYpeList.clear();
+        final ProgressDialog progressDialog = Utils.createProgressDialog(getContext());
+        db.collection("Venue")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        progressDialog.dismiss();
+                        if (task.isSuccessful()) {
+                            for (DocumentSnapshot document : task.getResult()) {
+                                Log.d(TAG, document.getId() + " => " + document.getData());
+
+                                if (document.getDocumentReference("browseVenueType") != null) {
+                                    final ProgressDialog dialog = Utils.createProgressDialog(getContext());
+                                    DocumentReference browseEventReference = document.getDocumentReference("browseVenueType");
+                                    db.collection("BrowseVenueType").document(browseEventReference.getId()).get()
+                                            .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                                    dialog.dismiss();
+                                                    if (task.isSuccessful()) {
+                                                        DocumentSnapshot document = task.getResult();
+                                                        if (document != null) {
+                                                            Log.d(TAG, "DocumentSnapshot data: " + task.getResult().getData());
+                                                            BrowseVenueType browseVenueType = new BrowseVenueType(document);
+
+                                                            boolean flag = false;
+                                                            for (BrowseVenueType venueType : browseVenueTYpeList) {
+                                                                if (venueType.getDocumentId() == browseVenueType.getDocumentId()) {
+                                                                    flag = true;
+                                                                    break;
+                                                                }
+                                                            }
+                                                            if (flag == false) {
+                                                                BrowseFragment.this.browseVenueTYpeList.add(browseVenueType);
+                                                                BrowseFragment.this.adapter.refresh(null, browseVenueTYpeList, Type.TYPE_TYPE);
+                                                            }
+
                                                         } else {
                                                             Log.d(TAG, "No such document");
                                                         }
@@ -169,6 +242,7 @@ public class BrowseFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        getBrowseEvents();
     }
 
     @Override
@@ -176,8 +250,18 @@ public class BrowseFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_browse, container, false);
+
+        tv_event = (TextView) view.findViewById(R.id.tv_event);
+        tv_venue = (TextView) view.findViewById(R.id.tv_venue);
+        tv_type = (TextView) view.findViewById(R.id.tv_type);
+        tv_event.setOnClickListener(this);
+        tv_venue.setOnClickListener(this);
+        tv_type.setOnClickListener(this);
+
+        this.type = Type.EVENT_TYPE;
+
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
-        adapter = new BrowseRecyclerAdapter(mContext, browseEventList);
+        adapter = new BrowseRecyclerAdapter(mContext, browseEventList, this.type);
 
         final LinearLayoutManager layoutManager = new LinearLayoutManager(mContext);
         recyclerView.setLayoutManager(layoutManager);
@@ -210,6 +294,45 @@ public class BrowseFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    private void setActiveData(int index) {
+        ArrayList<TextView> tvArrays = new ArrayList<TextView>();
+        tvArrays.add(tv_event);
+        tvArrays.add(tv_venue);
+        tvArrays.add(tv_type);
+        Drawable transparentDrawable = new ColorDrawable(Color.TRANSPARENT);
+        for (int i=0; i < tvArrays.size(); i++) {
+            TextView textView = tvArrays.get(i);
+            if (i == index) {
+                textView.setBackground(mContext.getDrawable(R.drawable.rounded_corner));
+                textView.setTextColor(ContextCompat.getColor(mContext, R.color.White));
+                textView.setPadding(15, 5, 15, 5);
+            } else {
+                textView.setBackground(transparentDrawable);
+                textView.setTextColor(ContextCompat.getColor(mContext, R.color.black));
+                textView.setPadding(15, 5, 15, 5);
+            }
+        }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    @Override
+    public void onClick(View view) {
+        if (view.getId() == R.id.tv_event) {
+            this.type = Type.EVENT_TYPE;
+            this.setActiveData(this.type.getTypeCode());
+            getBrowseEvents();
+        } else if (view.getId() == R.id.tv_venue) {
+            this.type = Type.VENUE_TYPE;
+            this.setActiveData(this.type.getTypeCode());
+        } else if (view.getId() == R.id.tv_type) {
+            this.type = Type.TYPE_TYPE;
+            this.setActiveData(this.type.getTypeCode());
+            getTypeData();
+        }
+
     }
 
     /**

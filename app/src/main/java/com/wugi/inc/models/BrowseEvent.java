@@ -21,11 +21,19 @@ public class BrowseEvent {
         if (document.contains("EventName"))
             this.EventName = document.getString("EventName");
         if (document.contains("BrowseEventImg"))
-            this.EventName = document.getString("BrowseEventImg");
+            this.BrowseEventImg = document.getString("BrowseEventImg");
         if (document.contains("createdAt"))
             this.createdAt = document.getDate("createdAt");
         if (document.contains("updatedAt"))
             this.updatedAt = document.getDate("updatedAt");
+    }
+
+    public String getDocumentId() {
+        return documentId;
+    }
+
+    public void setDocumentId(String documentId) {
+        this.documentId = documentId;
     }
 
     public String getEventName() {
