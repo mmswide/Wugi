@@ -10,34 +10,21 @@ import com.wugi.inc.R;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class VenueDetailActivity extends AppCompatActivity {
 
-    @BindView(R.id.iv_event)
-    ImageView iv_event;
-    @BindView(R.id.iv_venue)        ImageView iv_venue;
-    @BindView(R.id.tv_event_name)
-    TextView tv_event_name;
-    @BindView(R.id.tv_event_day)
-    TextView tv_event_day;
-    @BindView(R.id.tv_address)
-    TextView tv_address;
-    @BindView(R.id.tv_distance)
-    TextView tv_distance;
-    @BindView(R.id.ll_call)
-    LinearLayout ll_call;
-    @BindView(R.id.ll_site)
-    LinearLayout ll_site;
-    @BindView(R.id.ll_map)
-    LinearLayout ll_map;
-    @BindView(R.id.tv_description)
-    TextView tv_description;
-    @BindView(R.id.tv_theme)
-    TextView tv_theme;
-    @BindView(R.id.tv_dress_code)
-    TextView tv_dress_code;
-    @BindView(R.id.tv_age)
-    TextView tv_age;
+    @BindView(R.id.iv_venue)        CircleImageView iv_venue;
+    @BindView(R.id.tv_venue_name)   TextView tv_venue_name;
+    @BindView(R.id.tv_venue_day)    TextView tv_venue_day;
+    @BindView(R.id.tv_address)      TextView tv_address;
+    @BindView(R.id.tv_distance)     TextView tv_distance;
+    @BindView(R.id.ll_call)         LinearLayout ll_call;
+    @BindView(R.id.ll_site)         LinearLayout ll_site;
+    @BindView(R.id.ll_map)          LinearLayout ll_map;
+    @BindView(R.id.tv_venue_type)  TextView tv_venue_type;
+    @BindView(R.id.tv_neighbor)        TextView tv_neighbor;
+    @BindView(R.id.tv_parking)   TextView tv_parking;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -20,9 +20,8 @@ public class Event {
     private Date endDate;
     private String description;
     private String imageURL;
-    private DocumentReference venue;
 
-//    private Venue venue;
+    private Venue venue;
     private String age;
     private ArrayList<String> dressCode;
     private Boolean publish;
@@ -30,8 +29,7 @@ public class Event {
     private String imageThumbURL;
     private String imageFeatureURL;
     private String theme;
-//    private BrowseEvent browseEvent;
-    private DocumentReference browseEvent;
+    private BrowseEvent browseEvent;
 
     public Event(DocumentSnapshot document){
         this.documentId = document.getId();
@@ -143,13 +141,13 @@ public class Event {
         this.imageURL = imageURL;
     }
 
-//    public Venue getVenue() {
-//        return venue;
-//    }
-//
-//    public void setVenue(Venue venue) {
-//        this.venue = venue;
-//    }
+    public Venue getVenue() {
+        return venue;
+    }
+
+    public void setVenue(Venue venue) {
+        this.venue = venue;
+    }
 
     public String getAge() {
         return age;
@@ -202,11 +200,11 @@ public class Event {
     public void setImageFeatureURL(String imageFeatureURL) {
         this.imageFeatureURL = imageFeatureURL;
     }
-    //    public BrowseEvent getBrowseEvent() {
-//        return browseEvent;
-//    }
-//
-//    public void setBrowseEvent(BrowseEvent browseEvent) {
-//        this.browseEvent = browseEvent;
-//    }
+    public BrowseEvent getBrowseEvent() {
+        return browseEvent;
+    }
+
+    public void setBrowseEvent(BrowseEvent browseEvent) {
+        this.browseEvent = browseEvent;
+    }
 }

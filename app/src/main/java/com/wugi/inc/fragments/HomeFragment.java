@@ -18,13 +18,17 @@ import android.view.ViewGroup;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.wugi.inc.R;
 import com.wugi.inc.adapters.HomeRecyclerAdapter;
+import com.wugi.inc.models.BrowseEvent;
 import com.wugi.inc.models.Event;
+import com.wugi.inc.models.Gallery;
+import com.wugi.inc.models.Venue;
 import com.wugi.inc.utils.Utils;
 import com.wugi.inc.views.GridSpacingItemDecoration;
 
@@ -91,7 +95,53 @@ public class HomeFragment extends Fragment {
                         if (task.isSuccessful()) {
                             for (DocumentSnapshot document : task.getResult()) {
                                 Log.d(TAG, document.getId() + " => " + document.getData());
-                                Event event = new Event(document);
+                                final Event event = new Event(document);
+
+                                if (document.getDocumentReference("venue") != null) {
+                                    DocumentReference venueReference = document.getDocumentReference("venue");
+                                    db.collection("Venue").document(venueReference.getId()).get()
+                                            .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                                    if (task.isSuccessful()) {
+                                                        DocumentSnapshot document = task.getResult();
+                                                        if (document != null) {
+                                                            Log.d(TAG, "DocumentSnapshot data: " + task.getResult().getData());
+                                                            Venue venue = new Venue(document);
+                                                            event.setVenue(venue);
+
+                                                        } else {
+                                                            Log.d(TAG, "No such document");
+                                                        }
+                                                    } else {
+                                                        Log.d(TAG, "get failed with ", task.getException());
+                                                    }
+                                                }
+                                            });
+                                }
+
+                                if (document.getDocumentReference("browseEvent") != null) {
+                                    DocumentReference browseEventReference = document.getDocumentReference("browseEvent");
+                                    db.collection("BrowseEvent").document(browseEventReference.getId()).get()
+                                            .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                                    if (task.isSuccessful()) {
+                                                        DocumentSnapshot document = task.getResult();
+                                                        if (document != null) {
+                                                            Log.d(TAG, "DocumentSnapshot data: " + task.getResult().getData());
+                                                            BrowseEvent browseEvent = new BrowseEvent(document);
+                                                            event.setBrowseEvent(browseEvent);
+
+                                                        } else {
+                                                            Log.d(TAG, "No such document");
+                                                        }
+                                                    } else {
+                                                        Log.d(TAG, "get failed with ", task.getException());
+                                                    }
+                                                }
+                                            });
+                                }
 
                                 if (event.getFeature() == 1) {
                                     HomeFragment.this.eventList.add(event);

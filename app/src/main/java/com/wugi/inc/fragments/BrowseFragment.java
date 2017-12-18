@@ -131,15 +131,12 @@ public class BrowseFragment extends Fragment implements View.OnClickListener {
                         if (task.isSuccessful()) {
                             for (DocumentSnapshot document : task.getResult()) {
                                 Log.d(TAG, document.getId() + " => " + document.getData());
-
                                 if (document.getDocumentReference("browseEvent") != null) {
-                                    final ProgressDialog dialog = Utils.createProgressDialog(getContext());
                                     DocumentReference browseEventReference = document.getDocumentReference("browseEvent");
                                     db.collection("BrowseEvent").document(browseEventReference.getId()).get()
                                             .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                                                 @Override
                                                 public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                                    dialog.dismiss();
                                                     if (task.isSuccessful()) {
                                                         DocumentSnapshot document = task.getResult();
                                                         if (document != null) {

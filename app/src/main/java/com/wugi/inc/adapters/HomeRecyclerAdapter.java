@@ -1,6 +1,7 @@
 package com.wugi.inc.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Handler;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
@@ -8,9 +9,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 import com.viewpagerindicator.CirclePageIndicator;
 import com.wugi.inc.R;
+import com.wugi.inc.activities.EventDetailActivity;
 import com.wugi.inc.models.Event;
 
 import java.util.ArrayList;
@@ -119,13 +122,18 @@ public class HomeRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             });
 
         }else if(holder instanceof HomeViewHolder){
-            Event event = eventList.get(position - 1);
+            final Event event = eventList.get(position - 1);
             Picasso.with(mContext).load(event.getImageThumbURL()).into(((HomeViewHolder) holder).thumbnail);
 
             ((HomeViewHolder) holder).thumbnail.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    Intent intent = new Intent(mContext, EventDetailActivity.class);
 
+                    Gson gson = new Gson();
+                    String jsonEventString = gson.toJson(event);
+                    intent.putExtra("event", jsonEventString);
+                    mContext.startActivity(intent);
                 }
             });
         }

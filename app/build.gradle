@@ -9,6 +9,7 @@ android {
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"
+        multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -54,17 +55,14 @@ dependencies {
     compile 'com.facebook.android:facebook-android-sdk:4.28.0'
     compile 'com.firebase:firebase-client-android:2.5.2'
     compile 'com.google.android.gms:play-services-auth:11.6.2'
+    compile 'com.google.android.gms:play-services-location:11.6.2'
+
+    compile 'com.android.support:multidex:1.0.1'
+
     compile 'de.hdodenhof:circleimageview:2.2.0'
+    compile 'com.google.code.gson:gson:2.8.1'
     testCompile 'junit:junit:4.12'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
 }
-
-
-
-
-
-
-
-
 
 apply plugin: 'com.google.gms.google-services'
