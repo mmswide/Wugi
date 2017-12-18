@@ -41,17 +41,8 @@
                         android:layout_height="wrap_content"
                         android:textAlignment="center"
                         android:paddingTop="5dp"
-                        android:paddingBottom="5dp"
                         style="@android:style/TextAppearance.Medium"
                         android:text="Koo Koo Room TuesDays"/>
-                    <TextView
-                        android:id="@+id/tv_venue_day"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textAlignment="center"
-                        android:paddingTop="5dp"
-                        style="@android:style/TextAppearance.Holo.Small"
-                        android:text="November 21st 2017"/>
                     <TextView
                         android:id="@+id/tv_address"
                         android:paddingTop="5dp"

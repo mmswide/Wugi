@@ -92,10 +92,10 @@ public class EventDetailActivity extends AppCompatActivity {
         Gson gson = new Gson();
         this.event = gson.fromJson(jsonEventString, Event.class);
 
-        this.setUI();
+        this.setupUI();
     }
 
-    void setUI() {
+    void setupUI() {
         Picasso.with(this).load(event.getImageURL()).into(iv_event);
         Picasso.with(this).load(event.getVenue().getImageThumbURL()).into(iv_venue);
         tv_event_name.setText(event.getName());
@@ -141,6 +141,15 @@ public class EventDetailActivity extends AppCompatActivity {
                 }
             }
         }
+    }
+
+    @OnClick(R.id.iv_venue)
+    void showVenueDetail() {
+        Intent intent = new Intent(EventDetailActivity.this, VenueDetailActivity.class);
+        Gson gson = new Gson();
+        String jsonVenueString = gson.toJson(event.getVenue());
+        intent.putExtra("venue", jsonVenueString);
+        startActivity(intent);
     }
 
     @OnClick(R.id.ll_call)
