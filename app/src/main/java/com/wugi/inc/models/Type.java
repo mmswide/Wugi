@@ -19,7 +19,7 @@ public enum Type {
     TYPE_TYPE   (2)
     ;
 
-    private final int typeCode;
+    final private int typeCode;
 
     private Type(int typeCode) {
         this.typeCode = typeCode;
@@ -28,4 +28,5 @@ public enum Type {
     public int getTypeCode() {
         return this.typeCode;
     }
+
 }

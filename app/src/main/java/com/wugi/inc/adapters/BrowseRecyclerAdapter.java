@@ -1,15 +1,16 @@
 package com.wugi.inc.adapters;
 
 import android.content.Context;
-import android.os.Build;
-import android.support.annotation.RequiresApi;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 import com.wugi.inc.R;
+import com.wugi.inc.activities.BrowseCategoryActivity;
 import com.wugi.inc.models.BrowseEvent;
 import com.wugi.inc.models.BrowseVenueType;
 import com.wugi.inc.models.Type;
@@ -53,13 +54,18 @@ public class BrowseRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         if(holder instanceof BrowseViewHolder){
             switch (this.type) {
                 case EVENT_TYPE:
-                    BrowseEvent event = browseEventList.get(position);
+                    final BrowseEvent event = browseEventList.get(position);
                     ((BrowseViewHolder) holder).tv_title.setText(event.getEventName());
                     Picasso.with(mContext).load(event.getBrowseEventImg()).into(((BrowseViewHolder) holder).thumbnail);
                     ((BrowseViewHolder) holder).thumbnail.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-
+                            Intent intent = new Intent(mContext, BrowseCategoryActivity.class);
+                            intent.putExtra("type", type.getTypeCode());
+                            Gson gson = new Gson();
+                            String jsonEventString = gson.toJson(event);
+                            intent.putExtra("event_type", jsonEventString);
+                            mContext.startActivity(intent);
                         }
                     });
 
@@ -67,13 +73,18 @@ public class BrowseRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                 case VENUE_TYPE:
                     break;
                 case TYPE_TYPE:
-                    BrowseVenueType browseVenueType = browseVenueTypeList.get(position);
+                    final BrowseVenueType browseVenueType = browseVenueTypeList.get(position);
                     ((BrowseViewHolder) holder).tv_title.setText(browseVenueType.getVenueTypeName());
                     Picasso.with(mContext).load(browseVenueType.getVenueTypeThumImg()).into(((BrowseViewHolder) holder).thumbnail);
                     ((BrowseViewHolder) holder).thumbnail.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-
+                            Intent intent = new Intent(mContext, BrowseCategoryActivity.class);
+                            intent.putExtra("type", type.getTypeCode());
+                            Gson gson = new Gson();
+                            String jsonEventString = gson.toJson(browseVenueType);
+                            intent.putExtra("event_type", jsonEventString);
+                            mContext.startActivity(intent);
                         }
                     });
                     break;

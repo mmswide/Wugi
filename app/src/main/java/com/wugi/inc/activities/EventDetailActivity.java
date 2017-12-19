@@ -11,6 +11,7 @@ import android.os.Build;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -25,6 +26,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -32,6 +34,8 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class EventDetailActivity extends AppCompatActivity {
 
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
     @BindView(R.id.iv_event)
     ImageView iv_event;
     @BindView(R.id.iv_venue)
@@ -70,7 +74,15 @@ public class EventDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_detail);
 
+        ButterKnife.bind(this);
 
+        setSupportActionBar(toolbar);
+        if (getSupportActionBar() != null){
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+            
+            getSupportActionBar().setDisplayShowTitleEnabled(false);
+        }
         sharedpreferences = getSharedPreferences(MainActivity.wugiPreference,
                 Context.MODE_PRIVATE);
         if (sharedpreferences.contains(MainActivity.Latitude)) {
@@ -85,10 +97,8 @@ public class EventDetailActivity extends AppCompatActivity {
             this.longitude = 0.0;
         }
 
-
-
         Bundle extras = getIntent().getExtras();
-        String jsonEventString = (String) extras.get("event");
+        String jsonEventString = extras.getString("event");
         Gson gson = new Gson();
         this.event = gson.fromJson(jsonEventString, Event.class);
 
@@ -126,6 +136,12 @@ public class EventDetailActivity extends AppCompatActivity {
 
         tv_dress_code.setText(TextUtils.join("\n", dressStrs));
         tv_age.setText(dotStr + event.getAge());
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 
     @Override

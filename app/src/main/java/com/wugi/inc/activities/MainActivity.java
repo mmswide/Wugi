@@ -119,6 +119,7 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -276,10 +277,13 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
             {
                 mLastLocation = LocationServices.FusedLocationApi
                         .getLastLocation(mGoogleApiClient);
-                SharedPreferences.Editor editor = sharedpreferences.edit();
-                editor.putLong(Latitude, Double.doubleToRawLongBits(mLastLocation.getLatitude()));
-                editor.putLong(Longitude, Double.doubleToLongBits(mLastLocation.getLongitude()));
-                editor.commit();
+                if (mLastLocation != null) {
+                    SharedPreferences.Editor editor = sharedpreferences.edit();
+                    editor.putLong(Latitude, Double.doubleToRawLongBits(mLastLocation.getLatitude()));
+                    editor.putLong(Longitude, Double.doubleToLongBits(mLastLocation.getLongitude()));
+                    editor.commit();
+                }
+
 
             }
             catch (SecurityException e)

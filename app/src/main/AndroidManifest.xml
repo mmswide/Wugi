@@ -39,7 +39,8 @@
         <activity android:name=".activities.GuestActivity" />
         <activity android:name=".activities.TermsActivity" />
         <activity android:name=".activities.EventDetailActivity" />
-        <activity android:name=".activities.VenueDetailActivity"></activity>
+        <activity android:name=".activities.VenueDetailActivity" />
+        <activity android:name=".activities.BrowseCategoryActivity"></activity>
     </application>
 
 </manifest>

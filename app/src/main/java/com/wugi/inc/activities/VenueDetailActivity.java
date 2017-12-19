@@ -10,6 +10,7 @@ import android.os.Build;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -32,6 +33,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class VenueDetailActivity extends AppCompatActivity {
 
+    @BindView(R.id.toolbar)         Toolbar toolbar;
     @BindView(R.id.iv_venue)        CircleImageView iv_venue;
     @BindView(R.id.tv_venue_name)   TextView tv_venue_name;
     @BindView(R.id.tv_address)      TextView tv_address;
@@ -57,6 +59,14 @@ public class VenueDetailActivity extends AppCompatActivity {
 
         ButterKnife.bind(this);
 
+        setSupportActionBar(toolbar);
+        if (getSupportActionBar() != null){
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+            getSupportActionBar().setDisplayShowTitleEnabled(false);
+        }
+
         sharedpreferences = getSharedPreferences(MainActivity.wugiPreference,
                 Context.MODE_PRIVATE);
         if (sharedpreferences.contains(MainActivity.Latitude)) {
@@ -72,11 +82,17 @@ public class VenueDetailActivity extends AppCompatActivity {
         }
 
         Bundle extras = getIntent().getExtras();
-        String jsonVenueString = (String) extras.get("venue");
+        String jsonVenueString = extras.getString("venue");
         Gson gson = new Gson();
         this.venue = gson.fromJson(jsonVenueString, Venue.class);
 
         this.setupUI();
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 
     void setupUI() {
