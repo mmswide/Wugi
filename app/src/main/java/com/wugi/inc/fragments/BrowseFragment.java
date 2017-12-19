@@ -155,10 +155,6 @@ public class BrowseFragment extends Fragment implements View.OnClickListener {
                                                                 BrowseFragment.this.adapter.refresh(browseEventList, null, Type.EVENT_TYPE);
                                                             }
 
-
-
-
-
                                                         } else {
                                                             Log.d(TAG, "No such document");
                                                         }

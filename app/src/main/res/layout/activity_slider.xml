@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.wugi.inc.activities.SliderActivity">
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/AppTheme.PopupOverlay">
+            <ImageButton
+                android:id="@+id/dismissButton"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:padding="@dimen/margin"
+                android:background="@drawable/dismiss"
+                android:adjustViewBounds="true"
+                android:scaleType="centerInside"/>
+
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Title"
+                style="@style/TextAppearance.Widget.ActionBar.Title"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:layout_gravity="center"/>
+        </android.support.v7.widget.Toolbar>
+
+    </android.support.design.widget.AppBarLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.wugi.inc.views.HackyViewPager
+            android:id="@+id/view_pager"
+            android:background="@color/black"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <ImageView
+            android:id="@+id/iv_logo"
+            android:layout_width="60dp"
+            android:layout_height="30dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:adjustViewBounds="true"
+            android:src="@drawable/logo" />
+        <TextView
+            android:id="@+id/tv_date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            style="@android:style/TextAppearance.Medium"
+            android:layout_above="@+id/iv_logo"
+            android:textColor="@color/White"
+            android:text="July 04, 2017"/>
+        <TextView
+            android:id="@+id/tv_gallery_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            style="@android:style/TextAppearance.Medium"
+            android:paddingBottom="10dp"
+            android:layout_above="@+id/tv_date"
+            android:textColor="@color/White"
+            android:text="Gallery Event"/>
+
+    </RelativeLayout>
+
+</LinearLayout>

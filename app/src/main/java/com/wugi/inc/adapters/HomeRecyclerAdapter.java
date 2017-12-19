@@ -11,7 +11,6 @@ import android.view.ViewGroup;
 
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
-import com.viewpagerindicator.CirclePageIndicator;
 import com.wugi.inc.R;
 import com.wugi.inc.activities.EventDetailActivity;
 import com.wugi.inc.models.Event;
@@ -20,6 +19,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import me.relex.circleindicator.CircleIndicator;
 
 /**
  * Created by storm on 12/11/2017.
@@ -72,14 +73,9 @@ public class HomeRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             pagerAdapter = new HomePagerAdapter(mContext, featuredEventList);
             viewPager.setAdapter(pagerAdapter);
 
-            CirclePageIndicator indicator = headerViewHolder.indicator;
+            CircleIndicator indicator = headerViewHolder.indicator;
 
             indicator.setViewPager(viewPager);
-
-            final float density = mContext.getResources().getDisplayMetrics().density;
-
-            //Set circle indicator radius
-            indicator.setRadius(5 * density);
 
             NUM_PAGES =featuredEventList.size();
 

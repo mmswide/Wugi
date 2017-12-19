@@ -111,8 +111,11 @@ public class PhotoActivity extends AppCompatActivity {
 
                                 if (document.getDocumentReference("gallery") != null) {
                                     final DocumentReference galleryReference = document.getDocumentReference("gallery");
-                                    if (gallery.getDocumentID() != galleryReference.getId()) {
-                                        continue;
+                                    Log.d(TAG, galleryReference.getId() + " =>*********** ");
+                                    Log.d(TAG, gallery.getDocumentID() + " =>++++++++ ");
+                                    Log.d(TAG, gallery.getDocumentID() + " =>++++++++ " + (gallery.getDocumentID().equals(galleryReference.getId())));
+                                    if (!gallery.getDocumentID().equals(galleryReference.getId()) ) {
+                                        return;
                                     }
                                     db.collection("Gallery").document(galleryReference.getId()).get()
                                             .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {

@@ -1,11 +1,9 @@
 package com.wugi.inc.adapters;
 
-import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
-import com.viewpagerindicator.CirclePageIndicator;
 import com.wugi.inc.R;
 
 /**

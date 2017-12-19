@@ -11,7 +11,7 @@ import java.util.Date;
 public class Gallery {
 
     private String documentID;
-//    private Venue venue;
+    private Venue venue;
     private Date createdAt;
     private Date updatedAt;
     private Date eventDate;
@@ -43,13 +43,13 @@ public class Gallery {
         this.documentID = documentID;
     }
 
-//    public Venue getVenue() {
-//        return venue;
-//    }
-//
-//    public void setVenue(Venue venue) {
-//        this.venue = venue;
-//    }
+    public Venue getVenue() {
+        return venue;
+    }
+
+    public void setVenue(Venue venue) {
+        this.venue = venue;
+    }
 
     public Date getCreatedAt() {
         return createdAt;

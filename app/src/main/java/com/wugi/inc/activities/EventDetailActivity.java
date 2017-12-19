@@ -30,8 +30,6 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
 
-
-
 public class EventDetailActivity extends AppCompatActivity {
 
     @BindView(R.id.toolbar)
@@ -80,7 +78,7 @@ public class EventDetailActivity extends AppCompatActivity {
         if (getSupportActionBar() != null){
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
-            
+
             getSupportActionBar().setDisplayShowTitleEnabled(false);
         }
         sharedpreferences = getSharedPreferences(MainActivity.wugiPreference,

@@ -16,6 +16,8 @@ public class Photo {
     private boolean active;
     private String filename;
     private Gallery gallery;
+    private long width;
+    private long height;
 
     public Photo(DocumentSnapshot document){
         this.documentId = document.getId();
@@ -29,6 +31,10 @@ public class Photo {
             this.active = document.getBoolean("active");
         if (document.contains("filename"))
             this.filename = document.getString("filename");
+        if (document.contains("width"))
+            this.width = document.getLong("width");
+        if (document.contains("height"))
+            this.height = document.getLong("height");
     }
 
 
@@ -86,5 +92,21 @@ public class Photo {
 
     public void setGallery(Gallery gallery) {
         this.gallery = gallery;
+    }
+
+    public long getWidth() {
+        return width;
+    }
+
+    public void setWidth(long width) {
+        this.width = width;
+    }
+
+    public long getHeight() {
+        return height;
+    }
+
+    public void setHeight(long height) {
+        this.height = height;
     }
 }

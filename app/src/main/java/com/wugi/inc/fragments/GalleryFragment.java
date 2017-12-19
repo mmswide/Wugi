@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
@@ -24,6 +25,7 @@ import com.wugi.inc.R;
 import com.wugi.inc.adapters.GalleryRecyclerAdapter;
 import com.wugi.inc.models.Event;
 import com.wugi.inc.models.Gallery;
+import com.wugi.inc.models.Venue;
 import com.wugi.inc.utils.Utils;
 import com.wugi.inc.views.GridSpacingItemDecoration;
 
@@ -92,7 +94,29 @@ public class GalleryFragment extends Fragment {
                         if (task.isSuccessful()) {
                             for (DocumentSnapshot document : task.getResult()) {
                                 Log.d(TAG, document.getId() + " => " + document.getData());
-                                Gallery gallery = new Gallery(document);
+                                final Gallery gallery = new Gallery(document);
+                                if (document.getDocumentReference("venue") != null) {
+                                    DocumentReference venueReference = document.getDocumentReference("venue");
+                                    db.collection("Venue").document(venueReference.getId()).get()
+                                            .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                                    if (task.isSuccessful()) {
+                                                        DocumentSnapshot document = task.getResult();
+                                                        if (document != null) {
+                                                            Log.d(TAG, "DocumentSnapshot data: " + task.getResult().getData());
+                                                            Venue venue = new Venue(document);
+                                                            gallery.setVenue(venue);
+
+                                                        } else {
+                                                            Log.d(TAG, "No such document");
+                                                        }
+                                                    } else {
+                                                        Log.d(TAG, "get failed with ", task.getException());
+                                                    }
+                                                }
+                                            });
+                                }
 
                                 GalleryFragment.this.galleryList.add(gallery);
                             }
