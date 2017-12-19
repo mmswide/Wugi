@@ -168,32 +168,26 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
 
                 switch (id){
                     case R.id.home:
-                        Toast.makeText(getApplicationContext(),"Home",Toast.LENGTH_SHORT).show();
                         fragmentClass = HomeFragment.class;
                         drawerLayout.closeDrawers();
                         break;
                     case R.id.upcoming:
-                        Toast.makeText(getApplicationContext(),"Upcoming",Toast.LENGTH_SHORT).show();
                         fragmentClass = UpcomingFragment.class;
                         drawerLayout.closeDrawers();
                         break;
                     case R.id.photos:
-                        Toast.makeText(getApplicationContext(),"Photos",Toast.LENGTH_SHORT).show();
                         fragmentClass = GalleryFragment.class;
                         drawerLayout.closeDrawers();
                         break;
                     case R.id.browse:
-                        Toast.makeText(getApplicationContext(),"Browse",Toast.LENGTH_SHORT).show();
                         fragmentClass = BrowseFragment.class;
                         drawerLayout.closeDrawers();
                         break;
                     case R.id.notification:
-                        Toast.makeText(getApplicationContext(),"Notification",Toast.LENGTH_SHORT).show();
                         fragmentClass = NotificationFragment.class;
                         drawerLayout.closeDrawers();
                         break;
                     case R.id.setting:
-                        Toast.makeText(getApplicationContext(),"Setting",Toast.LENGTH_SHORT).show();
                         fragmentClass = SettingFragment.class;
                         drawerLayout.closeDrawers();
                         break;

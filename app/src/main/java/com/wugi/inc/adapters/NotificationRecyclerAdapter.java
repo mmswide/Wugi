@@ -3,6 +3,7 @@ package com.wugi.inc.adapters;
 import android.content.Context;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,6 +25,7 @@ import java.util.List;
 public class NotificationRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private Context mContext;
     private List<Notification> notificationList;
+    private NotificationItemRecyclerAdapter recyclerAdapter;
 
     public void refresh(ArrayList<Notification> notificationList) {
         this.notificationList = notificationList;
@@ -92,6 +94,15 @@ public class NotificationRecyclerAdapter extends RecyclerView.Adapter<RecyclerVi
             String timeDiff = this.printDifference(notification.getCreatedAt(), new Date());
             viewHolder.tv_date.setText(timeDiff);
             viewHolder.tv_description.setText(notification.getDescription());
+
+            if (notification.getImages() != null && notification.getImages().size() > 0) {
+                this.recyclerAdapter = new NotificationItemRecyclerAdapter(this.mContext, notification.getImages());
+
+                final LinearLayoutManager layoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false);
+                viewHolder.recyclerView.setLayoutManager(layoutManager);
+
+                viewHolder.recyclerView.setAdapter(this.recyclerAdapter);
+            }
         }
     }
 

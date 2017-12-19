@@ -1,6 +1,7 @@
 package com.wugi.inc.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v4.view.PagerAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,8 +10,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 import com.wugi.inc.R;
+import com.wugi.inc.activities.EventDetailActivity;
 import com.wugi.inc.models.Event;
 
 import java.util.ArrayList;
@@ -47,7 +50,7 @@ public class HomePagerAdapter extends PagerAdapter {
     public Object instantiateItem(ViewGroup container, final int position) {
         View itemView = layoutInflater.inflate(R.layout.home_header_item, container, false);
 
-        Event event = this.eventList.get(position);
+        final Event event = this.eventList.get(position);
         ImageView imageView = (ImageView) itemView.findViewById(R.id.imageView);
         Picasso.with(context).load(event.getImageFeatureURL()).into(imageView);
 
@@ -57,7 +60,12 @@ public class HomePagerAdapter extends PagerAdapter {
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, "you clicked image " + (position + 1), Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(context, EventDetailActivity.class);
+
+                Gson gson = new Gson();
+                String jsonEventString = gson.toJson(event);
+                intent.putExtra("event", jsonEventString);
+                context.startActivity(intent);
             }
         });
 

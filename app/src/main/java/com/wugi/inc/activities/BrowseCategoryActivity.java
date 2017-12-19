@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -40,6 +41,7 @@ import static android.content.ContentValues.TAG;
 
 public class BrowseCategoryActivity extends AppCompatActivity {
 
+    Toolbar toolbar;
     private RecyclerView recyclerView;
     private BrowseCategoryRecyclerAdapter adapter;
     private Context mContext;
@@ -58,6 +60,16 @@ public class BrowseCategoryActivity extends AppCompatActivity {
         setContentView(R.layout.activity_browse_category);
 
         mContext = this;
+
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+
+        setSupportActionBar(toolbar);
+        if (getSupportActionBar() != null){
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+            getSupportActionBar().setDisplayShowTitleEnabled(false);
+        }
 
         Bundle extras = getIntent().getExtras();
         this.type = Type.values()[extras.getInt("type")];
@@ -95,6 +107,12 @@ public class BrowseCategoryActivity extends AppCompatActivity {
         getEvents();
     }
 
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
+
     private Date getTodayFormat() {
 //        String dateString = "03/26/2012 11:49:00 AM";
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -107,7 +125,6 @@ public class BrowseCategoryActivity extends AppCompatActivity {
         SimpleDateFormat outputFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss ZZZZZ");
         try {
             convertedDate = outputFormat.parse(todayStr);
-
         } catch (ParseException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();

@@ -29,6 +29,7 @@ import com.wugi.inc.models.Gallery;
 import com.wugi.inc.models.Notification;
 import com.wugi.inc.models.Type;
 import com.wugi.inc.utils.Utils;
+import com.wugi.inc.views.SimpleDividerItemDecoration;
 
 import java.util.ArrayList;
 
@@ -152,6 +153,7 @@ public class NotificationFragment extends Fragment {
 
         final LinearLayoutManager layoutManager = new LinearLayoutManager(mContext);
         recyclerView.setLayoutManager(layoutManager);
+        recyclerView.addItemDecoration(new SimpleDividerItemDecoration(mContext));
 
         recyclerView.setAdapter(adapter);
 

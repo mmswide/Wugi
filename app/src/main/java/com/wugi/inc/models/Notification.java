@@ -25,6 +25,8 @@ public class Notification {
         this.documentId = document.getId();
         if (document.contains("title"))
             this.title = document.getString("title");
+        if (document.contains("images"))
+            this.images = (ArrayList<String>) document.get("images");
         if (document.contains("description"))
             this.description = document.getString("description");
         if (document.contains("createdAt"))

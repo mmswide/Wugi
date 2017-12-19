@@ -1,13 +1,16 @@
 package com.wugi.inc.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 import com.wugi.inc.R;
+import com.wugi.inc.activities.PhotoActivity;
 import com.wugi.inc.models.Gallery;
 
 import java.util.ArrayList;
@@ -56,13 +59,17 @@ public class GalleryRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             GalleryHeaderViewHolder headerViewHolder = (GalleryHeaderViewHolder) holder;
 
         }else if(holder instanceof GalleryViewHolder){
-            Gallery gallery = galleryList.get(position - 1);
+            final Gallery gallery = galleryList.get(position - 1);
             Picasso.with(mContext).load(gallery.getCover()).into(((GalleryViewHolder) holder).thumbnail);
 
             ((GalleryViewHolder) holder).thumbnail.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-
+                    Intent intent = new Intent(mContext, PhotoActivity.class);
+                    Gson gson = new Gson();
+                    String jsonGalleryString = gson.toJson(gallery);
+                    intent.putExtra("gallery", jsonGalleryString);
+                    mContext.startActivity(intent);
                 }
             });
         }

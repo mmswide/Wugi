@@ -1,5 +1,7 @@
 package com.wugi.inc.models;
 
+import com.google.firebase.firestore.DocumentSnapshot;
+
 import java.util.Date;
 
 /**
@@ -13,8 +15,21 @@ public class Photo {
     private Date updatedAt;
     private boolean active;
     private String filename;
+    private Gallery gallery;
 
-//    var gallery: Gallery?
+    public Photo(DocumentSnapshot document){
+        this.documentId = document.getId();
+        if (document.contains("title"))
+            this.title = document.getString("title");
+        if (document.contains("createdAt"))
+            this.createdAt = document.getDate("createdAt");
+        if (document.contains("updatedAt"))
+            this.updatedAt = document.getDate("updatedAt");
+        if (document.contains("active"))
+            this.active = document.getBoolean("active");
+        if (document.contains("filename"))
+            this.filename = document.getString("filename");
+    }
 
 
     public String getDocumentId() {
@@ -63,5 +78,13 @@ public class Photo {
 
     public void setFilename(String filename) {
         this.filename = filename;
+    }
+
+    public Gallery getGallery() {
+        return gallery;
+    }
+
+    public void setGallery(Gallery gallery) {
+        this.gallery = gallery;
     }
 }
