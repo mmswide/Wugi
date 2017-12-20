@@ -57,7 +57,7 @@ public class PhotoRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.View
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
 
         if(holder instanceof PhotoHeaderViewHolder){
             PhotoHeaderViewHolder headerViewHolder = (PhotoHeaderViewHolder) holder;
@@ -82,6 +82,7 @@ public class PhotoRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.View
                     Gson gson = new Gson();
                     String galleryString = gson.toJson(gallery);
                     String photoListString = gson.toJson(photoList);
+                    intent.putExtra("position", position-1);
                     intent.putExtra("gallery", galleryString);
                     intent.putExtra("photoList", photoListString);
                     mContext.startActivity(intent);

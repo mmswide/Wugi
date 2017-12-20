@@ -3,13 +3,15 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="title_size">28sp</dimen>
-    <dimen name="corner_radius">20dp</dimen>
+    <dimen name="corner_radius">10dp</dimen>
+    <dimen name="item_margin">4dp</dimen>
     <dimen name="margin">8dp</dimen>
-    <dimen name="text_size">20sp</dimen>
+    <dimen name="text_size">18sp</dimen>
     <dimen name="space_width">1dp</dimen>
     <dimen name="space_height">20dp</dimen>
     <dimen name="margin_left">15dp</dimen>
     <dimen name="nav_header_height">190dp</dimen>
     <dimen name="iv_profile_height">100dp</dimen>
     <dimen name="iv_icon_width">30dp</dimen>
+    <dimen name="padding">10dp</dimen>
 </resources>

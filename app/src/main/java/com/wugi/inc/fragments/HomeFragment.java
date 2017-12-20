@@ -2,7 +2,6 @@ package com.wugi.inc.fragments;
 
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -27,10 +26,9 @@ import com.wugi.inc.R;
 import com.wugi.inc.adapters.HomeRecyclerAdapter;
 import com.wugi.inc.models.BrowseEvent;
 import com.wugi.inc.models.Event;
-import com.wugi.inc.models.Gallery;
 import com.wugi.inc.models.Venue;
 import com.wugi.inc.utils.Utils;
-import com.wugi.inc.views.GridSpacingItemDecoration;
+import com.wugi.inc.views.MarginDecoration;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -38,7 +36,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.Locale;
 
 import static android.content.ContentValues.TAG;
 
@@ -46,8 +43,7 @@ import static android.content.ContentValues.TAG;
  * Created by storm on 11/25/2017.
  */
 
-/**
- * A simple {@link Fragment} subclass.
+/** * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
  * {@link HomeFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
@@ -217,13 +213,18 @@ public class HomeFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
+//        recyclerView.addItemDecoration(new GridSpacingItemDecoration(2, (int) Utils.convertDpToPixel(10), true));
+//        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.addItemDecoration(new MarginDecoration(mContext));
+
         adapter = new HomeRecyclerAdapter(mContext, eventList, featuredEventList);
 
         final GridLayoutManager layoutManager = new GridLayoutManager(mContext, 2);
         recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setHasFixedSize(true);
 
-        recyclerView.addItemDecoration(new GridSpacingItemDecoration(2, (int) Utils.convertDpToPixel(0), true));
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
+
+
         recyclerView.setAdapter(adapter);
 
         layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {

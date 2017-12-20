@@ -34,6 +34,7 @@ import com.wugi.inc.adapters.UpcomingRecyclerAdapter;
 import com.wugi.inc.models.Event;
 import com.wugi.inc.utils.Utils;
 import com.wugi.inc.views.GridSpacingItemDecoration;
+import com.wugi.inc.views.MarginDecoration;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -344,7 +345,8 @@ public class UpcomingFragment extends Fragment {
         final GridLayoutManager layoutManager = new GridLayoutManager(mContext, 2);
         recyclerView.setLayoutManager(layoutManager);
 
-        recyclerView.addItemDecoration(new GridSpacingItemDecoration(2, (int) Utils.convertDpToPixel(0), true));
+//        recyclerView.addItemDecoration(new GridSpacingItemDecoration(2, (int) Utils.convertDpToPixel(10), true));
+        recyclerView.addItemDecoration(new MarginDecoration(mContext));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
 

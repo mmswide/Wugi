@@ -35,6 +35,15 @@
                 android:textStyle="bold"
                 android:gravity="center"
                 android:layout_gravity="center"/>
+            <ImageButton
+                android:id="@+id/shareButton"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="right"
+                android:background="@drawable/share"
+                android:scaleType="centerInside"
+                android:adjustViewBounds="true"
+                android:layout_marginRight="@dimen/margin"/>
         </android.support.v7.widget.Toolbar>
 
     </android.support.design.widget.AppBarLayout>

@@ -28,6 +28,7 @@ import com.wugi.inc.models.Gallery;
 import com.wugi.inc.models.Venue;
 import com.wugi.inc.utils.Utils;
 import com.wugi.inc.views.GridSpacingItemDecoration;
+import com.wugi.inc.views.MarginDecoration;
 
 import java.util.ArrayList;
 
@@ -95,8 +96,8 @@ public class GalleryFragment extends Fragment {
                             for (DocumentSnapshot document : task.getResult()) {
                                 Log.d(TAG, document.getId() + " => " + document.getData());
                                 final Gallery gallery = new Gallery(document);
-                                if (document.getDocumentReference("venue") != null) {
-                                    DocumentReference venueReference = document.getDocumentReference("venue");
+                                if (document.getDocumentReference("venueid") != null) {
+                                    DocumentReference venueReference = document.getDocumentReference("venueid");
                                     db.collection("Venue").document(venueReference.getId()).get()
                                             .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                                                 @Override
@@ -150,7 +151,8 @@ public class GalleryFragment extends Fragment {
         final GridLayoutManager layoutManager = new GridLayoutManager(mContext, 2);
         recyclerView.setLayoutManager(layoutManager);
 
-        recyclerView.addItemDecoration(new GridSpacingItemDecoration(2, (int) Utils.convertDpToPixel(0), true));
+//        recyclerView.addItemDecoration(new GridSpacingItemDecoration(2, (int) Utils.convertDpToPixel(10), true));
+        recyclerView.addItemDecoration(new MarginDecoration(mContext));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
 

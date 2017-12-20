@@ -23,6 +23,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -58,6 +59,7 @@ import com.google.android.gms.location.LocationSettingsStatusCodes;
 import com.wugi.inc.utils.PermissionUtils;
 
 import java.util.ArrayList;
+import java.util.Set;
 
 import butterknife.ButterKnife;
 
@@ -76,6 +78,9 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
 
     private DrawerLayout drawerLayout;
     private Toolbar toolbar;
+    private Button saveButton;
+    private TextView tv_name;
+
     private FirebaseAuth mAuth;
 
     private final static int PLAY_SERVICES_REQUEST = 1000;
@@ -120,6 +125,15 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
+        saveButton = (Button) findViewById(R.id.button_save);
+
+        saveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SettingFragment fragment = (SettingFragment) getSupportFragmentManager().findFragmentByTag(SettingFragment.class.getName());
+                fragment.saveProfile();
+            }
+        });
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -130,6 +144,7 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
             fragmentClass = HomeFragment.class;
             try {
                 fragment = (Fragment) fragmentClass.newInstance();
+                saveButton.setVisibility(View.GONE);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -169,26 +184,32 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
                 switch (id){
                     case R.id.home:
                         fragmentClass = HomeFragment.class;
+                        saveButton.setVisibility(View.GONE);
                         drawerLayout.closeDrawers();
                         break;
                     case R.id.upcoming:
                         fragmentClass = UpcomingFragment.class;
+                        saveButton.setVisibility(View.GONE);
                         drawerLayout.closeDrawers();
                         break;
                     case R.id.photos:
                         fragmentClass = GalleryFragment.class;
+                        saveButton.setVisibility(View.GONE);
                         drawerLayout.closeDrawers();
                         break;
                     case R.id.browse:
                         fragmentClass = BrowseFragment.class;
+                        saveButton.setVisibility(View.GONE);
                         drawerLayout.closeDrawers();
                         break;
                     case R.id.notification:
                         fragmentClass = NotificationFragment.class;
+                        saveButton.setVisibility(View.GONE);
                         drawerLayout.closeDrawers();
                         break;
                     case R.id.setting:
                         fragmentClass = SettingFragment.class;
+                        saveButton.setVisibility(View.VISIBLE);
                         drawerLayout.closeDrawers();
                         break;
                     case R.id.logout:
@@ -207,8 +228,9 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+                Log.d(TAG, fragmentClass.getName());
                 FragmentManager fragmentManager = getSupportFragmentManager();
-                fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
+                fragmentManager.beginTransaction().replace(R.id.flContent, fragment, fragmentClass.getName()).commit();
 
                 return true;
             }
@@ -224,12 +246,12 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
             navigationView.addHeaderView(headerView);
             String uid = mAuth.getCurrentUser().getUid();
             String imageUrl = mAuth.getCurrentUser().getPhotoUrl().toString();
-            String email = mAuth.getCurrentUser().getEmail().toString();
+            String name = mAuth.getCurrentUser().getDisplayName().toString();
 
             ImageView iv_profile = (ImageView) headerView.findViewById(R.id.iv_profile);
             Picasso.with(this).load(imageUrl).into(iv_profile);
-            TextView tv_email = (TextView)headerView.findViewById(R.id.tv_email);
-            tv_email.setText(email);
+            tv_name = (TextView)headerView.findViewById(R.id.tv_name);
+            tv_name.setText(name);
 
         } else {
             if (header != null)
@@ -252,6 +274,12 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
         };
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
         actionBarDrawerToggle.syncState();
+    }
+
+    public void updateProfile() {
+        String name = mAuth.getCurrentUser().getDisplayName().toString();
+        tv_name.setText(name);
+
     }
 
     @Override
@@ -455,5 +483,4 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
     public void NeverAskAgain(int request_code) {
         Log.i("PERMISSION","NEVER ASK AGAIN");
     }
-
 }

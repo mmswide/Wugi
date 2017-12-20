@@ -29,6 +29,7 @@ import com.wugi.inc.models.Type;
 import com.wugi.inc.models.Venue;
 import com.wugi.inc.utils.Utils;
 import com.wugi.inc.views.GridSpacingItemDecoration;
+import com.wugi.inc.views.MarginDecoration;
 
 import java.util.ArrayList;
 
@@ -74,7 +75,8 @@ public class PhotoActivity extends AppCompatActivity {
         final GridLayoutManager layoutManager = new GridLayoutManager(mContext, 2);
         recyclerView.setLayoutManager(layoutManager);
 
-        recyclerView.addItemDecoration(new GridSpacingItemDecoration(2, (int) Utils.convertDpToPixel(0), true));
+//        recyclerView.addItemDecoration(new GridSpacingItemDecoration(2, (int) Utils.convertDpToPixel(0), true));
+        recyclerView.addItemDecoration(new MarginDecoration(mContext));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
 

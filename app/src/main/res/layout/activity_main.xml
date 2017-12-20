@@ -35,6 +35,17 @@
                     android:src="@drawable/logo"
                     android:layout_gravity="center"
                     android:scaleType="fitCenter"/>
+                <Button
+                    android:id="@+id/button_save"
+                    android:layout_width="?attr/actionBarSize"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:layout_marginRight="@dimen/margin"
+                    style="@style/TextAppearance.Widget.ActionBar.Subtitle"
+                    android:background="@null"
+                    android:textColor="#FFF"
+                    android:textAllCaps="false"
+                    android:text="Save"/>
             </android.support.v7.widget.Toolbar>
 
         </android.support.design.widget.AppBarLayout>

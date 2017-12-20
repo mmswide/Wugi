@@ -1,18 +1,54 @@
 package com.wugi.inc.fragments;
 
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Switch;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.squareup.picasso.Picasso;
 import com.wugi.inc.R;
+import com.wugi.inc.activities.MainActivity;
+import com.wugi.inc.activities.SignActivity;
+import com.wugi.inc.models.BrowseEvent;
+import com.wugi.inc.models.Event;
+import com.wugi.inc.models.Type;
+import com.wugi.inc.models.User;
+import com.wugi.inc.models.Venue;
+import com.wugi.inc.utils.Utils;
+
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import de.hdodenhof.circleimageview.CircleImageView;
+
+import static android.content.ContentValues.TAG;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -33,8 +69,20 @@ public class SettingFragment extends Fragment {
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+    private Context mContext;
 
-    @BindView(R.id.profileImageView)    ImageView profileImageView;
+    private FirebaseAuth mAuth = FirebaseAuth.getInstance();;
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private Boolean bPushNotification = false;
+
+    @BindView(R.id.iv_profile)
+    CircleImageView iv_profile;
+    @BindView(R.id.switch_notification)
+    Switch switch_notification;
+    @BindView(R.id.edit_first)
+    EditText edit_first;
+    @BindView(R.id.edit_last)
+    EditText edit_last;
 
     public SettingFragment() {
         // Required empty public constructor
@@ -58,6 +106,86 @@ public class SettingFragment extends Fragment {
         return fragment;
     }
 
+    private void getProfile() {
+
+        String uid = mAuth.getCurrentUser().getUid();
+        final ProgressDialog progressDialog = Utils.createProgressDialog(mContext);
+
+        db.collection("Users").document(uid).get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        progressDialog.dismiss();
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot document = task.getResult();
+                            if (document != null) {
+                                Log.d(TAG, "DocumentSnapshot data: " + task.getResult().getData());
+                                edit_first.setText(document.getString("firstName"));
+                                edit_last.setText(document.getString("lastName"));
+                                bPushNotification = document.getBoolean("pushNotification");
+
+                                switch_notification.setChecked(bPushNotification);
+
+                            } else {
+                                Log.d(TAG, "No such document");
+                            }
+                        } else {
+                            Log.d(TAG, "get failed with ", task.getException());
+                        }
+                    }
+                });
+    }
+
+    public void saveProfile() {
+        Log.d("save", "save profile");
+        if (TextUtils.isEmpty(edit_first.getText().toString())) {
+            Toast.makeText(mContext, "Please input your first name.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (TextUtils.isEmpty(edit_last.getText().toString())) {
+            Toast.makeText(mContext, "Please input your last name.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        String uid = mAuth.getCurrentUser().getUid();
+        final ProgressDialog progressDialog = Utils.createProgressDialog(mContext);
+        db.collection("Users").document(uid)
+                .update(
+                        "firstName", edit_first.getText().toString(),
+                        "lastName", edit_last.getText().toString(),
+                        "pushNotification", bPushNotification
+                ).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                progressDialog.dismiss();
+
+                UserProfileChangeRequest.Builder builder = new UserProfileChangeRequest.Builder();
+                builder.setDisplayName(edit_first.getText().toString() + " " + edit_last.getText().toString());
+                UserProfileChangeRequest profileUpdates = builder.build();
+                mAuth.getCurrentUser().updateProfile(profileUpdates)
+                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if (task.isSuccessful()) {
+                                    Toast.makeText(mContext, "Profile updated successfully.",
+                                            Toast.LENGTH_SHORT).show();
+                                    ((MainActivity)mContext).updateProfile();
+                                } else {
+                                    Toast.makeText(mContext, "Profile update failed: " + task.getException(), Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                progressDialog.dismiss();
+                Toast.makeText(mContext, "Profile update failed: " + e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,6 +193,7 @@ public class SettingFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        getProfile();
     }
 
     @Override
@@ -72,8 +201,20 @@ public class SettingFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_setting, container, false);
-
         ButterKnife.bind(this, view);
+
+        String imageUrl = mAuth.getCurrentUser().getPhotoUrl().toString();
+        String email = mAuth.getCurrentUser().getEmail().toString();
+
+        Picasso.with(getContext()).load(imageUrl).into(iv_profile);
+
+        switch_notification.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                bPushNotification = b;
+            }
+        });
+
         return view;
     }
 
@@ -87,6 +228,7 @@ public class SettingFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        mContext = context;
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
         } else {

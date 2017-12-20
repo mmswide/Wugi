@@ -354,7 +354,7 @@ public class SignActivity extends AppCompatActivity {
                                                             }
                                                         });
                                                     } else {
-                                                        Toast.makeText(getApplicationContext(), "Photo upload failed: " + task.getException(), Toast.LENGTH_SHORT).show();
+                                                        Toast.makeText(getApplicationContext(), "Profile update failed: " + task.getException(), Toast.LENGTH_SHORT).show();
                                                     }
                                                 }
                                             });

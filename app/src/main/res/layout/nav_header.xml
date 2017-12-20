@@ -16,7 +16,7 @@
         android:layout_gravity="center"
         android:layout_height="@dimen/iv_profile_height" />
     <TextView
-        android:id="@+id/tv_email"
+        android:id="@+id/tv_name"
         android:textColor="@color/White"
         android:textSize="18sp"
         android:layout_gravity="center"

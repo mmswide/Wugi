@@ -13,22 +13,30 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:layout_margin="@dimen/margin_left">
-            <ImageView
-                android:id="@+id/profileImageView"
-                android:layout_width="120dp"
-                android:layout_height="120dp" />
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/iv_profile"
+                android:src="@drawable/profile"
+                android:layout_width="wrap_content"
+                android:layout_gravity="center"
+                android:layout_height="@dimen/iv_profile_height" />
         </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@android:color/darker_gray"></LinearLayout>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="EDIT PROFILE"
             android:layout_marginTop="@dimen/margin_left"
             android:layout_marginLeft="@dimen/margin_left"
+            android:paddingBottom="@dimen/padding"
             android:fontFamily="sans-serif-medium"
-            android:textSize="@dimen/text_size"/>
-        <Space
-            android:layout_width="@dimen/space_width"
-            android:layout_height="@dimen/space_height" />
+            style="@android:style/TextAppearance.Medium"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@android:color/darker_gray"></LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -40,8 +48,10 @@
                 android:textSize="@dimen/text_size"
                 android:text="FIRST NAME"/>
             <EditText
+                android:id="@+id/edit_first"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:lines="1"
                 android:gravity="right"/>
         </LinearLayout>
         <LinearLayout
@@ -55,25 +65,33 @@
                 android:textSize="@dimen/text_size"
                 android:text="LAST NAME"/>
             <EditText
+                android:id="@+id/edit_last"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:lines="1"
                 android:gravity="right"/>
         </LinearLayout>
-        <Space
-            android:layout_width="@dimen/space_width"
-            android:layout_height="@dimen/space_height" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@android:color/darker_gray"></LinearLayout>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/margin_left"
+            android:paddingTop="@dimen/padding"
+            android:paddingBottom="@dimen/padding"
             android:text="CHANGE PASSWORD"
             android:textSize="@dimen/text_size"/>
-        <Space
-            android:layout_width="@dimen/space_width"
-            android:layout_height="@dimen/space_height" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@android:color/darker_gray"></LinearLayout>
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:paddingTop="@dimen/padding"
+            android:paddingBottom="@dimen/padding"
             android:layout_marginLeft="@dimen/margin_left"
             android:layout_marginRight="@dimen/margin_left">
             <TextView
@@ -83,17 +101,21 @@
                 android:layout_centerVertical="true"
                 android:text="PUSH NOTIFICATIONS"/>
             <Switch
+                android:id="@+id/switch_notification"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"/>
         </RelativeLayout>
-        <Space
-            android:layout_width="@dimen/space_width"
-            android:layout_height="@dimen/space_height" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@android:color/darker_gray"></LinearLayout>
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:paddingTop="@dimen/padding"
+            android:paddingBottom="@dimen/padding"
             android:layout_marginLeft="@dimen/margin_left">
             <TextView
                 android:layout_width="wrap_content"
@@ -101,12 +123,15 @@
                 android:text="ABOUT WUGI"
                 android:textSize="@dimen/text_size"/>
         </RelativeLayout>
-        <Space
-            android:layout_width="@dimen/space_width"
-            android:layout_height="@dimen/space_height" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@android:color/darker_gray"></LinearLayout>
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:paddingTop="@dimen/padding"
+            android:paddingBottom="@dimen/padding"
             android:layout_marginLeft="@dimen/margin_left">
             <TextView
                 android:layout_width="wrap_content"
@@ -114,12 +139,15 @@
                 android:text="CONTACT WUGI"
                 android:textSize="@dimen/text_size"/>
         </RelativeLayout>
-        <Space
-            android:layout_width="@dimen/space_width"
-            android:layout_height="@dimen/space_height" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@android:color/darker_gray"></LinearLayout>
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:paddingTop="@dimen/padding"
+            android:paddingBottom="@dimen/padding"
             android:layout_marginLeft="@dimen/margin_left">
             <TextView
                 android:layout_width="wrap_content"
@@ -127,18 +155,25 @@
                 android:text="PRIVACY POLICY"
                 android:textSize="@dimen/text_size"/>
         </RelativeLayout>
-        <Space
-            android:layout_width="@dimen/space_width"
-            android:layout_height="@dimen/space_height" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@android:color/darker_gray"></LinearLayout>
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:paddingTop="@dimen/padding"
+            android:paddingBottom="@dimen/padding"
             android:layout_marginLeft="@dimen/margin_left">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="TEMRS AND CONDITIONS"
+                android:text="TERMS AND CONDITIONS"
                 android:textSize="@dimen/text_size"/>
         </RelativeLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@android:color/darker_gray"></LinearLayout>
     </LinearLayout>
 </ScrollView>
