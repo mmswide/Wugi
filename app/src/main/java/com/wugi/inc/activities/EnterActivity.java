@@ -15,9 +15,13 @@ import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
@@ -29,15 +33,25 @@ import com.wugi.inc.R;
 import com.wugi.inc.models.User;
 import com.wugi.inc.utils.Utils;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.net.MalformedURLException;
+import java.net.URL;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+
+import static android.R.attr.id;
 
 public class EnterActivity extends AppCompatActivity {
     @BindView(R.id.signupButton)Button signupButton;
     @BindView(R.id.signinButton) Button signinButton;
     @BindView(R.id.fbButton)
     LoginButton fbButton;
+    @BindView(R.id.btn_fb)
+    Button btn_fb;
     @BindView(R.id.guestButton) Button guestButton;
     @BindView(R.id.termsButton) Button termsButton;
 
@@ -47,6 +61,7 @@ public class EnterActivity extends AppCompatActivity {
     //FaceBook callbackManager
     private CallbackManager callbackManager;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private User currentUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +87,64 @@ public class EnterActivity extends AppCompatActivity {
             @Override
             public void onSuccess(LoginResult loginResult) {
                 Log.d(TAG, "facebook:onSuccess:" + loginResult);
+
+                String accessToken = loginResult.getAccessToken()
+                        .getToken();
+                Log.i("accessToken", accessToken);
+
+                GraphRequest request = GraphRequest.newMeRequest(
+                        loginResult.getAccessToken(),
+                        new GraphRequest.GraphJSONObjectCallback() {@Override
+                        public void onCompleted(JSONObject object,
+                                                GraphResponse response) {
+
+                            Log.i("LoginActivity",
+                                    response.toString());
+                            try {
+                                String fb_id = object.getString("id");
+                                try {
+                                    URL profile_pic = new URL(
+                                            "http://graph.facebook.com/" + fb_id + "/picture?type=large");
+                                    Log.i("profile_pic",
+                                            profile_pic + "");
+
+                                } catch (MalformedURLException e) {
+                                    e.printStackTrace();
+                                }
+                                String name = object.getString("name");
+                                String firstName = object.getString("first_name");
+                                String lastName = object.getString("last_name");
+                                String email = object.getString("email");
+                                String gender = "other";
+                                if (object.has("gender")) {
+                                    gender = object.getString("gender");
+                                }
+                                String birthday = "";
+                                if (object.has("gender")) {
+                                    gender = object.getString("birthday");
+                                }
+
+                                String picture_url = "";
+                                if (object.has("picture")) {
+                                    object.getJSONObject("picture").getJSONObject("data").getString("url");
+                                }
+
+
+                                User user = new User(mAuth.getCurrentUser().getUid(), firstName, lastName, email, gender, picture_url,true, birthday);
+                                EnterActivity.this.currentUser = user;
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        });
+                Bundle parameters = new Bundle();
+                parameters.putString("fields",
+                        "id,name,first_name, last_name, picture.type(large), email,gender, birthday");
+                request.setParameters(parameters);
+                request.executeAsync();
+
+
                 signInWithFacebook(loginResult.getAccessToken());
             }
 
@@ -107,7 +180,7 @@ public class EnterActivity extends AppCompatActivity {
                             Toast.makeText(EnterActivity.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
                         }else{
-//                            String uid=task.getResult().getUser().getUid();
+                            String uid=task.getResult().getUser().getUid();
 //                            String name=task.getResult().getUser().getDisplayName();
 //                            String email=task.getResult().getUser().getEmail();
 //                            String image=task.getResult().getUser().getPhotoUrl().toString();
@@ -117,6 +190,24 @@ public class EnterActivity extends AppCompatActivity {
 //
 //                            DocumentReference documentReference = db.document("Users/" + uid);
 //                            documentReference.set(user);
+
+                            DocumentReference reference = db.document("Users/" + uid);
+                            reference.set(currentUser).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    Toast.makeText(EnterActivity.this, "Profile created successfully.",
+                                            Toast.LENGTH_SHORT).show();
+                                    Intent intent = new Intent(EnterActivity.this, MainActivity.class);
+                                    startActivity(intent);
+                                    finish();
+                                }
+                            })
+                                    .addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            progressDialog.dismiss();
+                                        }
+                                    });
 
                             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                             startActivity(intent);
@@ -133,6 +224,11 @@ public class EnterActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         callbackManager.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @OnClick(R.id.btn_fb)
+    public void fbLogin() {
+        fbButton.performClick();
     }
 
     @OnClick(R.id.signupButton)

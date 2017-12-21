@@ -86,12 +86,21 @@
             android:gravity="center"
             android:weightSum="100">
 
+            <Button
+                android:id="@+id/btn_fb"
+                style="@style/AppTheme.FBRoundedCornerMaterialButton"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="80"
+                android:text="Sign In With Facebook" />
+
             <com.facebook.login.widget.LoginButton
                 android:id="@+id/fbButton"
                 style="@style/AppTheme.FBRoundedCornerMaterialButton"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="80"
+                android:visibility="gone"
                 android:text="Sign In With Facebook" />
         </LinearLayout>
 
