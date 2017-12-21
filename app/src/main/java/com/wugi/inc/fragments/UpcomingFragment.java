@@ -22,6 +22,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -35,6 +36,7 @@ import com.wugi.inc.adapters.UpcomingRecyclerAdapter;
 import com.wugi.inc.models.BrowseEvent;
 import com.wugi.inc.models.Event;
 import com.wugi.inc.models.Venue;
+import com.wugi.inc.utils.OnSwipeTouchListener;
 import com.wugi.inc.utils.Utils;
 import com.wugi.inc.views.GridSpacingItemDecoration;
 import com.wugi.inc.views.MarginDecoration;
@@ -73,6 +75,7 @@ public class UpcomingFragment extends Fragment {
     private UpcomingRecyclerAdapter adapter;
     private Context mContext;
     private ArrayList<Event> eventList = new ArrayList<Event>();
+    ArrayList<LinearLayout> llArrays = new ArrayList<LinearLayout>();
 
     private ArrayList<Date> daysList = new ArrayList<Date>();
     ArrayList<Event> filtered = new ArrayList<Event>();
@@ -364,7 +367,7 @@ public class UpcomingFragment extends Fragment {
         tv_sixthNum.setText(getDayFromDate(this.daysList.get(5)));
         tv_seventhNum.setText(getDayFromDate(this.daysList.get(6)));
 
-        ArrayList<LinearLayout> llArrays = new ArrayList<LinearLayout>();
+
         llArrays.add(ll_first);
         llArrays.add(ll_second);
         llArrays.add(ll_third);
@@ -398,6 +401,23 @@ public class UpcomingFragment extends Fragment {
         recyclerView.addItemDecoration(new MarginDecoration(mContext));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
+
+        recyclerView.setOnTouchListener(new OnSwipeTouchListener(mContext) {
+            public void onSwipeRight() {
+                int index = selectedIndex + 1;
+                if (index > 6)
+                    return;
+                setActiveData(index);
+                getSelectedData(index);
+            }
+            public void onSwipeLeft() {
+                int index = selectedIndex - 1;
+                if (index < 0)
+                    return;
+                setActiveData(index);
+                getSelectedData(index);
+            }
+        });
 
         return view;
     }
