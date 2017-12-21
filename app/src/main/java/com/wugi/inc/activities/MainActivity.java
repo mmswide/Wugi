@@ -17,6 +17,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v4.app.ActivityCompat.OnRequestPermissionsResultCallback;
 import android.os.Bundle;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -237,25 +238,57 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
         });
         FirebaseUser mUser = mAuth.getCurrentUser();
 
-        View headerView= LayoutInflater.from(this).inflate(R.layout.nav_header, null);
-        View header = navigationView.getHeaderView(0);
-        if (mUser != null) {
-            if (header != null) {
-                navigationView.removeHeaderView(headerView);
+//        View headerView= LayoutInflater.from(this).inflate(R.layout.nav_header, null);
+        View headerView = navigationView.getHeaderView(0);
+
+        ImageView iv_profile = (ImageView) headerView.findViewById(R.id.iv_profile);
+        tv_name = (TextView)headerView.findViewById(R.id.tv_name);
+
+        final SearchView searchView = (SearchView) headerView.findViewById(R.id.search);
+        searchView.setIconifiedByDefault(false);
+        searchView.setQueryHint("Search");
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                if (query.equals("")) {
+                    Toast.makeText(MainActivity.this, "Please input search text", Toast.LENGTH_SHORT).show();
+                    return false;
+                }
+                drawerLayout.closeDrawers();
+                searchView.setQuery("", false);
+                Intent intent = new Intent(MainActivity.this, SearchActivity.class);
+                intent.putExtra("search", query);
+                startActivity(intent);
+                return false;
             }
-            navigationView.addHeaderView(headerView);
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
+
+        if (mUser != null) {
+//            if (header != null) {
+//                navigationView.removeHeaderView(headerView);
+//            }
+//            navigationView.addHeaderView(headerView);
+            iv_profile.setVisibility(View.VISIBLE);
+            tv_name.setVisibility(View.VISIBLE);
+
             String uid = mAuth.getCurrentUser().getUid();
             String imageUrl = mAuth.getCurrentUser().getPhotoUrl().toString();
             String name = mAuth.getCurrentUser().getDisplayName().toString();
 
-            ImageView iv_profile = (ImageView) headerView.findViewById(R.id.iv_profile);
             Picasso.with(this).load(imageUrl).into(iv_profile);
-            tv_name = (TextView)headerView.findViewById(R.id.tv_name);
-            tv_name.setText(name);
 
+            tv_name.setText(name);
         } else {
-            if (header != null)
-                navigationView.removeHeaderView(headerView);
+//            if (header != null)
+//                navigationView.removeHeaderView(headerView);
+            iv_profile.setVisibility(View.GONE);
+            tv_name.setVisibility(View.GONE);
         }
 
         drawerLayout = (DrawerLayout)findViewById(R.id.drawer);

@@ -2,24 +2,34 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
-    android:paddingTop="20dp"
-    android:paddingBottom="20dp"
     android:gravity="bottom"
     android:background="@color/colorPrimaryDark"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/nav_header_height">
+    android:layout_height="wrap_content">
+
+    <android.support.v7.widget.SearchView
+        android:id="@+id/search"
+        android:background="@drawable/rounded_white"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:iconifiedByDefault="false"
+        android:queryHint="Search"
+        android:clickable="true" />
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/iv_profile"
         android:src="@drawable/profile"
         android:layout_width="wrap_content"
         android:layout_gravity="center"
+        android:paddingTop="20dp"
         android:layout_height="@dimen/iv_profile_height" />
     <TextView
         android:id="@+id/tv_name"
         android:textColor="@color/White"
         android:textSize="18sp"
         android:layout_gravity="center"
+        android:paddingTop="5dp"
+        android:paddingBottom="20dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 </LinearLayout>

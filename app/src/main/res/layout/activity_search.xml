@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.wugi.inc.activities.SearchActivity">
+
+    <include layout="@layout/nav_bar" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/tv_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="22sp"
+            android:paddingTop="10dp"
+            android:paddingBottom="5dp"
+            android:textAlignment="center"
+            android:text="Search Results"/>
+
+        <info.hoang8f.android.segmented.SegmentedGroup
+            xmlns:segmentedgroup="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/segmented_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_gravity="center"
+            android:orientation="horizontal"
+            segmentedgroup:sc_tint_color="@color/black"
+            segmentedgroup:sc_border_width="1dp"
+            segmentedgroup:sc_corner_radius="10dp">
+
+            <RadioButton
+                android:id="@+id/btn_event"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Events"
+                style="@style/RadioButton" />
+
+            <RadioButton
+                android:id="@+id/btn_venue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Venues"
+                style="@style/RadioButton" />
+        </info.hoang8f.android.segmented.SegmentedGroup>
+    </LinearLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/item_margin"
+        android:scrollbars="vertical"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+</LinearLayout>

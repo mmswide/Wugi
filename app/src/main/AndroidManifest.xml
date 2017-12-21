@@ -44,7 +44,8 @@
         <activity android:name=".activities.PhotoActivity" />
         <activity android:name=".activities.SliderActivity" />
         <activity android:name=".activities.PassActivity" />
-        <activity android:name=".activities.ForgotPassActivity"></activity>
+        <activity android:name=".activities.ForgotPassActivity" />
+        <activity android:name=".activities.SearchActivity"></activity>
     </application>
 
 </manifest>
