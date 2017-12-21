@@ -29,6 +29,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.Profile;
+import com.facebook.login.LoginManager;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.firebase.auth.FirebaseAuth;
@@ -214,6 +216,9 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
                         break;
                     case R.id.logout:
                         drawerLayout.closeDrawers();
+                        if (Profile.getCurrentProfile() != null) {
+                            LoginManager.getInstance().logOut();
+                        }
                         FirebaseAuth.getInstance().signOut();
 
                         Intent intent = new Intent(MainActivity.this, EnterActivity.class);

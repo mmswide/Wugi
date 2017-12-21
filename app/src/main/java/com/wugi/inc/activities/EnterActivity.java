@@ -120,13 +120,19 @@ public class EnterActivity extends AppCompatActivity {
                                     gender = object.getString("gender");
                                 }
                                 String birthday = "";
-                                if (object.has("gender")) {
-                                    gender = object.getString("birthday");
+                                if (object.has("birthday")) {
+                                    birthday = object.getString("birthday");
                                 }
 
                                 String picture_url = "";
                                 if (object.has("picture")) {
-                                    object.getJSONObject("picture").getJSONObject("data").getString("url");
+                                    JSONObject jsonObject = object.getJSONObject("picture");
+                                    if (jsonObject.has("data")) {
+                                        JSONObject data = jsonObject.getJSONObject("data");
+                                        if (data.has("url")) {
+                                            picture_url = data.getString("url");
+                                        }
+                                    }
                                 }
 
 
