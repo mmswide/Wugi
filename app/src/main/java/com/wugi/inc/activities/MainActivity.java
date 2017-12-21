@@ -138,7 +138,6 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
 
         mAuth = FirebaseAuth.getInstance();
 
-
         if (savedInstanceState == null) {
             Fragment fragment = null;
             Class fragmentClass = null;
