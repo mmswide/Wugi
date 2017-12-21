@@ -24,10 +24,6 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/rounded_corner"
                     android:textColor="@color/White"
-                    android:paddingLeft="15dp"
-                    android:paddingRight="15dp"
-                    android:paddingTop="5dp"
-                    android:paddingBottom="5dp"
                     style="@android:style/TextAppearance.Medium"
                     android:textAlignment="center"
                     android:text="EVENT"/>

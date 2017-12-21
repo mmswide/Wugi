@@ -1,6 +1,7 @@
 package com.wugi.inc.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
@@ -15,8 +16,10 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 import com.wugi.inc.R;
+import com.wugi.inc.activities.EventDetailActivity;
 import com.wugi.inc.fragments.UpcomingFragment;
 import com.wugi.inc.models.Event;
 
@@ -55,13 +58,18 @@ public class UpcomingRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.V
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if(holder instanceof UpcomingViewHolder){
-            Event event = eventList.get(position);
+            final Event event = eventList.get(position);
             Picasso.with(mContext).load(event.getImageThumbURL()).into(((UpcomingViewHolder) holder).thumbnail);
 
             ((UpcomingViewHolder) holder).thumbnail.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    Intent intent = new Intent(mContext, EventDetailActivity.class);
 
+                    Gson gson = new Gson();
+                    String jsonEventString = gson.toJson(event);
+                    intent.putExtra("event", jsonEventString);
+                    mContext.startActivity(intent);
                 }
             });
         }

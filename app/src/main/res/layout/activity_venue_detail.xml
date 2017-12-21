@@ -214,11 +214,12 @@
                     android:paddingBottom="15dp"
                     android:text="parking"/>
             </LinearLayout>
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
+                android:gravity="center"
                 android:orientation="vertical">
                 <TextView
                     android:paddingTop="5dp"
@@ -228,11 +229,28 @@
                     style="@android:style/TextAppearance.Medium"
                     android:textColor="@color/black"
                     android:text="PHOTO GALLERY"/>
+                <ImageView
+                    android:id="@+id/iv_arrow"
+                    android:layout_width="@dimen/arrow_size"
+                    android:layout_height="@dimen/arrow_size"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"
+                    android:src="@drawable/right_arrow"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    style="@android:style/TextAppearance.Medium"
+
+                    android:layout_toLeftOf="@+id/iv_arrow"
+                    android:text="0"/>
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="1px"
+                    android:layout_alignParentBottom="true"
                     android:background="@color/black"></LinearLayout>
-            </LinearLayout>
+            </RelativeLayout>
         </LinearLayout>
     </ScrollView>
 

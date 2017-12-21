@@ -28,8 +28,8 @@ import java.util.List;
 
 public class BrowseCategoryRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private Context mContext;
-    private List<Event> eventList;
-    private List<Venue> venueList;
+    private List<Event> eventList = new ArrayList<Event>();
+    private List<Venue> venueList = new ArrayList<Venue>();
     private Type type;
 
     private static final int TYPE_HEADER = 0;

@@ -21,6 +21,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.google.gson.Gson;
 import com.wugi.inc.R;
 import com.wugi.inc.adapters.BrowseCategoryRecyclerAdapter;
+import com.wugi.inc.fragments.BrowseFragment;
 import com.wugi.inc.fragments.HomeFragment;
 import com.wugi.inc.models.BrowseEvent;
 import com.wugi.inc.models.BrowseVenueType;
@@ -106,7 +107,13 @@ public class BrowseCategoryActivity extends AppCompatActivity {
             }
         });
 
-        getEvents();
+        if (this.type == Type.EVENT_TYPE) {
+            getEvents();
+        } else if (this.type == Type.VENUE_TYPE) {
+
+        } else if (this.type == Type.TYPE_TYPE) {
+            getVenues();
+        }
     }
 
     @Override
@@ -213,6 +220,55 @@ public class BrowseCategoryActivity extends AppCompatActivity {
                                                                 eventList.add(event);
                                                                 adapter.refresh(eventList, null, type);
                                                             }
+                                                        } else {
+                                                            Log.d(TAG, "No such document");
+                                                        }
+                                                    } else {
+                                                        Log.d(TAG, "get failed with ", task.getException());
+                                                    }
+                                                }
+                                            });
+                                }
+                            }
+                        } else {
+                            Log.w(TAG, "Error getting documents.", task.getException());
+                        }
+                    }
+                });
+    }
+
+    private void getVenues() {
+        this.venueList.clear();
+        final ProgressDialog progressDialog = Utils.createProgressDialog(this);
+        db.collection("Venue")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        progressDialog.dismiss();
+                        if (task.isSuccessful()) {
+                            for (DocumentSnapshot document : task.getResult()) {
+                                Log.d(TAG, document.getId() + " => " + document.getData());
+                                final Venue venue = new Venue(document);
+
+                                if (document.getDocumentReference("browseVenueType") != null) {
+                                    DocumentReference browseEventReference = document.getDocumentReference("browseVenueType");
+                                    db.collection("BrowseVenueType").document(browseEventReference.getId()).get()
+                                            .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                                    if (task.isSuccessful()) {
+                                                        DocumentSnapshot document = task.getResult();
+                                                        if (document != null) {
+                                                            Log.d(TAG, "DocumentSnapshot data: " + task.getResult().getData());
+                                                            BrowseVenueType browseVenueType = new BrowseVenueType(document);
+                                                            venue.setBrowseVenueType(browseVenueType);
+
+                                                            if (browseVenueType.getDocumentId().equals(venueType.getDocumentId())) {
+                                                                venueList.add(venue);
+                                                                adapter.refresh(null, venueList, type);
+                                                            }
+
                                                         } else {
                                                             Log.d(TAG, "No such document");
                                                         }

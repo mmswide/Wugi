@@ -145,7 +145,7 @@ public class BrowseFragment extends Fragment implements View.OnClickListener {
 
                                                             boolean flag = false;
                                                             for (BrowseEvent event : browseEventList) {
-                                                                if (event.getDocumentId() == browseEvent.getDocumentId()) {
+                                                                if (event.getDocumentId().equals(browseEvent.getDocumentId())) {
                                                                     flag = true;
                                                                     break;
                                                                 }
@@ -201,7 +201,7 @@ public class BrowseFragment extends Fragment implements View.OnClickListener {
 
                                                             boolean flag = false;
                                                             for (BrowseVenueType venueType : browseVenueTYpeList) {
-                                                                if (venueType.getDocumentId() == browseVenueType.getDocumentId()) {
+                                                                if (venueType.getDocumentId().equals(browseVenueType.getDocumentId())) {
                                                                     flag = true;
                                                                     break;
                                                                 }
@@ -301,11 +301,9 @@ public class BrowseFragment extends Fragment implements View.OnClickListener {
             if (i == index) {
                 textView.setBackground(mContext.getDrawable(R.drawable.rounded_corner));
                 textView.setTextColor(ContextCompat.getColor(mContext, R.color.White));
-                textView.setPadding(15, 5, 15, 5);
             } else {
                 textView.setBackground(transparentDrawable);
                 textView.setTextColor(ContextCompat.getColor(mContext, R.color.black));
-                textView.setPadding(15, 5, 15, 5);
             }
         }
     }
