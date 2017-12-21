@@ -382,6 +382,19 @@ public class SignActivity extends AppCompatActivity {
         finish();
     }
 
+    @OnClick(R.id.guestButton)
+    void onGuest() {
+        Intent intent = new Intent(SignActivity.this, GuestActivity.class);
+        startActivity(intent);
+        overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+    }
+    @OnClick(R.id.forgotButton)
+    void onForgotPassword() {
+        Intent intent = new Intent(SignActivity.this, ForgotPassActivity.class);
+        startActivity(intent);
+        overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+    }
+
     @OnClick(R.id.ivImage)
     void choosePhoto() {
         selectImage();

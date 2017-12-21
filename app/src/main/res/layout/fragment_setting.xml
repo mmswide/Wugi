@@ -40,6 +40,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:paddingTop="@dimen/padding"
             android:layout_marginLeft="@dimen/margin_left"
             android:layout_marginRight="@dimen/margin_left">
             <TextView
@@ -51,12 +52,15 @@
                 android:id="@+id/edit_first"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
                 android:lines="1"
                 android:gravity="right"/>
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:paddingTop="@dimen/padding"
+            android:paddingBottom="@dimen/padding"
             android:layout_marginLeft="@dimen/margin_left"
             android:layout_marginRight="@dimen/margin_left">
             <TextView
@@ -66,6 +70,7 @@
                 android:text="LAST NAME"/>
             <EditText
                 android:id="@+id/edit_last"
+                android:background="@android:color/transparent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:lines="1"
@@ -75,14 +80,26 @@
             android:layout_width="match_parent"
             android:layout_height="1px"
             android:background="@android:color/darker_gray"></LinearLayout>
-        <TextView
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:id="@+id/rl_password"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/margin_left"
             android:paddingTop="@dimen/padding"
             android:paddingBottom="@dimen/padding"
-            android:text="CHANGE PASSWORD"
-            android:textSize="@dimen/text_size"/>
+            android:layout_marginRight="@dimen/padding"
+            android:layout_marginLeft="@dimen/margin_left">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="CHANGE PASSWORD"
+                style="@android:style/TextAppearance.Medium"
+                android:textSize="@dimen/text_size"/>
+            <ImageView
+                android:layout_width="@dimen/arrow_size"
+                android:layout_height="@dimen/arrow_size"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/right_arrow"/>
+        </RelativeLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="1px"
@@ -99,6 +116,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/text_size"
                 android:layout_centerVertical="true"
+                style="@android:style/TextAppearance.Medium"
                 android:text="PUSH NOTIFICATIONS"/>
             <Switch
                 android:id="@+id/switch_notification"
@@ -112,64 +130,97 @@
             android:layout_height="1px"
             android:background="@android:color/darker_gray"></LinearLayout>
         <RelativeLayout
+            android:id="@+id/rl_about"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="@dimen/padding"
             android:paddingBottom="@dimen/padding"
+            android:layout_marginRight="@dimen/padding"
             android:layout_marginLeft="@dimen/margin_left">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="ABOUT WUGI"
+                style="@android:style/TextAppearance.Medium"
                 android:textSize="@dimen/text_size"/>
+            <ImageView
+                android:layout_width="@dimen/arrow_size"
+                android:layout_height="@dimen/arrow_size"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/right_arrow"/>
         </RelativeLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="1px"
             android:background="@android:color/darker_gray"></LinearLayout>
         <RelativeLayout
+            android:id="@+id/rl_contact"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="@dimen/padding"
             android:paddingBottom="@dimen/padding"
+            android:layout_marginRight="@dimen/padding"
             android:layout_marginLeft="@dimen/margin_left">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="CONTACT WUGI"
+                style="@android:style/TextAppearance.Medium"
                 android:textSize="@dimen/text_size"/>
+            <ImageView
+                android:layout_width="@dimen/arrow_size"
+                android:layout_height="@dimen/arrow_size"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/right_arrow"/>
         </RelativeLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="1px"
             android:background="@android:color/darker_gray"></LinearLayout>
         <RelativeLayout
+            android:id="@+id/rl_privacy"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="@dimen/padding"
             android:paddingBottom="@dimen/padding"
+            android:layout_marginRight="@dimen/padding"
             android:layout_marginLeft="@dimen/margin_left">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="PRIVACY POLICY"
+                style="@android:style/TextAppearance.Medium"
                 android:textSize="@dimen/text_size"/>
+            <ImageView
+                android:layout_width="@dimen/arrow_size"
+                android:layout_height="@dimen/arrow_size"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/right_arrow"/>
         </RelativeLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="1px"
             android:background="@android:color/darker_gray"></LinearLayout>
         <RelativeLayout
+            android:id="@+id/rl_terms"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center"
             android:paddingTop="@dimen/padding"
             android:paddingBottom="@dimen/padding"
+            android:layout_marginRight="@dimen/padding"
             android:layout_marginLeft="@dimen/margin_left">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="TERMS AND CONDITIONS"
+                style="@android:style/TextAppearance.Medium"
                 android:textSize="@dimen/text_size"/>
+            <ImageView
+                android:layout_width="@dimen/arrow_size"
+                android:layout_height="@dimen/arrow_size"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/right_arrow"/>
         </RelativeLayout>
         <LinearLayout
             android:layout_width="match_parent"

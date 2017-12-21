@@ -14,4 +14,6 @@
     <dimen name="iv_profile_height">100dp</dimen>
     <dimen name="iv_icon_width">30dp</dimen>
     <dimen name="padding">10dp</dimen>
+    <dimen name="pass_padding">10dp</dimen>
+    <dimen name="arrow_size">22dp</dimen>
 </resources>

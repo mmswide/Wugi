@@ -41,7 +41,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"
                     android:layout_marginRight="@dimen/margin"
-                    style="@style/TextAppearance.Widget.ActionBar.Subtitle"
+                    style="@style/TextAppearance.Widget.ActionBar.Title"
                     android:background="@null"
                     android:textColor="#FFF"
                     android:textAllCaps="false"

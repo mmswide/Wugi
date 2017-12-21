@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.Switch;
 import android.widget.Toast;
 
@@ -31,8 +32,11 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.squareup.picasso.Picasso;
 import com.wugi.inc.R;
+import com.wugi.inc.activities.EnterActivity;
 import com.wugi.inc.activities.MainActivity;
+import com.wugi.inc.activities.PassActivity;
 import com.wugi.inc.activities.SignActivity;
+import com.wugi.inc.activities.TermsActivity;
 import com.wugi.inc.models.BrowseEvent;
 import com.wugi.inc.models.Event;
 import com.wugi.inc.models.Type;
@@ -46,6 +50,7 @@ import java.util.GregorianCalendar;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 import static android.content.ContentValues.TAG;
@@ -83,6 +88,16 @@ public class SettingFragment extends Fragment {
     EditText edit_first;
     @BindView(R.id.edit_last)
     EditText edit_last;
+    @BindView(R.id.rl_password)
+    RelativeLayout rl_password;
+    @BindView(R.id.rl_about)
+    RelativeLayout rl_about;
+    @BindView(R.id.rl_contact)
+    RelativeLayout rl_contact;
+    @BindView(R.id.rl_privacy)
+    RelativeLayout rl_privacy;
+    @BindView(R.id.rl_terms)
+    RelativeLayout rl_terms;
 
     public SettingFragment() {
         // Required empty public constructor
@@ -256,5 +271,43 @@ public class SettingFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+    @OnClick(R.id.rl_terms)
+    void onTerms() {
+        Intent intent = new Intent(mContext, TermsActivity.class);
+        intent.putExtra("terms", true);
+        startActivity(intent);
+    }
+    @OnClick(R.id.rl_privacy)
+    void onPrivacy() {
+        Intent intent = new Intent(mContext, TermsActivity.class);
+        intent.putExtra("privacy", true);
+        startActivity(intent);
+    }
+    @OnClick(R.id.rl_about)
+    void onAbout() {
+        Intent intent = new Intent(mContext, TermsActivity.class);
+        intent.putExtra("about", true);
+        startActivity(intent);
+    }
+
+    @OnClick(R.id.rl_contact)
+    void onContact() {
+        Intent email = new Intent(Intent.ACTION_SEND);
+        email.putExtra(Intent.EXTRA_EMAIL, new String[]{ "rodk.music@gmail.com"});
+        email.putExtra(Intent.EXTRA_SUBJECT, "Wugi App");
+        email.putExtra(Intent.EXTRA_TEXT, "");
+
+        //need this to prompts email client only
+        email.setType("message/rfc822");
+
+        startActivity(Intent.createChooser(email, "Choose an Email client :"));
+    }
+
+    @OnClick(R.id.rl_password)
+    void onPassword() {
+        Intent intent = new Intent(mContext, PassActivity.class);
+        startActivity(intent);
     }
 }

@@ -159,6 +159,7 @@ public class EnterActivity extends AppCompatActivity {
     @OnClick(R.id.termsButton)
     public void terms() {
         Intent intent = new Intent(EnterActivity.this, TermsActivity.class);
+        intent.putExtra("accept", true);
         startActivity(intent);
         overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
     }
