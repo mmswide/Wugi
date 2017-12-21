@@ -55,7 +55,7 @@ public class EnterActivity extends AppCompatActivity {
     @BindView(R.id.guestButton) Button guestButton;
     @BindView(R.id.termsButton) Button termsButton;
 
-    private static final String TAG = "Wugi";
+    private static final String TAG = "EnterActivity";
 
     private FirebaseAuth mAuth;
     //FaceBook callbackManager
@@ -136,7 +136,7 @@ public class EnterActivity extends AppCompatActivity {
                                 }
 
 
-                                User user = new User(mAuth.getCurrentUser().getUid(), firstName, lastName, email, gender, picture_url,true, birthday);
+                                User user = new User(fb_id, firstName, lastName, email, gender, picture_url,true, birthday);
                                 EnterActivity.this.currentUser = user;
 
                             } catch (JSONException e) {
