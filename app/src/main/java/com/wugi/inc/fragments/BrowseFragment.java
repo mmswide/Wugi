@@ -19,6 +19,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -32,6 +33,7 @@ import com.wugi.inc.adapters.BrowseRecyclerAdapter;
 import com.wugi.inc.models.BrowseEvent;
 import com.wugi.inc.models.BrowseVenueType;
 import com.wugi.inc.models.Type;
+import com.wugi.inc.utils.OnSwipeTouchListener;
 import com.wugi.inc.utils.Utils;
 
 import java.text.ParseException;
@@ -260,6 +262,32 @@ public class BrowseFragment extends Fragment implements View.OnClickListener {
         recyclerView.setLayoutManager(layoutManager);
 
         recyclerView.setAdapter(adapter);
+
+        recyclerView.setOnTouchListener(new OnSwipeTouchListener(mContext) {
+            @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+            public void onSwipeRight() {
+                int index = type.getTypeCode() + 1;
+                if (index > 2)
+                    return;
+                type = Type.values()[index];
+                setActiveData(type.getTypeCode());
+                if (type == Type.VENUE_TYPE) {}
+                if (type == Type.TYPE_TYPE)
+                    getTypeData();
+            }
+
+            @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+            public void onSwipeLeft() {
+                int index = type.getTypeCode() - 1;
+                if (index < 0)
+                    return;
+                type = Type.values()[index];
+                setActiveData(type.getTypeCode());
+                if (type == Type.EVENT_TYPE)
+                    getBrowseEvents();
+                if (type == Type.VENUE_TYPE) {}
+            }
+        });
 
         return view;
     }
