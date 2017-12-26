@@ -23,4 +23,8 @@
         android:layout_alignParentRight="true"
         android:layout_alignBottom="@+id/thumbnail"
         style="@android:style/TextAppearance.Large"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_below="@+id/thumbnail"></LinearLayout>
 </RelativeLayout>
