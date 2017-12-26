@@ -12,6 +12,7 @@ import com.squareup.picasso.Picasso;
 import com.wugi.inc.R;
 import com.wugi.inc.activities.BrowseCategoryActivity;
 import com.wugi.inc.models.BrowseEvent;
+import com.wugi.inc.models.BrowseVenue;
 import com.wugi.inc.models.BrowseVenueType;
 import com.wugi.inc.models.Type;
 
@@ -25,11 +26,13 @@ import java.util.List;
 public class BrowseRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private Context mContext;
     private List<BrowseEvent> browseEventList;
+    private List<BrowseVenue> browseVenueList;
     private List<BrowseVenueType> browseVenueTypeList;
     private Type type;
 
-    public void refresh(ArrayList<BrowseEvent> browseEventList, ArrayList<BrowseVenueType> browseVenueTypeList, Type type) {
+    public void refresh(ArrayList<BrowseEvent> browseEventList, ArrayList<BrowseVenue> browseVenueList, ArrayList<BrowseVenueType> browseVenueTypeList, Type type) {
         this.browseEventList = browseEventList;
+        this.browseVenueList = browseVenueList;
         this.browseVenueTypeList = browseVenueTypeList;
         this.type = type;
         notifyDataSetChanged();
@@ -71,6 +74,20 @@ public class BrowseRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
                     break;
                 case VENUE_TYPE:
+                    final BrowseVenue venue = browseVenueList.get(position);
+                    ((BrowseViewHolder) holder).tv_title.setText(venue.getVenueName());
+                    Picasso.with(mContext).load(venue.getVenueThumImag()).into(((BrowseViewHolder) holder).thumbnail);
+                    ((BrowseViewHolder) holder).thumbnail.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Intent intent = new Intent(mContext, BrowseCategoryActivity.class);
+                            intent.putExtra("type", type.getTypeCode());
+                            Gson gson = new Gson();
+                            String jsonEventString = gson.toJson(venue);
+                            intent.putExtra("event_type", jsonEventString);
+                            mContext.startActivity(intent);
+                        }
+                    });
                     break;
                 case TYPE_TYPE:
                     final BrowseVenueType browseVenueType = browseVenueTypeList.get(position);
@@ -100,7 +117,7 @@ public class BrowseRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             case EVENT_TYPE:
                 return this.browseEventList.size();
             case VENUE_TYPE:
-                return 0;
+                return this.browseVenueList.size();
             case TYPE_TYPE:
                 return this.browseVenueTypeList.size();
             default:

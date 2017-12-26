@@ -13,6 +13,7 @@ import com.wugi.inc.R;
 import com.wugi.inc.activities.EventDetailActivity;
 import com.wugi.inc.activities.VenueDetailActivity;
 import com.wugi.inc.models.BrowseEvent;
+import com.wugi.inc.models.BrowseVenue;
 import com.wugi.inc.models.BrowseVenueType;
 import com.wugi.inc.models.Event;
 import com.wugi.inc.models.Gallery;
@@ -29,19 +30,21 @@ import java.util.List;
 public class BrowseCategoryRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private Context mContext;
     private List<Event> eventList = new ArrayList<Event>();
-    private List<Venue> venueList = new ArrayList<Venue>();
+    private List<Event> venueEventList = new ArrayList<Event>();
+    private List<Venue> venueTypeList = new ArrayList<Venue>();
     private Type type;
 
     private static final int TYPE_HEADER = 0;
     private static final int TYPE_ITEM = 1;
 
     private BrowseEvent browseEvent;
-    private BrowseEvent browseVenue;
+    private BrowseVenue browseVenue;
     private BrowseVenueType venueType;
 
-    public void refresh(ArrayList<Event> eventList, ArrayList<Venue> venueList, Type type) {
+    public void refresh(ArrayList<Event> eventList, ArrayList<Event> venueEventList, ArrayList<Venue> venueTypeList, Type type) {
         this.eventList = eventList;
-        this.venueList = venueList;
+        this.venueEventList = venueEventList;
+        this.venueTypeList = venueTypeList;
         this.type = type;
         notifyDataSetChanged();
     }
@@ -52,7 +55,7 @@ public class BrowseCategoryRecyclerAdapter extends RecyclerView.Adapter<Recycler
         this.type = type;
     }
 
-    public void setHeader(BrowseEvent browseEvent, BrowseEvent browseVenue, BrowseVenueType venueType) {
+    public void setHeader(BrowseEvent browseEvent, BrowseVenue browseVenue, BrowseVenueType venueType) {
         this.browseEvent = browseEvent;
         this.browseVenue = browseVenue;
         this.venueType = venueType;
@@ -83,6 +86,7 @@ public class BrowseCategoryRecyclerAdapter extends RecyclerView.Adapter<Recycler
                     headerViewHolder.tv_name.setText(this.browseEvent.getEventName() + " Events");
                     break;
                 case VENUE_TYPE:
+                    headerViewHolder.tv_name.setText(this.browseVenue.getVenueName() + " Venues");
                     break;
                 case TYPE_TYPE:
                     headerViewHolder.tv_name.setText(this.venueType.getVenueTypeName() + " Venues");
@@ -108,16 +112,31 @@ public class BrowseCategoryRecyclerAdapter extends RecyclerView.Adapter<Recycler
 
                     break;
                 case VENUE_TYPE:
+                    Event venueEvent = venueEventList.get(position - 1);
+                    final Venue eventVenue = venueEvent.getVenue();
+                    if (eventVenue != null) {
+                        Picasso.with(mContext).load(eventVenue.getImageThumbURL()).into(((BrowseCategoryViewHolder) holder).thumbnail);
+                        ((BrowseCategoryViewHolder) holder).thumbnail.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                Intent intent = new Intent(mContext, VenueDetailActivity.class);
+                                Gson gson = new Gson();
+                                String jsonVenueString = gson.toJson(eventVenue);
+                                intent.putExtra("venue", jsonVenueString);
+                                mContext.startActivity(intent);
+                            }
+                        });
+                    }
                     break;
                 case TYPE_TYPE:
-                    final Venue venue = venueList.get(position - 1);
-                    Picasso.with(mContext).load(venue.getImageThumbURL()).into(((BrowseCategoryViewHolder) holder).thumbnail);
+                    final Venue venueType = venueTypeList.get(position - 1);
+                    Picasso.with(mContext).load(venueType.getImageThumbURL()).into(((BrowseCategoryViewHolder) holder).thumbnail);
                     ((BrowseCategoryViewHolder) holder).thumbnail.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
                             Intent intent = new Intent(mContext, VenueDetailActivity.class);
                             Gson gson = new Gson();
-                            String jsonVenueString = gson.toJson(venue);
+                            String jsonVenueString = gson.toJson(venueType);
                             intent.putExtra("venue", jsonVenueString);
                             mContext.startActivity(intent);
                         }
@@ -135,9 +154,9 @@ public class BrowseCategoryRecyclerAdapter extends RecyclerView.Adapter<Recycler
             case EVENT_TYPE:
                 return this.eventList.size() + 1;
             case VENUE_TYPE:
-                return 0;
+                return this.venueEventList.size() + 1;
             case TYPE_TYPE:
-                return this.venueList.size() + 1;
+                return this.venueTypeList.size() + 1;
             default:
                 return 0;
         }

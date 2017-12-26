@@ -11,6 +11,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
 import android.text.TextUtils;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -109,18 +110,21 @@ public class VenueDetailActivity extends AppCompatActivity {
                 this.longitude,
                 this.venue.getGeolocation().getLatitude(),
                 this.venue.getGeolocation().getLongitude(), "M");
-        tv_distance.setText(String.format("📍 %.03f miles", distance));
+        tv_distance.setText(String.format("%.02f miles", distance));
 
-        String dotStr = "• ";
-        tv_venue_type.setText(dotStr + venue.getType());
-        tv_neighbor.setText(dotStr + venue.getNeighborhood());
+        String dotStr = "<font color=#438c7e size=32>• </font>";
+        tv_venue_type.setText(Html.fromHtml(dotStr + venue.getType()));
+        tv_neighbor.setText(Html.fromHtml(dotStr + venue.getNeighborhood()));
 
         ArrayList<String> parkingStrs = new ArrayList<String>();
-        for (String parking : venue.getParking()) {
-            parkingStrs.add(dotStr + parking);
+        for (int i=0;i<venue.getParking().size();i++) {
+            String parking = venue.getParking().get(i);
+            if (i != venue.getParking().size()-1) {
+                parkingStrs.add(dotStr + parking + "<br>");
+            }
         }
 
-        tv_parking.setText(TextUtils.join("\n", parkingStrs));
+        tv_parking.setText(Html.fromHtml(TextUtils.join("\n", parkingStrs)));
     }
 
     @OnClick(R.id.ll_call)

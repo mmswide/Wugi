@@ -30,6 +30,7 @@ public class Event {
     private String imageFeatureURL;
     private String theme;
     private BrowseEvent browseEvent;
+    private BrowseVenue browseVenue;
 
     public Event(DocumentSnapshot document){
         this.documentId = document.getId();
@@ -206,5 +207,13 @@ public class Event {
 
     public void setBrowseEvent(BrowseEvent browseEvent) {
         this.browseEvent = browseEvent;
+    }
+
+    public BrowseVenue getBrowseVenue() {
+        return browseVenue;
+    }
+
+    public void setBrowseVenue(BrowseVenue browseVenue) {
+        this.browseVenue = browseVenue;
     }
 }

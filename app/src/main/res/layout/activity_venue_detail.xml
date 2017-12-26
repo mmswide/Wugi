@@ -51,14 +51,24 @@
                         android:textAlignment="center"
                         android:textSize="17sp"
                         android:text="Address"/>
-                    <TextView
-                        android:id="@+id/tv_distance"
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textAlignment="center"
-                        android:paddingTop="5dp"
-                        android:paddingBottom="5dp"
-                        android:text="30 miless"/>
+                        android:gravity="center">
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_marginRight="10dp"
+                            android:src="@drawable/map_pin"/>
+                        <TextView
+                            android:id="@+id/tv_distance"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAlignment="center"
+                            android:paddingTop="5dp"
+                            android:paddingBottom="5dp"
+                            android:text="30 miless"/>
+                    </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
             <LinearLayout

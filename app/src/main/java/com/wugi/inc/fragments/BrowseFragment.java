@@ -31,6 +31,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.wugi.inc.R;
 import com.wugi.inc.adapters.BrowseRecyclerAdapter;
 import com.wugi.inc.models.BrowseEvent;
+import com.wugi.inc.models.BrowseVenue;
 import com.wugi.inc.models.BrowseVenueType;
 import com.wugi.inc.models.Type;
 import com.wugi.inc.utils.OnSwipeTouchListener;
@@ -55,6 +56,7 @@ public class BrowseFragment extends Fragment implements View.OnClickListener {
     private String mParam1;
     private String mParam2;
     private ArrayList<BrowseEvent> browseEventList = new ArrayList<BrowseEvent>();
+    private ArrayList<BrowseVenue> browseVenueList = new ArrayList<BrowseVenue>();
     private ArrayList<BrowseVenueType> browseVenueTYpeList = new ArrayList<BrowseVenueType>();
     private BrowseRecyclerAdapter adapter;
 
@@ -154,7 +156,70 @@ public class BrowseFragment extends Fragment implements View.OnClickListener {
                                                             }
                                                             if (flag == false) {
                                                                 BrowseFragment.this.browseEventList.add(browseEvent);
-                                                                BrowseFragment.this.adapter.refresh(browseEventList, null, Type.EVENT_TYPE);
+                                                                BrowseFragment.this.adapter.refresh(browseEventList, null, null, Type.EVENT_TYPE);
+                                                            }
+
+                                                        } else {
+                                                            Log.d(TAG, "No such document");
+                                                        }
+                                                    } else {
+                                                        Log.d(TAG, "get failed with ", task.getException());
+                                                    }
+                                                }
+                                            });
+                                }
+                            }
+                        } else {
+                            Log.w(TAG, "Error getting documents.", task.getException());
+                        }
+                    }
+                });
+    }
+    private void getBrowseVenues() {
+        Date today = getTodayFormat();
+
+        Calendar cal = GregorianCalendar.getInstance();
+        cal.setTime(today);
+        cal.add(Calendar.DAY_OF_YEAR, 7);
+        Date weekDate = cal.getTime();
+
+        this.browseVenueList.clear();
+        final ProgressDialog progressDialog = Utils.createProgressDialog(getContext());
+        db.collection("Event")
+                .whereGreaterThanOrEqualTo("startDate", today)
+                .whereLessThanOrEqualTo("startDate", weekDate)
+                .orderBy("startDate", Query.Direction.DESCENDING)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        progressDialog.dismiss();
+
+                        if (task.isSuccessful()) {
+                            for (DocumentSnapshot document : task.getResult()) {
+                                Log.d(TAG, document.getId() + " => " + document.getData());
+                                if (document.getDocumentReference("browseVenue") != null) {
+                                    DocumentReference browseVenueReference = document.getDocumentReference("browseVenue");
+                                    db.collection("BrowseVenue").document(browseVenueReference.getId()).get()
+                                            .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                                    if (task.isSuccessful()) {
+                                                        DocumentSnapshot document = task.getResult();
+                                                        if (document != null) {
+                                                            Log.d(TAG, "DocumentSnapshot data: " + task.getResult().getData());
+                                                            BrowseVenue browseVenue = new BrowseVenue(document);
+
+                                                            boolean flag = false;
+                                                            for (BrowseVenue venue : browseVenueList) {
+                                                                if (venue.getDocumentId().equals(browseVenue.getDocumentId())) {
+                                                                    flag = true;
+                                                                    break;
+                                                                }
+                                                            }
+                                                            if (flag == false) {
+                                                                BrowseFragment.this.browseVenueList.add(browseVenue);
+                                                                BrowseFragment.this.adapter.refresh(null, browseVenueList, null, Type.VENUE_TYPE);
                                                             }
 
                                                         } else {
@@ -210,7 +275,7 @@ public class BrowseFragment extends Fragment implements View.OnClickListener {
                                                             }
                                                             if (flag == false) {
                                                                 BrowseFragment.this.browseVenueTYpeList.add(browseVenueType);
-                                                                BrowseFragment.this.adapter.refresh(null, browseVenueTYpeList, Type.TYPE_TYPE);
+                                                                BrowseFragment.this.adapter.refresh(null, null, browseVenueTYpeList, Type.TYPE_TYPE);
                                                             }
 
                                                         } else {
@@ -271,7 +336,9 @@ public class BrowseFragment extends Fragment implements View.OnClickListener {
                     return;
                 type = Type.values()[index];
                 setActiveData(type.getTypeCode());
-                if (type == Type.VENUE_TYPE) {}
+                if (type == Type.VENUE_TYPE) {
+                    getBrowseVenues();
+                }
                 if (type == Type.TYPE_TYPE)
                     getTypeData();
             }
@@ -285,7 +352,9 @@ public class BrowseFragment extends Fragment implements View.OnClickListener {
                 setActiveData(type.getTypeCode());
                 if (type == Type.EVENT_TYPE)
                     getBrowseEvents();
-                if (type == Type.VENUE_TYPE) {}
+                if (type == Type.VENUE_TYPE) {
+                    getBrowseVenues();
+                }
             }
         });
 
@@ -346,6 +415,7 @@ public class BrowseFragment extends Fragment implements View.OnClickListener {
         } else if (view.getId() == R.id.tv_venue) {
             this.type = Type.VENUE_TYPE;
             this.setActiveData(this.type.getTypeCode());
+            getBrowseVenues();
         } else if (view.getId() == R.id.tv_type) {
             this.type = Type.TYPE_TYPE;
             this.setActiveData(this.type.getTypeCode());

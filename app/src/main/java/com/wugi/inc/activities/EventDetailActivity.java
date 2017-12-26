@@ -12,6 +12,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
 import android.text.TextUtils;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -121,19 +122,24 @@ public class EventDetailActivity extends AppCompatActivity {
                 this.longitude,
                 this.event.getVenue().getGeolocation().getLatitude(),
                 this.event.getVenue().getGeolocation().getLongitude(), "M");
-        tv_distance.setText(String.format("📍 %.03f miles", distance));
+        tv_distance.setText(String.format("%.02f miles", distance));
 
-        String dotStr = "• ";
-        tv_description.setText(dotStr + event.getDescription());
-        tv_theme.setText(dotStr + event.getTheme());
+        String dotStr = "<font color=#438c7e size=32>• </font>";
+        tv_description.setText(Html.fromHtml(dotStr + event.getDescription()));
+        tv_theme.setText(Html.fromHtml(dotStr + event.getTheme()));
 
         ArrayList<String> dressStrs = new ArrayList<String>();
-        for (String dress : event.getDressCode()) {
-            dressStrs.add(dotStr + dress);
+        for (int i=0;i<event.getDressCode().size();i++) {
+            String dress = event.getDressCode().get(i);
+            if (i != event.getDressCode().size()-1) {
+                dressStrs.add(dotStr + dress + "<br>");
+            }
         }
 
-        tv_dress_code.setText(TextUtils.join("\n", dressStrs));
-        tv_age.setText(dotStr + event.getAge());
+        tv_dress_code.setText(Html.fromHtml(TextUtils.join("\n", dressStrs)));
+//        tv_dress_code.setText(TextUtils.join("\n", dressStrs));
+//        tv_age.setText(dotStr + event.getAge());
+        tv_age.setText(Html.fromHtml(dotStr + event.getAge()));
     }
 
     @Override
