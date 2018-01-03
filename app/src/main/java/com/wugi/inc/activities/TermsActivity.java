@@ -10,6 +10,7 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.wugi.inc.R;
@@ -30,6 +31,8 @@ public class TermsActivity extends AppCompatActivity {
     Toolbar toolbar;
     @BindView(R.id.tv_title)
     TextView tv_title;
+    @BindView(R.id.iv_logo)
+    ImageView iv_logo;
 
     ProgressDialog progressDialog;
 
@@ -53,11 +56,15 @@ public class TermsActivity extends AppCompatActivity {
         if (extras.getBoolean("accept")) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(false);
             tv_title.setText("TERMS AND CONDITIONS");
+            tv_title.setVisibility(View.GONE);
+            iv_logo.setVisibility(View.VISIBLE);
             webView.loadUrl("file:///android_asset/termsofuse.html");
         } else if (extras.getBoolean("terms")) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
             tv_title.setText("TERMS AND CONDITIONS");
+            tv_title.setVisibility(View.GONE);
+            iv_logo.setVisibility(View.VISIBLE);
 
             dismissButton.setVisibility(View.GONE);
 
@@ -66,6 +73,8 @@ public class TermsActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
             tv_title.setText("ABOUT WUGI");
+            tv_title.setVisibility(View.VISIBLE);
+            iv_logo.setVisibility(View.GONE);
 
             dismissButton.setVisibility(View.GONE);
 
@@ -75,6 +84,8 @@ public class TermsActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayShowHomeEnabled(true);
 
             tv_title.setText("PRIVACY POLICY");
+            tv_title.setVisibility(View.VISIBLE);
+            iv_logo.setVisibility(View.GONE);
 
             dismissButton.setVisibility(View.GONE);
 

@@ -15,6 +15,8 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Html;
+import android.text.InputType;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -57,6 +59,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.wugi.inc.R;
 import com.wugi.inc.models.User;
+import com.wugi.inc.utils.OnSwipeTouchListener;
 import com.wugi.inc.utils.Utils;
 
 import org.json.JSONException;
@@ -95,8 +98,11 @@ public class SignActivity extends AppCompatActivity {
     @BindView(R.id.upPassword)      EditText upInputPassword;
     @BindView(R.id.upConfirmPassword) EditText upInputConfirm;
     @BindView(R.id.spinner)         Spinner genderSpinner;
+    @BindView(R.id.btn_up_fb)       Button signupFbButton;
     @BindView(R.id.fbButton)
     LoginButton fbButton;
+    @BindView(R.id.ll_sign)
+    LinearLayout ll_sign;
 
     private boolean isSignup;
     private int REQUEST_CAMERA = 0, SELECT_FILE = 1;
@@ -114,6 +120,7 @@ public class SignActivity extends AppCompatActivity {
     private CallbackManager callbackManager;
     private static final String TAG = "SignActivity";
     private User currentUser;
+    boolean bUp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -121,6 +128,9 @@ public class SignActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sign);
 
         ButterKnife.bind(this);
+
+        inputFirstName.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
+        inputLastName.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
 
         //Get Firebase auth instance
         mAuth = FirebaseAuth.getInstance();
@@ -132,8 +142,12 @@ public class SignActivity extends AppCompatActivity {
         mDay = c.get(Calendar.DAY_OF_MONTH);
 
         Bundle extras = getIntent().getExtras();
-        boolean isSignup = extras.getBoolean("isSignup");
+        final boolean isSignup = extras.getBoolean("isSignup");
         this.isSignup = isSignup;
+        bUp = isSignup;
+
+        String fb_str = "<font color=#ffffff size='4'>Sign In With</font>&nbsp;<font color=#ffffff size='6'>f</font>";
+        signupFbButton.setText(Html.fromHtml(fb_str));
 
         initView(isSignup);
 
@@ -244,9 +258,28 @@ public class SignActivity extends AppCompatActivity {
                 Log.d(TAG, "facebook:onError", error);
             }
         });
+
+        ll_sign.setOnTouchListener(new OnSwipeTouchListener(SignActivity.this){
+            public void onSwipeRight() {
+                if (bUp) {
+                    bUp = !bUp;
+                    initView(false);
+                } else
+                    return;
+            }
+            public void onSwipeLeft() {
+                if (bUp)
+                    return;
+                else {
+                    bUp = !bUp;
+                    initView(true);
+                }
+            }
+        });
     }
 
     void initView(boolean isSignup) {
+        bUp = isSignup;
         if (isSignup) {
             signupMarkImageView.setVisibility(View.VISIBLE);
             signinMarkImageView.setVisibility(View.GONE);

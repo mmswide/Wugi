@@ -7,254 +7,304 @@
     android:orientation="vertical"
     tools:context="com.wugi.inc.activities.EventDetailActivity">
     <include layout="@layout/nav_bar" />
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="10dp">
+
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
+
                     <de.hdodenhof.circleimageview.CircleImageView
                         android:id="@+id/iv_venue"
-                        android:layout_width="120dp"
-                        android:layout_height="120dp"
-                        app:civ_border_width="1dp"
+                        android:layout_width="150dp"
+                        android:layout_height="150dp"
+                        android:src="@mipmap/ic_launcher"
                         app:civ_border_color="#FF000000"
-                        android:src="@mipmap/ic_launcher" />
+                        app:civ_border_width="1dp" />
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:orientation="vertical"
                     android:paddingLeft="10dp"
-                    android:paddingRight="10dp"
-                    android:orientation="vertical">
+                    android:paddingRight="10dp">
+
                     <TextView
                         android:id="@+id/tv_venue_name"
+                        style="@android:style/TextAppearance.Large"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textAlignment="center"
                         android:paddingTop="5dp"
-                        style="@android:style/TextAppearance.Medium"
-                        android:text="Koo Koo Room TuesDays"/>
+                        android:text="Koo Koo Room TuesDays"
+                        android:textAlignment="center" />
+
                     <TextView
                         android:id="@+id/tv_address"
-                        android:paddingTop="5dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:paddingTop="5dp"
+                        style="@android:style/TextAppearance.Medium"
+                        android:text="Address"
                         android:textAlignment="center"
-                        android:textSize="17sp"
-                        android:text="Address"/>
+                        android:textSize="17sp" />
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:gravity="center">
+                        android:gravity="center"
+                        android:paddingTop="5dp">
+
                         <ImageView
                             android:layout_width="24dp"
                             android:layout_height="24dp"
                             android:layout_marginRight="10dp"
-                            android:src="@drawable/map_pin"/>
+                            android:src="@drawable/map_pin" />
+
                         <TextView
                             android:id="@+id/tv_distance"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textAlignment="center"
-                            android:paddingTop="5dp"
                             android:paddingBottom="5dp"
-                            android:text="30 miless"/>
+                            android:paddingTop="5dp"
+                            android:textSize="@dimen/text_size"
+                            android:text="30 miless"
+                            android:textAlignment="center" />
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
+
             <LinearLayout
+                android:paddingTop="@dimen/padding"
+                android:paddingBottom="@dimen/padding"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
+
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="10"
-                    android:orientation="vertical"
-                    android:gravity="center">
-                </LinearLayout>
+                    android:gravity="center"
+                    android:orientation="vertical"></LinearLayout>
+
                 <LinearLayout
                     android:id="@+id/ll_call"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="30"
-                    android:orientation="vertical"
-                    android:gravity="center">
+                    android:gravity="center"
+                    android:orientation="vertical">
+
                     <ImageView
                         android:layout_width="@dimen/iv_icon_width"
                         android:layout_height="@dimen/iv_icon_width"
                         android:paddingTop="5dp"
-                        android:src="@drawable/phone"/>
+                        android:src="@drawable/phone" />
+
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:padding="5dp"
-                        android:textAlignment="center"
-                        android:text="Call" />
+                        android:text="Call"
+                        style="@android:style/TextAppearance.Medium"
+                        android:textAlignment="center" />
                 </LinearLayout>
+
                 <LinearLayout
                     android:id="@+id/ll_site"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="20"
-                    android:orientation="vertical"
-                    android:gravity="center">
+                    android:gravity="center"
+                    android:orientation="vertical">
+
                     <ImageView
                         android:layout_width="@dimen/iv_icon_width"
                         android:layout_height="@dimen/iv_icon_width"
                         android:paddingTop="5dp"
-                        android:src="@drawable/website"/>
+                        android:src="@drawable/website" />
+
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:padding="5dp"
-                        android:textAlignment="center"
-                        android:text="WebSite" />
+                        android:text="WebSite"
+                        style="@android:style/TextAppearance.Medium"
+                        android:textAlignment="center" />
                 </LinearLayout>
+
                 <LinearLayout
                     android:id="@+id/ll_map"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="30"
-                    android:orientation="vertical"
-                    android:gravity="center">
+                    android:gravity="center"
+                    android:orientation="vertical">
+
                     <ImageView
                         android:layout_width="@dimen/iv_icon_width"
                         android:layout_height="@dimen/iv_icon_width"
                         android:paddingTop="5dp"
-                        android:src="@drawable/map"/>
+                        android:src="@drawable/map" />
+
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:padding="5dp"
-                        android:textAlignment="center"
-                        android:text="Map" />
+                        android:text="Map"
+                        style="@android:style/TextAppearance.Medium"
+                        android:textAlignment="center" />
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="10"
-                    android:orientation="vertical"
-                    android:gravity="center">
-                </LinearLayout>
+                    android:gravity="center"
+                    android:orientation="vertical"></LinearLayout>
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:orientation="vertical"
                 android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:orientation="vertical">
+                android:paddingRight="10dp">
+
                 <TextView
-                    android:paddingTop="5dp"
-                    android:paddingBottom="5dp"
+                    style="@android:style/TextAppearance.Medium"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    style="@android:style/TextAppearance.Medium"
-                    android:textColor="@color/black"
-                    android:text="VENUE TYPE"/>
+                    android:paddingBottom="5dp"
+                    android:paddingTop="5dp"
+                    android:text="VENUE TYPE"
+                    android:textColor="@color/black" />
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="1px"
                     android:background="@color/black"></LinearLayout>
+
                 <TextView
                     android:id="@+id/tv_venue_type"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingTop="5dp"
+                    android:textSize="@dimen/text_size"
                     android:paddingBottom="15dp"
-                    android:text="venue type"/>
+                    android:paddingTop="5dp"
+                    android:text="venue type" />
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:orientation="vertical"
                 android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:orientation="vertical">
+                android:paddingRight="10dp">
+
                 <TextView
-                    android:paddingTop="5dp"
-                    android:paddingBottom="5dp"
+                    style="@android:style/TextAppearance.Medium"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    style="@android:style/TextAppearance.Medium"
-                    android:textColor="@color/black"
-                    android:text="NEIGHBORHOOD"/>
+                    android:paddingBottom="5dp"
+                    android:paddingTop="5dp"
+                    android:text="NEIGHBORHOOD"
+                    android:textColor="@color/black" />
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="1px"
                     android:background="@color/black"></LinearLayout>
+
                 <TextView
                     android:id="@+id/tv_neighbor"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingTop="5dp"
+                    android:textSize="@dimen/text_size"
                     android:paddingBottom="15dp"
-                    android:text="neighbor"/>
+                    android:paddingTop="5dp"
+                    android:text="neighbor" />
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:orientation="vertical"
                 android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:orientation="vertical">
+                android:paddingRight="10dp">
+
                 <TextView
-                    android:paddingTop="5dp"
-                    android:paddingBottom="5dp"
+                    style="@android:style/TextAppearance.Medium"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    style="@android:style/TextAppearance.Medium"
-                    android:textColor="@color/black"
-                        android:text="PARKING"/>
+                    android:paddingBottom="5dp"
+                    android:paddingTop="5dp"
+                    android:text="PARKING"
+                    android:textColor="@color/black" />
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="1px"
                     android:background="@color/black"></LinearLayout>
+
                 <TextView
                     android:id="@+id/tv_parking"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingTop="5dp"
+                    android:textSize="@dimen/text_size"
                     android:paddingBottom="15dp"
-                    android:text="parking"/>
+                    android:paddingTop="5dp"
+                    android:text="parking" />
             </LinearLayout>
+
             <RelativeLayout
+                android:id="@+id/rl_gallery"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
                 android:gravity="center"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp">
+
                 <TextView
-                    android:paddingTop="5dp"
-                    android:paddingBottom="5dp"
+                    style="@android:style/TextAppearance.Medium"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    style="@android:style/TextAppearance.Medium"
-                    android:textColor="@color/black"
-                    android:text="PHOTO GALLERY"/>
+                    android:paddingBottom="5dp"
+                    android:paddingTop="5dp"
+                    android:text="PHOTO GALLERY"
+                    android:textColor="@color/black" />
+
                 <ImageView
                     android:id="@+id/iv_arrow"
                     android:layout_width="@dimen/arrow_size"
                     android:layout_height="@dimen/arrow_size"
-                    android:layout_centerVertical="true"
                     android:layout_alignParentRight="true"
-                    android:src="@drawable/right_arrow"/>
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/right_arrow" />
+
                 <TextView
+                    android:id="@+id/tv_photo_num"
+                    style="@android:style/TextAppearance.Medium"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingTop="5dp"
-                    android:paddingBottom="5dp"
-                    style="@android:style/TextAppearance.Medium"
-
                     android:layout_toLeftOf="@+id/iv_arrow"
-                    android:text="0"/>
+                    android:paddingBottom="5dp"
+                    android:paddingTop="5dp"
+                    android:text="0" />
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="1px"

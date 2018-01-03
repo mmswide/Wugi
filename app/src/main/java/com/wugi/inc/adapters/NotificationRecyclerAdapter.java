@@ -1,6 +1,7 @@
 package com.wugi.inc.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.support.v7.widget.LinearLayoutManager;
@@ -9,9 +10,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 import com.wugi.inc.R;
+import com.wugi.inc.activities.PhotoActivity;
 import com.wugi.inc.models.Event;
+import com.wugi.inc.models.Gallery;
 import com.wugi.inc.models.Notification;
 
 import java.util.ArrayList;
@@ -88,7 +92,7 @@ public class NotificationRecyclerAdapter extends RecyclerView.Adapter<RecyclerVi
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if(holder instanceof NotificationViewHolder){
             NotificationViewHolder viewHolder = (NotificationViewHolder) holder;
-            Notification notification = notificationList.get(position);
+            final Notification notification = notificationList.get(position);
             viewHolder.tv_title.setText(notification.getTitle());
 
             String timeDiff = this.printDifference(notification.getCreatedAt(), new Date());
@@ -102,6 +106,20 @@ public class NotificationRecyclerAdapter extends RecyclerView.Adapter<RecyclerVi
                 viewHolder.recyclerView.setLayoutManager(layoutManager);
 
                 viewHolder.recyclerView.setAdapter(this.recyclerAdapter);
+            }
+
+            if (notification.getGallery() != null) {
+                viewHolder.notification_layout.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Gallery gallery = notification.getGallery();
+                        Intent intent = new Intent(mContext, PhotoActivity.class);
+                        Gson gson = new Gson();
+                        String jsonGalleryString = gson.toJson(gallery);
+                        intent.putExtra("gallery", jsonGalleryString);
+                        mContext.startActivity(intent);
+                    }
+                });
             }
         }
     }

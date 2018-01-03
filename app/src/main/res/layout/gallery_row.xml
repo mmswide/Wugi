@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@color/White"
     xmlns:card_view="http://schemas.android.com/apk/res-auto">
     <!--
     grid items for RecyclerView
@@ -12,6 +13,7 @@
         android:layout_height="match_parent"
         android:layout_gravity="center"
         android:elevation="3dp"
+        card_view:cardBackgroundColor="@color/White"
         card_view:cardCornerRadius="@dimen/corner_radius">
         <com.wugi.inc.views.SquareImageView
             android:id="@+id/thumbnail"

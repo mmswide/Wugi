@@ -9,7 +9,7 @@
         android:id="@+id/tv_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="22sp"
+        android:textSize="@dimen/title_size"
         android:padding="5dp"
         android:textAlignment="center"
         android:text="LGBT Events"/>
@@ -18,7 +18,7 @@
         android:id="@+id/tv_date"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        style="@android:style/TextAppearance.Medium"
+        android:textSize="22sp"
         android:padding="5dp"
         android:textAlignment="center"
         android:text="December 19th 2017"/>

@@ -19,6 +19,8 @@ public class OnSwipeTouchListener implements OnTouchListener {
         gestureDetector = new GestureDetector(ctx, new GestureListener());
     }
 
+
+
     @Override
     public boolean onTouch(View v, MotionEvent event) {
         return gestureDetector.onTouchEvent(event);

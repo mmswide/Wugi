@@ -13,8 +13,10 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.text.TextUtils;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -42,9 +44,11 @@ public class VenueDetailActivity extends AppCompatActivity {
     @BindView(R.id.ll_call)         LinearLayout ll_call;
     @BindView(R.id.ll_site)         LinearLayout ll_site;
     @BindView(R.id.ll_map)          LinearLayout ll_map;
-    @BindView(R.id.tv_venue_type)  TextView tv_venue_type;
-    @BindView(R.id.tv_neighbor)        TextView tv_neighbor;
-    @BindView(R.id.tv_parking)   TextView tv_parking;
+    @BindView(R.id.tv_venue_type)   TextView tv_venue_type;
+    @BindView(R.id.tv_neighbor)     TextView tv_neighbor;
+    @BindView(R.id.tv_parking)      TextView tv_parking;
+    @BindView(R.id.rl_gallery)      RelativeLayout rl_gallery;
+    @BindView(R.id.tv_photo_num)    TextView tv_photo_num;
 
     Venue venue;
     private static final int REQUEST_PHONE_CALL = 1;
@@ -125,6 +129,13 @@ public class VenueDetailActivity extends AppCompatActivity {
         }
 
         tv_parking.setText(Html.fromHtml(TextUtils.join("\n", parkingStrs)));
+
+        if (this.venue.getRecentPhotos() == null) {
+            rl_gallery.setVisibility(View.GONE);
+        } else {
+            rl_gallery.setVisibility(View.VISIBLE);
+            tv_photo_num.setText(this.venue.getRecentPhotos().size());
+        }
     }
 
     @OnClick(R.id.ll_call)
@@ -163,5 +174,10 @@ public class VenueDetailActivity extends AppCompatActivity {
         Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
                 Uri.parse(url));
         startActivity(intent);
+    }
+
+    @OnClick(R.id.rl_gallery)
+    void showGallery() {
+
     }
 }

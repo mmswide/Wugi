@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.SwitchCompat;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,7 +17,6 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.Switch;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -83,7 +83,7 @@ public class SettingFragment extends Fragment {
     @BindView(R.id.iv_profile)
     CircleImageView iv_profile;
     @BindView(R.id.switch_notification)
-    Switch switch_notification;
+    SwitchCompat switch_notification;
     @BindView(R.id.edit_first)
     EditText edit_first;
     @BindView(R.id.edit_last)

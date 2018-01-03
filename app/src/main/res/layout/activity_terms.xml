@@ -35,6 +35,17 @@
                 android:textStyle="bold"
                 android:gravity="center"
                 android:layout_gravity="center"/>
+            <ImageView
+                android:id="@+id/iv_logo"
+                android:layout_width="wrap_content"
+                android:layout_height="?attr/actionBarSize"
+                android:padding="@dimen/margin"
+                android:gravity="center"
+                android:adjustViewBounds="true"
+                android:src="@drawable/logo"
+                android:layout_gravity="center"
+                android:visibility="gone"
+                android:scaleType="fitCenter"/>
         </android.support.v7.widget.Toolbar>
 
     </android.support.design.widget.AppBarLayout>

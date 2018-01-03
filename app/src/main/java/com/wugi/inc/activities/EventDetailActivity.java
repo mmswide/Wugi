@@ -199,6 +199,15 @@ public class EventDetailActivity extends AppCompatActivity {
         i.setData(Uri.parse(url));
         startActivity(i);
     }
+    @OnClick(R.id.tv_address)
+    void showDirection() {
+        String url = String.format("http://maps.google.com/maps?saddr=%.06f&daddr=%.06f",
+                this.event.getVenue().getGeolocation().getLatitude(),
+                this.event.getVenue().getGeolocation().getLongitude());
+        Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
+                Uri.parse(url));
+        startActivity(intent);
+    }
 
     @OnClick(R.id.ll_map)
     void onOpenMap() {

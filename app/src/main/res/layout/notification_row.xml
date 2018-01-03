@@ -2,28 +2,47 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="10dp">
-    <TextView
-        android:id="@+id/tv_title"
+    android:id="@+id/notification_layout"
+    android:padding="10dp"
+    android:layout_marginLeft="@dimen/margin_left"
+    android:layout_marginRight="@dimen/margin_left">
+    <RelativeLayout
+        android:id="@+id/rl_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Halloween Weekend!"
-        style="@android:style/TextAppearance.Medium"/>
-    <TextView
-        android:id="@+id/tv_date"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tv_title"
-        android:gravity="right"
-        android:text="2 months ago"/>
+        android:paddingTop="@dimen/padding"
+        android:paddingBottom="@dimen/padding"
+        >
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Halloween Weekend!"
+            android:textSize="@dimen/text_size"
+            android:layout_centerVertical="true"
+            style="@android:style/TextAppearance.Large"/>
+        <TextView
+            android:id="@+id/tv_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:text="2 months ago"
+            style="@style/Base.TextAppearance.AppCompat.Medium"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"/>
+    </RelativeLayout>
+
+
     <TextView
         android:id="@+id/tv_description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tv_date"
+        android:layout_below="@+id/rl_title"
+        style="@style/Base.TextAppearance.AppCompat.Medium"
         android:text="description"/>
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_view"
+        android:paddingTop="@dimen/padding"
         android:layout_below="@+id/tv_description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

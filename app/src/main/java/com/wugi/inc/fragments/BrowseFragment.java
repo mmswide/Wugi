@@ -331,20 +331,6 @@ public class BrowseFragment extends Fragment implements View.OnClickListener {
         recyclerView.setOnTouchListener(new OnSwipeTouchListener(mContext) {
             @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
             public void onSwipeRight() {
-                int index = type.getTypeCode() + 1;
-                if (index > 2)
-                    return;
-                type = Type.values()[index];
-                setActiveData(type.getTypeCode());
-                if (type == Type.VENUE_TYPE) {
-                    getBrowseVenues();
-                }
-                if (type == Type.TYPE_TYPE)
-                    getTypeData();
-            }
-
-            @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-            public void onSwipeLeft() {
                 int index = type.getTypeCode() - 1;
                 if (index < 0)
                     return;
@@ -355,6 +341,20 @@ public class BrowseFragment extends Fragment implements View.OnClickListener {
                 if (type == Type.VENUE_TYPE) {
                     getBrowseVenues();
                 }
+            }
+
+            @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+            public void onSwipeLeft() {
+                int index = type.getTypeCode() + 1;
+                if (index > 2)
+                    return;
+                type = Type.values()[index];
+                setActiveData(type.getTypeCode());
+                if (type == Type.VENUE_TYPE) {
+                    getBrowseVenues();
+                }
+                if (type == Type.TYPE_TYPE)
+                    getTypeData();
             }
         });
 

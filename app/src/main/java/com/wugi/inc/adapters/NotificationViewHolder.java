@@ -3,6 +3,7 @@ package com.wugi.inc.adapters;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.wugi.inc.R;
@@ -12,6 +13,7 @@ import com.wugi.inc.R;
  */
 
 public class NotificationViewHolder extends RecyclerView.ViewHolder {
+    public RelativeLayout notification_layout;
     public TextView tv_title;
     public TextView tv_date;
     public TextView tv_description;
@@ -19,6 +21,7 @@ public class NotificationViewHolder extends RecyclerView.ViewHolder {
 
     public NotificationViewHolder(View view) {
         super(view);
+        notification_layout = (RelativeLayout) view.findViewById(R.id.notification_layout);
         tv_title = (TextView) view.findViewById(R.id.tv_title);
         tv_date = (TextView) view.findViewById(R.id.tv_date);
         tv_description = (TextView) view.findViewById(R.id.tv_description);

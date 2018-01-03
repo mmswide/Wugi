@@ -2,6 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/White"
     tools:context="com.wugi.inc.fragments.SettingFragment">
 
     <LinearLayout
@@ -18,7 +19,7 @@
                 android:src="@drawable/profile"
                 android:layout_width="wrap_content"
                 android:layout_gravity="center"
-                android:layout_height="@dimen/iv_profile_height" />
+                android:layout_height="@dimen/iv_setting_height" />
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
@@ -118,10 +119,11 @@
                 android:layout_centerVertical="true"
                 style="@android:style/TextAppearance.Medium"
                 android:text="PUSH NOTIFICATIONS"/>
-            <Switch
+            <android.support.v7.widget.SwitchCompat
                 android:id="@+id/switch_notification"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:theme="@style/SwitchCompatTheme"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"/>
         </RelativeLayout>

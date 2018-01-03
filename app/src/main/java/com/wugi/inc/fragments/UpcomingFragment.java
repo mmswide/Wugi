@@ -404,15 +404,15 @@ public class UpcomingFragment extends Fragment {
 
         recyclerView.setOnTouchListener(new OnSwipeTouchListener(mContext) {
             public void onSwipeRight() {
-                int index = selectedIndex + 1;
-                if (index > 6)
+                int index = selectedIndex - 1;
+                if (index < 0)
                     return;
                 setActiveData(index);
                 getSelectedData(index);
             }
             public void onSwipeLeft() {
-                int index = selectedIndex - 1;
-                if (index < 0)
+                int index = selectedIndex + 1;
+                if (index > 6)
                     return;
                 setActiveData(index);
                 getSelectedData(index);

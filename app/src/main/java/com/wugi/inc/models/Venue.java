@@ -15,6 +15,7 @@ public class Venue {
     private ArrayList<String> address;
     private GeoPoint geolocation;
     private ArrayList<String> parking;
+    private ArrayList<String> recentPhotos;
     private boolean active;
     private String imageThumbURL;
     private String name;
@@ -37,6 +38,8 @@ public class Venue {
             this.geolocation = document.getGeoPoint("geolocation");
         if (document.contains("parking"))
             this.parking = (ArrayList<String>) document.get("parking");
+        if (document.contains("recentPhotos"))
+            this.recentPhotos = (ArrayList<String>) document.get("recentPhotos");
         if (document.contains("active"))
             this.active = document.getBoolean("active");
         if (document.contains("imageThumbURL"))
@@ -61,6 +64,14 @@ public class Venue {
             this.openLate = document.getBoolean("openLate");
         if (document.contains("deleted"))
             this.deleted = document.getBoolean("deleted");
+    }
+
+    public ArrayList<String> getRecentPhotos() {
+        return recentPhotos;
+    }
+
+    public void setRecentPhotos(ArrayList<String> recentPhotos) {
+        this.recentPhotos = recentPhotos;
     }
 
     public String getDocumentId() {
