@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -17,7 +18,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.InputType;
+import android.text.Layout;
+import android.text.Spannable;
+import android.text.SpannableString;
 import android.text.TextUtils;
+import android.text.style.AlignmentSpan;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.RelativeSizeSpan;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -29,6 +36,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.facebook.AccessToken;
@@ -78,6 +86,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
+import mehdi.sakout.fancybuttons.FancyButton;
 
 public class SignActivity extends AppCompatActivity {
 
@@ -98,7 +107,8 @@ public class SignActivity extends AppCompatActivity {
     @BindView(R.id.upPassword)      EditText upInputPassword;
     @BindView(R.id.upConfirmPassword) EditText upInputConfirm;
     @BindView(R.id.spinner)         Spinner genderSpinner;
-    @BindView(R.id.btn_up_fb)       Button signupFbButton;
+    @BindView(R.id.btn_up_fb)
+    FancyButton signupFbButton;
     @BindView(R.id.fbButton)
     LoginButton fbButton;
     @BindView(R.id.ll_sign)
@@ -146,8 +156,16 @@ public class SignActivity extends AppCompatActivity {
         this.isSignup = isSignup;
         bUp = isSignup;
 
-        String fb_str = "<font color=#ffffff size='4'>Sign In With</font>&nbsp;<font color=#ffffff size='6'>f</font>";
-        signupFbButton.setText(Html.fromHtml(fb_str));
+//        String leftText = getString(R.string.sign_f);
+//        String rightText = getString(R.string.fb);
+//        String s= leftText + " " + rightText;
+//        SpannableString ss1=  new SpannableString(s);
+//        ss1.setSpan(new ForegroundColorSpan(Color.WHITE), 0, 12, 0);// set color
+//        ss1.setSpan(new RelativeSizeSpan(1.5f), 12, ss1.length(), 0); // set size
+//
+//        ss1.setSpan(new AlignmentSpan.Standard(Layout.Alignment.ALIGN_OPPOSITE), leftText.length() + 1, leftText.length() + 1 +rightText.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+//        signupFbButton.setText(ss1);
 
         initView(isSignup);
 
