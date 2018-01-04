@@ -125,6 +125,8 @@ public class VenueDetailActivity extends AppCompatActivity {
             String parking = venue.getParking().get(i);
             if (i != venue.getParking().size()-1) {
                 parkingStrs.add(dotStr + parking + "<br>");
+            } else {
+                parkingStrs.add(dotStr + parking);
             }
         }
 
@@ -133,8 +135,12 @@ public class VenueDetailActivity extends AppCompatActivity {
         if (this.venue.getRecentPhotos() == null) {
             rl_gallery.setVisibility(View.GONE);
         } else {
-            rl_gallery.setVisibility(View.VISIBLE);
-            tv_photo_num.setText(this.venue.getRecentPhotos().size());
+            if (this.venue.getRecentPhotos().size() > 0) {
+                rl_gallery.setVisibility(View.VISIBLE);
+                tv_photo_num.setText(String.valueOf(this.venue.getRecentPhotos().size()));
+            } else {
+                rl_gallery.setVisibility(View.GONE);
+            }
         }
     }
 

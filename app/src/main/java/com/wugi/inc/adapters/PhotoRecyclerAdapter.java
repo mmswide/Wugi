@@ -61,7 +61,7 @@ public class PhotoRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.View
 
         if(holder instanceof PhotoHeaderViewHolder){
             PhotoHeaderViewHolder headerViewHolder = (PhotoHeaderViewHolder) holder;
-            SimpleDateFormat dateFormat = new SimpleDateFormat("MMMM dd yyyy");
+            SimpleDateFormat dateFormat = new SimpleDateFormat("EEEE, MMMM dd, yyyy");
             String eventDateStr = dateFormat.format(gallery.getEventDate());
             headerViewHolder.tv_name.setText(gallery.getTitle());
             headerViewHolder.tv_date.setText(eventDateStr);

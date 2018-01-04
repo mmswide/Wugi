@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/White"
     tools:context="com.wugi.inc.activities.PhotoActivity">
 
     <include layout="@layout/nav_bar" />
@@ -12,6 +13,7 @@
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/White"
         android:padding="@dimen/item_margin"
         android:scrollbars="vertical"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />

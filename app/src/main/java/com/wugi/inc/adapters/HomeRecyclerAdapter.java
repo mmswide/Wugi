@@ -86,7 +86,8 @@ public class HomeRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     if (currentPage == NUM_PAGES) {
                         currentPage = 0;
                     }
-                    viewPager.setCurrentItem(currentPage++, true);
+                    if (currentPage < NUM_PAGES)
+                        viewPager.setCurrentItem(currentPage++, true);
                 }
             };
             Timer swipeTimer = new Timer();

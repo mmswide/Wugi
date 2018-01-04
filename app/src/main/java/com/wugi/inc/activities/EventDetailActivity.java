@@ -133,6 +133,8 @@ public class EventDetailActivity extends AppCompatActivity {
             String dress = event.getDressCode().get(i);
             if (i != event.getDressCode().size()-1) {
                 dressStrs.add(dotStr + dress + "<br>");
+            } else {
+                dressStrs.add(dotStr + dress);
             }
         }
 

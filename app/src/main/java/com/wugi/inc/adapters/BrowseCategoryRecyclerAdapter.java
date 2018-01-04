@@ -96,6 +96,7 @@ public class BrowseCategoryRecyclerAdapter extends RecyclerView.Adapter<Recycler
 
             switch (this.type) {
                 case EVENT_TYPE:
+                    ((BrowseCategoryViewHolder) holder).card_view.setRadius(mContext.getResources().getDimension(R.dimen.corner_radius));
                     final Event event = eventList.get(position - 1);
                     Picasso.with(mContext).load(event.getImageThumbURL()).into(((BrowseCategoryViewHolder) holder).thumbnail);
                     ((BrowseCategoryViewHolder) holder).thumbnail.setOnClickListener(new View.OnClickListener() {
@@ -112,6 +113,7 @@ public class BrowseCategoryRecyclerAdapter extends RecyclerView.Adapter<Recycler
 
                     break;
                 case VENUE_TYPE:
+                    ((BrowseCategoryViewHolder) holder).card_view.setRadius(0);
                     Event venueEvent = venueEventList.get(position - 1);
                     final Venue eventVenue = venueEvent.getVenue();
                     if (eventVenue != null) {
@@ -129,6 +131,7 @@ public class BrowseCategoryRecyclerAdapter extends RecyclerView.Adapter<Recycler
                     }
                     break;
                 case TYPE_TYPE:
+                    ((BrowseCategoryViewHolder) holder).card_view.setRadius(0);
                     final Venue venueType = venueTypeList.get(position - 1);
                     Picasso.with(mContext).load(venueType.getImageThumbURL()).into(((BrowseCategoryViewHolder) holder).thumbnail);
                     ((BrowseCategoryViewHolder) holder).thumbnail.setOnClickListener(new View.OnClickListener() {
