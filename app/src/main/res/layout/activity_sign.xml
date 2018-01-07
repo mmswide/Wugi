@@ -31,7 +31,7 @@
                     android:adjustViewBounds="true"
                     android:background="@drawable/dismiss"/>
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center"
                     android:weightSum="100">
@@ -117,12 +117,10 @@
                         android:layout_weight="1"
                         android:hint="E-mail"
                         android:lines="1"
+                        android:paddingBottom="@dimen/space_height"
                         android:inputType="textEmailAddress"
                         android:textCursorDrawable="@null"
                         android:textAlignment="center"/>
-                    <Space
-                        android:layout_width="@dimen/space_width"
-                        android:layout_height="@dimen/space_height" />
 
                     <EditText
                         android:id="@+id/inPassword"
@@ -131,6 +129,7 @@
                         android:layout_weight="1"
                         android:hint="Password"
                         android:lines="1"
+                        android:paddingBottom="@dimen/space_height"
                         android:textCursorDrawable="@null"
                         android:inputType="textPassword"
                         android:textAlignment="center" />
@@ -251,17 +250,16 @@
                             android:lines="1"
                             android:hint="First"
                             android:textCursorDrawable="@null"
+                            android:paddingBottom="@dimen/space_height"
                             android:inputType="text"
                             android:textAlignment="center"/>
-                        <Space
-                            android:layout_width="@dimen/space_width"
-                            android:layout_height="@dimen/space_height" />
                         <EditText
                             android:id="@+id/lastName"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:hint="Last"
                             android:textCursorDrawable="@null"
+                            android:paddingBottom="@dimen/space_height"
                             android:inputType="text"
                             android:lines="1"
                             android:textAlignment="center"/>
@@ -282,10 +280,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
-
-                    <Space
-                        android:layout_width="@dimen/space_width"
-                        android:layout_height="@dimen/space_height" />
                     <EditText
                         android:id="@+id/upEmail"
                         android:layout_width="match_parent"
@@ -293,13 +287,10 @@
                         android:layout_weight="1"
                         android:hint="E-mail"
                         android:textCursorDrawable="@null"
+                        android:paddingBottom="@dimen/space_height"
                         android:lines="1"
                         android:inputType="textEmailAddress"
                         android:textAlignment="center"/>
-
-                    <Space
-                        android:layout_width="@dimen/space_width"
-                        android:layout_height="@dimen/space_height" />
                     <EditText
                         android:id="@+id/upPassword"
                         android:layout_width="match_parent"
@@ -307,18 +298,16 @@
                         android:layout_weight="1"
                         android:hint="Password"
                         android:textCursorDrawable="@null"
+                        android:paddingBottom="@dimen/space_height"
                         android:lines="1"
                         android:inputType="textPassword"
                         android:textAlignment="center" />
-
-                    <Space
-                        android:layout_width="@dimen/space_width"
-                        android:layout_height="@dimen/space_height" />
                     <EditText
                         android:id="@+id/upConfirmPassword"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textCursorDrawable="@null"
+                        android:paddingBottom="@dimen/space_height"
                         android:layout_weight="1"
                         android:lines="1"
                         android:hint="Confirm Password"

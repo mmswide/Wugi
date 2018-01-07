@@ -25,57 +25,76 @@
             android:layout_width="match_parent"
             android:layout_height="1px"
             android:background="@android:color/darker_gray"></LinearLayout>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="EDIT PROFILE"
-            android:layout_marginTop="@dimen/margin_left"
-            android:layout_marginLeft="@dimen/margin_left"
-            android:paddingBottom="@dimen/padding"
-            android:fontFamily="sans-serif-medium"
-            style="@android:style/TextAppearance.Medium"/>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:background="@android:color/darker_gray"></LinearLayout>
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center"
             android:paddingTop="@dimen/padding"
-            android:layout_marginLeft="@dimen/margin_left"
-            android:layout_marginRight="@dimen/margin_left">
+            android:paddingBottom="@dimen/padding"
+            android:layout_marginRight="@dimen/padding"
+            android:layout_marginLeft="@dimen/margin_left">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/text_size"
-                android:text="FIRST NAME"/>
-            <EditText
-                android:id="@+id/edit_first"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@android:color/transparent"
-                android:lines="1"
-                android:gravity="right"/>
-        </LinearLayout>
+                android:text="EDIT PROFILE"
+                android:fontFamily="sans-serif-medium"
+                style="@android:style/TextAppearance.Medium"/>
+            <ImageView
+                android:id="@+id/iv_collapse"
+                android:layout_width="@dimen/arrow_size"
+                android:layout_height="@dimen/arrow_size"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/down_arrow"/>
+        </RelativeLayout>
+
         <LinearLayout
+            android:id="@+id/ll_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="@dimen/padding"
-            android:paddingBottom="@dimen/padding"
-            android:layout_marginLeft="@dimen/margin_left"
-            android:layout_marginRight="@dimen/margin_left">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="@dimen/text_size"
-                android:text="LAST NAME"/>
-            <EditText
-                android:id="@+id/edit_last"
-                android:background="@android:color/transparent"
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@android:color/darker_gray"></LinearLayout>
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:lines="1"
-                android:gravity="right"/>
+                android:paddingTop="@dimen/padding"
+                android:layout_marginLeft="@dimen/margin_left"
+                android:layout_marginRight="@dimen/margin_left">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/text_size"
+                    android:text="FIRST NAME"/>
+                <EditText
+                    android:id="@+id/edit_first"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:lines="1"
+                    android:gravity="right"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/padding"
+                android:paddingBottom="@dimen/padding"
+                android:layout_marginLeft="@dimen/margin_left"
+                android:layout_marginRight="@dimen/margin_left">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/text_size"
+                    android:text="LAST NAME"/>
+                <EditText
+                    android:id="@+id/edit_last"
+                    android:background="@android:color/transparent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:lines="1"
+                    android:gravity="right"/>
+            </LinearLayout>
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"

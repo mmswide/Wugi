@@ -21,7 +21,10 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.wugi.inc.R;
+import com.wugi.inc.activities.MainActivity;
 import com.wugi.inc.adapters.GalleryRecyclerAdapter;
 import com.wugi.inc.models.Event;
 import com.wugi.inc.models.Gallery;
@@ -30,7 +33,9 @@ import com.wugi.inc.utils.Utils;
 import com.wugi.inc.views.GridSpacingItemDecoration;
 import com.wugi.inc.views.MarginDecoration;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.List;
 
 import static android.content.ContentValues.TAG;
 
@@ -136,7 +141,6 @@ public class GalleryFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-
         getGalleries();
     }
 

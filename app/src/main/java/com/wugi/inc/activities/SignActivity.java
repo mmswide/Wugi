@@ -8,7 +8,10 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.Matrix;
+import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -80,7 +83,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -115,7 +120,7 @@ public class SignActivity extends AppCompatActivity {
     LinearLayout ll_sign;
 
     private boolean isSignup;
-    private int REQUEST_CAMERA = 0, SELECT_FILE = 1;
+    private int REQUEST_CAMERA = 1888, SELECT_FILE = 1889;
     private String userChoosenTask;
     private int mYear, mMonth, mDay;
     private FirebaseAuth mAuth;
@@ -294,6 +299,27 @@ public class SignActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    /**
+     * Here we store the file url as it will be null after returning from camera
+     * app
+     */
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        // save file url in bundle as it will be null on scren orientation
+        // changes
+        outState.putParcelable("file_uri", mUri);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+
+        // get the file url
+        mUri = savedInstanceState.getParcelable("file_uri");
     }
 
     void initView(boolean isSignup) {
@@ -644,7 +670,7 @@ public class SignActivity extends AppCompatActivity {
             mDay = selectedDay;
             mMonth = selectedMonth;
             mYear = selectedYear;
-            dateStr = selectedDay + "-" + (selectedMonth + 1) + "-"
+            dateStr = selectedDay + "/" + (selectedMonth + 1) + "/"
                     + selectedYear;
             datePickerButton.setText(dateStr);
         }
@@ -677,8 +703,24 @@ public class SignActivity extends AppCompatActivity {
 
     private void cameraIntent()
     {
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        startActivityForResult(intent, REQUEST_CAMERA);
+        Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+
+        if (cameraIntent.resolveActivity(getPackageManager()) != null) {
+            // Create the File where the photo should go
+            File photoFile = null;
+            try {
+                photoFile = createImageFile();
+            } catch (IOException ex) {
+                // Error occurred while creating the File
+                Log.i(TAG, "IOException");
+            }
+            // Continue only if the File was successfully created
+            if (photoFile != null) {
+                cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(photoFile));
+                mUri = Uri.fromFile(photoFile);
+                startActivityForResult(cameraIntent, REQUEST_CAMERA);
+            }
+        }
     }
 
     private void galleryIntent()
@@ -724,7 +766,10 @@ public class SignActivity extends AppCompatActivity {
         if (data != null) {
             try {
                 mUri = data.getData();
-                bm = MediaStore.Images.Media.getBitmap(getApplicationContext().getContentResolver(), data.getData());
+                bm = MediaStore.Images.Media.getBitmap(getApplicationContext().getContentResolver(), mUri);
+
+                bm = rotateImageIfRequired(bm, mUri);
+                bm = getResizedBitmap(bm, 500);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -734,24 +779,90 @@ public class SignActivity extends AppCompatActivity {
     }
 
     private void onCaptureImageResult(Intent data) {
-        Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
-        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        thumbnail.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
-        File destination = new File(Environment.getExternalStorageDirectory(),
-                System.currentTimeMillis() + ".jpg");
-        FileOutputStream fo;
+        Bitmap bm=null;
         try {
-            mUri = data.getData();
-            destination.createNewFile();
-            fo = new FileOutputStream(destination);
-            fo.write(bytes.toByteArray());
-            fo.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
+
+            // bimatp factory
+//            BitmapFactory.Options options = new BitmapFactory.Options();
+//
+//            // downsizing image as it throws OutOfMemory Exception for larger
+//            // images
+//            options.inSampleSize = 8;
+//
+//            final Bitmap bitmap = BitmapFactory.decodeFile(mUri.getPath(),
+//                    options);
+//
+//            ivImage.setImageBitmap(bitmap);
+
+            bm = MediaStore.Images.Media.getBitmap(this.getContentResolver(), mUri);
+
+//            bm = rotateImageIfRequired(bm, mUri);
+            bm = getResizedBitmap(bm, 500);
+
+            ivImage.setImageBitmap(bm);
+
         } catch (IOException e) {
             e.printStackTrace();
         }
-        profileBitmap = thumbnail;
-        ivImage.setImageBitmap(thumbnail);
     }
+
+
+
+    private File createImageFile() throws IOException {
+        // Create an image file name
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = "JPEG_" + timeStamp + "_";
+        File storageDir = Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_PICTURES);
+        File image = File.createTempFile(
+                imageFileName,  // prefix
+                ".jpg",         // suffix
+                storageDir      // directory
+        );
+
+        // Save a file: path for use with ACTION_VIEW intents
+        return image;
+    }
+
+
+    private static Bitmap rotateImageIfRequired(Bitmap img, Uri selectedImage) throws IOException {
+
+        ExifInterface ei = new ExifInterface(selectedImage.getPath());
+        int orientation = ei.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
+
+        switch (orientation) {
+            case ExifInterface.ORIENTATION_ROTATE_90:
+                return rotateImage(img, 90);
+            case ExifInterface.ORIENTATION_ROTATE_180:
+                return rotateImage(img, 180);
+            case ExifInterface.ORIENTATION_ROTATE_270:
+                return rotateImage(img, 270);
+            default:
+                return img;
+        }
+    }
+
+    private static Bitmap rotateImage(Bitmap img, int degree) {
+        Matrix matrix = new Matrix();
+        matrix.postRotate(degree);
+        Bitmap rotatedImg = Bitmap.createBitmap(img, 0, 0, img.getWidth(), img.getHeight(), matrix, true);
+        img.recycle();
+        return rotatedImg;
+    }
+
+    public Bitmap getResizedBitmap(Bitmap image, int maxSize) {
+        int width = image.getWidth();
+        int height = image.getHeight();
+
+        float bitmapRatio = (float) width / (float) height;
+        if (bitmapRatio > 0) {
+            width = maxSize;
+            height = (int) (width / bitmapRatio);
+        } else {
+            height = maxSize;
+            width = (int) (height * bitmapRatio);
+        }
+        return Bitmap.createScaledBitmap(image, width, height, true);
+    }
+
 }

@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -48,6 +49,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
+import butterknife.BindInt;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -80,6 +82,8 @@ public class SettingFragment extends Fragment {
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     private Boolean bPushNotification = false;
 
+    private Boolean bShowNameLayout = true;
+
     @BindView(R.id.iv_profile)
     CircleImageView iv_profile;
     @BindView(R.id.switch_notification)
@@ -98,6 +102,10 @@ public class SettingFragment extends Fragment {
     RelativeLayout rl_privacy;
     @BindView(R.id.rl_terms)
     RelativeLayout rl_terms;
+    @BindView(R.id.iv_collapse)
+    ImageView iv_collapse;
+    @BindView(R.id.ll_name)
+    LinearLayout ll_name;
 
     public SettingFragment() {
         // Required empty public constructor
@@ -271,6 +279,17 @@ public class SettingFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+    @OnClick(R.id.iv_collapse)
+    void toggle() {
+        bShowNameLayout = !bShowNameLayout;
+        if (bShowNameLayout) {
+            ll_name.setVisibility(View.VISIBLE);
+            iv_collapse.setImageResource(R.drawable.down_arrow);
+        } else {
+            ll_name.setVisibility(View.GONE);
+            iv_collapse.setImageResource(R.drawable.up_arrow);
+        }
     }
 
     @OnClick(R.id.rl_terms)
