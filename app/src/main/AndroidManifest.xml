@@ -38,7 +38,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.SignActivity" />
+        <activity android:name=".activities.SignActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize" />
         <activity android:name=".activities.MainActivity" />
         <activity android:name=".activities.GuestActivity" />
         <activity android:name=".activities.TermsActivity" />

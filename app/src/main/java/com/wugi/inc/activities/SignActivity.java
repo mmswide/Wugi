@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -68,6 +69,9 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageMetadata;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.mvc.imagepicker.ImagePicker;
+import com.mvc.imagepicker.ImageRotator;
+import com.mvc.imagepicker.ImageUtils;
 import com.wugi.inc.R;
 import com.wugi.inc.models.User;
 import com.wugi.inc.utils.OnSwipeTouchListener;
@@ -173,6 +177,9 @@ public class SignActivity extends AppCompatActivity {
 //        signupFbButton.setText(ss1);
 
         initView(isSignup);
+
+        // width and height will be at least 600px long (optional).
+        ImagePicker.setMinQuality(300, 300);
 
         ArrayAdapter adapter = ArrayAdapter.createFromResource(
                 this, R.array.genders, android.R.layout.simple_spinner_item);
@@ -299,27 +306,6 @@ public class SignActivity extends AppCompatActivity {
                 }
             }
         });
-    }
-
-    /**
-     * Here we store the file url as it will be null after returning from camera
-     * app
-     */
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-
-        // save file url in bundle as it will be null on scren orientation
-        // changes
-        outState.putParcelable("file_uri", mUri);
-    }
-
-    @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-
-        // get the file url
-        mUri = savedInstanceState.getParcelable("file_uri");
     }
 
     void initView(boolean isSignup) {
@@ -560,6 +546,7 @@ public class SignActivity extends AppCompatActivity {
                                     .setContentType("image/jpeg")
                                     .build();
 
+                            final ProgressDialog progress = Utils.createProgressDialog(SignActivity.this);
                             UploadTask uploadTask = storageReference.putFile(mUri, storageMetadata);
 
                             // Register observers to listen for when the download is done or if it fails
@@ -572,6 +559,7 @@ public class SignActivity extends AppCompatActivity {
                                 @Override
                                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                                     // taskSnapshot.getMetadata() contains file metadata such as size, content-type, and download URL.
+                                    progress.dismiss();
                                     final Uri downloadUrl = taskSnapshot.getDownloadUrl();
 
                                     UserProfileChangeRequest.Builder builder = new UserProfileChangeRequest.Builder();
@@ -651,7 +639,7 @@ public class SignActivity extends AppCompatActivity {
 
     @OnClick(R.id.ivImage)
     void choosePhoto() {
-        selectImage();
+        ImagePicker.pickImage(this, "Select your image:");
     }
     @OnClick(R.id.datePickerButton)
     void selectDate() {
@@ -676,193 +664,40 @@ public class SignActivity extends AppCompatActivity {
         }
     };
 
-    private void selectImage() {
-        final CharSequence[] items = { "Take Photo", "Choose from Library",
-                "Cancel" };
-        AlertDialog.Builder builder = new AlertDialog.Builder(SignActivity.this);
-        builder.setTitle("Add Photo!");
-        builder.setItems(items, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int item) {
-                boolean result=Utils.checkPermission(SignActivity.this);
-                if (items[item].equals("Take Photo")) {
-                    userChoosenTask="Take Photo";
-                    if(result)
-                        cameraIntent();
-                } else if (items[item].equals("Choose from Library")) {
-                    userChoosenTask="Choose from Library";
-                    if(result)
-                        galleryIntent();
-                } else if (items[item].equals("Cancel")) {
-                    dialog.dismiss();
-                }
-            }
-        });
-        builder.show();
-    }
-
-    private void cameraIntent()
-    {
-        Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-
-        if (cameraIntent.resolveActivity(getPackageManager()) != null) {
-            // Create the File where the photo should go
-            File photoFile = null;
-            try {
-                photoFile = createImageFile();
-            } catch (IOException ex) {
-                // Error occurred while creating the File
-                Log.i(TAG, "IOException");
-            }
-            // Continue only if the File was successfully created
-            if (photoFile != null) {
-                cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(photoFile));
-                mUri = Uri.fromFile(photoFile);
-                startActivityForResult(cameraIntent, REQUEST_CAMERA);
-            }
-        }
-    }
-
-    private void galleryIntent()
-    {
-        Intent intent = new Intent();
-        intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);//
-        startActivityForResult(Intent.createChooser(intent, "Select File"),SELECT_FILE);
-    }
+    private static int mPickImageCode = 234;
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        switch (requestCode) {
-            case Utils.MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE:
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    if(userChoosenTask.equals("Take Photo"))
-                        cameraIntent();
-                    else if(userChoosenTask.equals("Choose from Library"))
-                        galleryIntent();
-                } else {
-                    //code for deny
-                }
-                break;
-        }
-    }
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Bitmap bitmap = ImagePicker.getImageFromResult(this, requestCode, resultCode, data);
+        ivImage.setImageBitmap(bitmap);
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        mUri = getImageUri(this, bitmap);
+
+//        Bitmap bm = null;
+//        if(resultCode == -1 && requestCode == mPickImageCode) {
+//            File imageFile = ImageUtils.getTemporalFile(this, String.valueOf(mPickImageCode));
+//            boolean isCamera = data == null || data.getData() == null || data.getData().toString().contains(imageFile.toString());
+//            Uri selectedImage;
+//            if(isCamera) {
+//                selectedImage = Uri.fromFile(imageFile);
+//            } else {
+//                selectedImage = data.getData();
+//            }
+//
+//            mUri = selectedImage;
+//        }
+
         super.onActivityResult(requestCode, resultCode, data);
         //FaceBook
         callbackManager.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == Activity.RESULT_OK) {
-            if (requestCode == SELECT_FILE)
-                onSelectFromGalleryResult(data);
-            else if (requestCode == REQUEST_CAMERA)
-                onCaptureImageResult(data);
-        }
+
     }
 
-    @SuppressWarnings("deprecation")
-    private void onSelectFromGalleryResult(Intent data) {
-        Bitmap bm=null;
-        if (data != null) {
-            try {
-                mUri = data.getData();
-                bm = MediaStore.Images.Media.getBitmap(getApplicationContext().getContentResolver(), mUri);
-
-                bm = rotateImageIfRequired(bm, mUri);
-                bm = getResizedBitmap(bm, 500);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        profileBitmap = bm;
-        ivImage.setImageBitmap(bm);
-    }
-
-    private void onCaptureImageResult(Intent data) {
-        Bitmap bm=null;
-        try {
-
-            // bimatp factory
-//            BitmapFactory.Options options = new BitmapFactory.Options();
-//
-//            // downsizing image as it throws OutOfMemory Exception for larger
-//            // images
-//            options.inSampleSize = 8;
-//
-//            final Bitmap bitmap = BitmapFactory.decodeFile(mUri.getPath(),
-//                    options);
-//
-//            ivImage.setImageBitmap(bitmap);
-
-            bm = MediaStore.Images.Media.getBitmap(this.getContentResolver(), mUri);
-
-//            bm = rotateImageIfRequired(bm, mUri);
-            bm = getResizedBitmap(bm, 500);
-
-            ivImage.setImageBitmap(bm);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-
-
-    private File createImageFile() throws IOException {
-        // Create an image file name
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String imageFileName = "JPEG_" + timeStamp + "_";
-        File storageDir = Environment.getExternalStoragePublicDirectory(
-                Environment.DIRECTORY_PICTURES);
-        File image = File.createTempFile(
-                imageFileName,  // prefix
-                ".jpg",         // suffix
-                storageDir      // directory
-        );
-
-        // Save a file: path for use with ACTION_VIEW intents
-        return image;
-    }
-
-
-    private static Bitmap rotateImageIfRequired(Bitmap img, Uri selectedImage) throws IOException {
-
-        ExifInterface ei = new ExifInterface(selectedImage.getPath());
-        int orientation = ei.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
-
-        switch (orientation) {
-            case ExifInterface.ORIENTATION_ROTATE_90:
-                return rotateImage(img, 90);
-            case ExifInterface.ORIENTATION_ROTATE_180:
-                return rotateImage(img, 180);
-            case ExifInterface.ORIENTATION_ROTATE_270:
-                return rotateImage(img, 270);
-            default:
-                return img;
-        }
-    }
-
-    private static Bitmap rotateImage(Bitmap img, int degree) {
-        Matrix matrix = new Matrix();
-        matrix.postRotate(degree);
-        Bitmap rotatedImg = Bitmap.createBitmap(img, 0, 0, img.getWidth(), img.getHeight(), matrix, true);
-        img.recycle();
-        return rotatedImg;
-    }
-
-    public Bitmap getResizedBitmap(Bitmap image, int maxSize) {
-        int width = image.getWidth();
-        int height = image.getHeight();
-
-        float bitmapRatio = (float) width / (float) height;
-        if (bitmapRatio > 0) {
-            width = maxSize;
-            height = (int) (width / bitmapRatio);
-        } else {
-            height = maxSize;
-            width = (int) (height * bitmapRatio);
-        }
-        return Bitmap.createScaledBitmap(image, width, height, true);
+    public Uri getImageUri(Context inContext, Bitmap inImage) {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+        String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "Title", null);
+        return Uri.parse(path);
     }
 
 }

@@ -70,6 +70,8 @@ dependencies {
     compile 'com.github.chrisbanes:PhotoView:2.0.0'
     compile 'info.hoang8f:android-segmented:1.0.6'
     compile 'com.github.medyo:fancybuttons:1.8.4'
+    compile 'com.github.Mariovc:ImagePicker:1.2.0'
+
     testCompile 'junit:junit:4.12'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
 }
