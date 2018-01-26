@@ -3,6 +3,7 @@ package com.wugi.inc.activities;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -35,7 +36,7 @@ import java.util.ArrayList;
 
 import static android.content.ContentValues.TAG;
 
-public class PhotoActivity extends AppCompatActivity {
+public class PhotoActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
 
     Toolbar toolbar;
     private RecyclerView recyclerView;
@@ -46,6 +47,8 @@ public class PhotoActivity extends AppCompatActivity {
 
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     private Gallery gallery;
+
+    SwipeRefreshLayout mSwipeRefreshLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,6 +90,14 @@ public class PhotoActivity extends AppCompatActivity {
             }
         });
 
+        // SwipeRefreshLayout
+        mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_container);
+        mSwipeRefreshLayout.setOnRefreshListener(this);
+        mSwipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary,
+                android.R.color.holo_green_dark,
+                android.R.color.holo_orange_dark,
+                android.R.color.holo_blue_dark);
+
         this.getPhotos();
     }
 
@@ -97,6 +108,7 @@ public class PhotoActivity extends AppCompatActivity {
     }
 
     private void getPhotos() {
+        this.photoList.clear();
         final ProgressDialog progressDialog = Utils.createProgressDialog(this);
 
         db.collection("Photos")
@@ -143,11 +155,23 @@ public class PhotoActivity extends AppCompatActivity {
                                 PhotoActivity.this.photoList.add(photo);
                             }
                             PhotoActivity.this.adapter.refresh(photoList);
+                            mSwipeRefreshLayout.setRefreshing(false);
                         } else {
                             Log.w(TAG, "Error getting documents.", task.getException());
+                            mSwipeRefreshLayout.setRefreshing(false);
                         }
                     }
                 });
+    }
+
+    /**
+     * This method is called when swipe refresh is pulled down
+     */
+    @Override
+    public void onRefresh() {
+
+        // Fetching data from server
+        getPhotos();
     }
 
 }

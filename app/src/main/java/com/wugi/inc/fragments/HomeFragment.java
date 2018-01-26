@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -53,7 +54,7 @@ import static android.content.ContentValues.TAG;
  * Use the {@link HomeFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -72,7 +73,12 @@ public class HomeFragment extends Fragment {
     private ArrayList<Event> eventList = new ArrayList<Event>();
     private ArrayList<Event> featuredEventList = new ArrayList<Event>();
 
+    SwipeRefreshLayout mSwipeRefreshLayout;
+
     private void getEvents() {
+        this.eventList.clear();
+        this.featuredEventList.clear();
+
         Date today = getTodayFormat();
 
         Calendar cal = GregorianCalendar.getInstance();
@@ -219,8 +225,10 @@ public class HomeFragment extends Fragment {
                                 }
                             }
                             HomeFragment.this.adapter.refresh(eventList, featuredEventList);
+                            mSwipeRefreshLayout.setRefreshing(false);
                         } else {
                             Log.w(TAG, "Error getting documents.", task.getException());
+                            mSwipeRefreshLayout.setRefreshing(false);
                         }
                     }
                 });
@@ -294,9 +302,6 @@ public class HomeFragment extends Fragment {
         final GridLayoutManager layoutManager = new GridLayoutManager(mContext, 2);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
-
-
-
         recyclerView.setAdapter(adapter);
 
         layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
@@ -306,7 +311,25 @@ public class HomeFragment extends Fragment {
             }
         });
 
+        // SwipeRefreshLayout
+        mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_container);
+        mSwipeRefreshLayout.setOnRefreshListener(this);
+        mSwipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary,
+                android.R.color.holo_green_dark,
+                android.R.color.holo_orange_dark,
+                android.R.color.holo_blue_dark);
+
         return view;
+    }
+
+    /**
+     * This method is called when swipe refresh is pulled down
+     */
+    @Override
+    public void onRefresh() {
+
+        // Fetching data from server
+        getEvents();
     }
 
     // TODO: Rename method, update argument and hook method into UI event

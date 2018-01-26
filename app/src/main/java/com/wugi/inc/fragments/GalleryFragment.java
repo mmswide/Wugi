@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -47,7 +48,7 @@ import static android.content.ContentValues.TAG;
  * Use the {@link GalleryFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class GalleryFragment extends Fragment {
+public class GalleryFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -65,6 +66,7 @@ public class GalleryFragment extends Fragment {
     private ArrayList<Gallery> galleryList = new ArrayList<Gallery>();
 
     FirebaseFirestore db = FirebaseFirestore.getInstance();
+    SwipeRefreshLayout mSwipeRefreshLayout;
 
     public GalleryFragment() {
         // Required empty public constructor
@@ -88,6 +90,7 @@ public class GalleryFragment extends Fragment {
         return fragment;
     }
     private void getGalleries() {
+        this.galleryList.clear();
         final ProgressDialog progressDialog = Utils.createProgressDialog(getContext());
         db.collection("Gallery")
                 .whereEqualTo("active", true)
@@ -127,8 +130,10 @@ public class GalleryFragment extends Fragment {
                                 GalleryFragment.this.galleryList.add(gallery);
                             }
                             GalleryFragment.this.adapter.refresh(galleryList);
+                            mSwipeRefreshLayout.setRefreshing(false);
                         } else {
                             Log.w(TAG, "Error getting documents.", task.getException());
+                            mSwipeRefreshLayout.setRefreshing(false);
                         }
                     }
                 });
@@ -167,7 +172,25 @@ public class GalleryFragment extends Fragment {
             }
         });
 
+        // SwipeRefreshLayout
+        mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_container);
+        mSwipeRefreshLayout.setOnRefreshListener(this);
+        mSwipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary,
+                android.R.color.holo_green_dark,
+                android.R.color.holo_orange_dark,
+                android.R.color.holo_blue_dark);
+
         return view;
+    }
+
+    /**
+     * This method is called when swipe refresh is pulled down
+     */
+    @Override
+    public void onRefresh() {
+
+        // Fetching data from server
+        getGalleries();
     }
 
     // TODO: Rename method, update argument and hook method into UI event
