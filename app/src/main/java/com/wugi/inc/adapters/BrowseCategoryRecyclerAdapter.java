@@ -13,10 +13,8 @@ import com.wugi.inc.R;
 import com.wugi.inc.activities.EventDetailActivity;
 import com.wugi.inc.activities.VenueDetailActivity;
 import com.wugi.inc.models.BrowseEvent;
-import com.wugi.inc.models.BrowseVenue;
 import com.wugi.inc.models.BrowseVenueType;
 import com.wugi.inc.models.Event;
-import com.wugi.inc.models.Gallery;
 import com.wugi.inc.models.Type;
 import com.wugi.inc.models.Venue;
 
@@ -38,7 +36,7 @@ public class BrowseCategoryRecyclerAdapter extends RecyclerView.Adapter<Recycler
     private static final int TYPE_ITEM = 1;
 
     private BrowseEvent browseEvent;
-    private BrowseVenue browseVenue;
+    private BrowseEvent browseVenue;
     private BrowseVenueType venueType;
 
     public void refresh(ArrayList<Event> eventList, ArrayList<Event> venueEventList, ArrayList<Venue> venueTypeList, Type type) {
@@ -55,7 +53,7 @@ public class BrowseCategoryRecyclerAdapter extends RecyclerView.Adapter<Recycler
         this.type = type;
     }
 
-    public void setHeader(BrowseEvent browseEvent, BrowseVenue browseVenue, BrowseVenueType venueType) {
+    public void setHeader(BrowseEvent browseEvent, BrowseEvent browseVenue, BrowseVenueType venueType) {
         this.browseEvent = browseEvent;
         this.browseVenue = browseVenue;
         this.venueType = venueType;
@@ -86,7 +84,7 @@ public class BrowseCategoryRecyclerAdapter extends RecyclerView.Adapter<Recycler
                     headerViewHolder.tv_name.setText(this.browseEvent.getEventName() + " Events");
                     break;
                 case VENUE_TYPE:
-                    headerViewHolder.tv_name.setText(this.browseVenue.getVenueName() + " Venues");
+                    headerViewHolder.tv_name.setText(this.browseVenue.getEventName() + " Venues");
                     break;
                 case TYPE_TYPE:
                     headerViewHolder.tv_name.setText(this.venueType.getVenueTypeName() + " Venues");

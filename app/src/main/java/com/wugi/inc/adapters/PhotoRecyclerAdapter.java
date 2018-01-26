@@ -70,8 +70,6 @@ public class PhotoRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.View
             Photo photo = photoList.get(position - 1);
 //            Picasso.with(mContext).load("https://s3-us-west-2.amazonaws.com/wugi/2017/fri-flyers/thumb/OpiumFridaysDelete12%3A2thumb.jpg").into(((PhotoViewHolder) holder).thumbnail);
             Picasso.with(mContext).load(photo.getFilename())
-                    .resize((int)photo.getWidth()/4, (int)photo.getHeight()/4)
-                    .centerCrop()
                     .into(((PhotoViewHolder) holder).thumbnail);
 
             ((PhotoViewHolder) holder).thumbnail.setOnClickListener(new View.OnClickListener() {

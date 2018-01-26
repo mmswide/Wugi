@@ -27,7 +27,9 @@ import com.wugi.inc.fragments.BrowseFragment;
 import com.wugi.inc.fragments.HomeFragment;
 import com.wugi.inc.models.BrowseEvent;
 import com.wugi.inc.models.BrowseVenueType;
+import com.wugi.inc.models.DressCodeType;
 import com.wugi.inc.models.Event;
+import com.wugi.inc.models.Neighborhood;
 import com.wugi.inc.models.SearchType;
 import com.wugi.inc.models.Type;
 import com.wugi.inc.models.Venue;
@@ -129,8 +131,7 @@ public class SearchActivity extends AppCompatActivity implements RadioGroup.OnCh
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         Date today = new Date();
         String todayStr = dateFormat.format(today);
-
-        todayStr = "2017-12-01" + " 04:00:00 +0000";
+        todayStr = todayStr + " 04:00:00 +0000";
 
         Date convertedDate = new Date();
         SimpleDateFormat outputFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss ZZZZZ");
@@ -169,7 +170,7 @@ public class SearchActivity extends AppCompatActivity implements RadioGroup.OnCh
                                 Log.d(TAG, document.getId() + " => " + document.getData());
                                 final Event event = new Event(document);
 
-                                if (!event.getName().contains(query)) {
+                                if (!(event.getName().toLowerCase()).contains(query.toLowerCase())) {
                                     continue;
                                 }
 
@@ -183,8 +184,52 @@ public class SearchActivity extends AppCompatActivity implements RadioGroup.OnCh
                                                         DocumentSnapshot document = task.getResult();
                                                         if (document != null) {
                                                             Log.d(TAG, "DocumentSnapshot data: " + task.getResult().getData());
-                                                            Venue venue = new Venue(document);
+                                                            final Venue venue = new Venue(document);
                                                             event.setVenue(venue);
+
+                                                            if (document.getDocumentReference("browseVenueType") != null) {
+                                                                DocumentReference browseEventReference = document.getDocumentReference("browseVenueType");
+                                                                db.collection("BrowseVenueType").document(browseEventReference.getId()).get()
+                                                                        .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                                                            @Override
+                                                                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                                                                if (task.isSuccessful()) {
+                                                                                    DocumentSnapshot document = task.getResult();
+                                                                                    if (document != null) {
+                                                                                        Log.d(TAG, "DocumentSnapshot data: " + task.getResult().getData());
+                                                                                        BrowseVenueType browseVenueType = new BrowseVenueType(document);
+                                                                                        venue.setBrowseVenueType(browseVenueType);
+                                                                                    } else {
+                                                                                        Log.d(TAG, "No such document");
+                                                                                    }
+                                                                                } else {
+                                                                                    Log.d(TAG, "get failed with ", task.getException());
+                                                                                }
+                                                                            }
+                                                                        });
+                                                            }
+                                                            if (document.getDocumentReference("neighborhood") != null) {
+                                                                DocumentReference neighborhoodReference = document.getDocumentReference("neighborhood");
+                                                                db.collection("Neighborhood").document(neighborhoodReference.getId()).get()
+                                                                        .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                                                            @Override
+                                                                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                                                                if (task.isSuccessful()) {
+                                                                                    DocumentSnapshot document = task.getResult();
+                                                                                    if (document != null) {
+                                                                                        Log.d(TAG, "DocumentSnapshot data: " + task.getResult().getData());
+                                                                                        Neighborhood neighborhood = new Neighborhood(document);
+                                                                                        venue.setNeighborhood(neighborhood);
+
+                                                                                    } else {
+                                                                                        Log.d(TAG, "No such document");
+                                                                                    }
+                                                                                } else {
+                                                                                    Log.d(TAG, "get failed with ", task.getException());
+                                                                                }
+                                                                            }
+                                                                        });
+                                                            }
 
                                                         } else {
                                                             Log.d(TAG, "No such document");
@@ -208,6 +253,29 @@ public class SearchActivity extends AppCompatActivity implements RadioGroup.OnCh
                                                             Log.d(TAG, "DocumentSnapshot data: " + task.getResult().getData());
                                                             BrowseEvent browseEvent = new BrowseEvent(document);
                                                             event.setBrowseEvent(browseEvent);
+
+                                                        } else {
+                                                            Log.d(TAG, "No such document");
+                                                        }
+                                                    } else {
+                                                        Log.d(TAG, "get failed with ", task.getException());
+                                                    }
+                                                }
+                                            });
+                                }
+
+                                if (document.getDocumentReference("dressCodeType") != null) {
+                                    DocumentReference dressCodeTypeReference = document.getDocumentReference("dressCodeType");
+                                    db.collection("DressCodeType").document(dressCodeTypeReference.getId()).get()
+                                            .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                                    if (task.isSuccessful()) {
+                                                        DocumentSnapshot document = task.getResult();
+                                                        if (document != null) {
+                                                            Log.d(TAG, "DocumentSnapshot data: " + task.getResult().getData());
+                                                            DressCodeType dressCodeType = new DressCodeType(document);
+                                                            event.setDressCodeType(dressCodeType);
 
                                                         } else {
                                                             Log.d(TAG, "No such document");
@@ -243,7 +311,7 @@ public class SearchActivity extends AppCompatActivity implements RadioGroup.OnCh
                                 Log.d(TAG, document.getId() + " => " + document.getData());
                                 final Venue venue = new Venue(document);
 
-                                if (!venue.getName().contains(query)) {
+                                if (!(venue.getName().toLowerCase()).contains(query.toLowerCase())) {
                                     continue;
                                 }
 
@@ -259,6 +327,28 @@ public class SearchActivity extends AppCompatActivity implements RadioGroup.OnCh
                                                             Log.d(TAG, "DocumentSnapshot data: " + task.getResult().getData());
                                                             BrowseVenueType browseVenueType = new BrowseVenueType(document);
                                                             venue.setBrowseVenueType(browseVenueType);
+                                                        } else {
+                                                            Log.d(TAG, "No such document");
+                                                        }
+                                                    } else {
+                                                        Log.d(TAG, "get failed with ", task.getException());
+                                                    }
+                                                }
+                                            });
+                                }
+                                if (document.getDocumentReference("neighborhood") != null) {
+                                    DocumentReference neighborhoodReference = document.getDocumentReference("neighborhood");
+                                    db.collection("Neighborhood").document(neighborhoodReference.getId()).get()
+                                            .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                                    if (task.isSuccessful()) {
+                                                        DocumentSnapshot document = task.getResult();
+                                                        if (document != null) {
+                                                            Log.d(TAG, "DocumentSnapshot data: " + task.getResult().getData());
+                                                            Neighborhood neighborhood = new Neighborhood(document);
+                                                            venue.setNeighborhood(neighborhood);
+
                                                         } else {
                                                             Log.d(TAG, "No such document");
                                                         }

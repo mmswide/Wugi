@@ -65,6 +65,7 @@ public class VenueDetailActivity extends AppCompatActivity {
     @BindView(R.id.tv_neighbor)     TextView tv_neighbor;
     @BindView(R.id.tv_parking)      TextView tv_parking;
     @BindView(R.id.rl_gallery)      LinearLayout rl_gallery;
+    @BindView(R.id.rl_gallery_title)RelativeLayout rl_gallery_title;
     @BindView(R.id.tv_photo_num)    TextView tv_photo_num;
     @BindView(R.id.card_view1)      CardView cardView1;
     @BindView(R.id.card_view2)      CardView cardView2;
@@ -200,8 +201,8 @@ public class VenueDetailActivity extends AppCompatActivity {
         tv_distance.setText(String.format("%.02f miles", distance));
 
         String dotStr = "<font color=#438c7e size=32>• </font>";
-        tv_venue_type.setText(Html.fromHtml(dotStr + venue.getType()));
-        tv_neighbor.setText(Html.fromHtml(dotStr + venue.getNeighborhood()));
+        tv_venue_type.setText(Html.fromHtml(dotStr + venue.getBrowseVenueType().getVenueTypeName()));
+        tv_neighbor.setText(Html.fromHtml(dotStr + venue.getNeighborhood().getName()));
 
         ArrayList<String> parkingStrs = new ArrayList<String>();
         for (int i=0;i<venue.getParking().size();i++) {
@@ -279,6 +280,13 @@ public class VenueDetailActivity extends AppCompatActivity {
         if (size > 3) {
             cardView4.setVisibility(View.VISIBLE);
 
+            rl_gallery_title.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    showPhotos();
+                }
+            });
+
             final Gallery gallery1 = this.galleryList.get(0);
             Picasso.with(this).load(gallery1.getCover()).into(thumbnail1);
 
@@ -321,7 +329,6 @@ public class VenueDetailActivity extends AppCompatActivity {
                 }
             });
         } else {
-
             switch (size) {
                 case 0:
                     cardView1.setVisibility(View.GONE);

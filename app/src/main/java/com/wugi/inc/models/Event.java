@@ -1,6 +1,5 @@
 package com.wugi.inc.models;
 
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 
 import java.util.ArrayList;
@@ -13,8 +12,6 @@ import java.util.Date;
 public class Event {
     private String documentId;
     private String name;
-    private Date createdAt;
-    private Date updatedAt;
     private String dayOfWeek;
     private Date startDate;
     private Date endDate;
@@ -28,18 +25,14 @@ public class Event {
     private int feature;
     private String imageThumbURL;
     private String imageFeatureURL;
-    private String theme;
     private BrowseEvent browseEvent;
-    private BrowseVenue browseVenue;
+    private String browseEventRef;
+    private DressCodeType dressCodeType;
 
     public Event(DocumentSnapshot document){
         this.documentId = document.getId();
         if (document.contains("name"))
             this.name = document.getString("name");
-        if (document.contains("createdAt"))
-            this.createdAt = document.getDate("createdAt");
-        if (document.contains("updatedAt"))
-            this.updatedAt = document.getDate("updatedAt");
         if (document.contains("dayOfWeek"))
             this.dayOfWeek = document.getString("dayOfWeek");
         if (document.contains("startDate"))
@@ -62,8 +55,9 @@ public class Event {
             this.imageThumbURL = document.getString("imageThumbURL");
         if (document.contains("imageFeatureURL"))
             this.imageFeatureURL = document.getString("imageFeatureURL");
-        if (document.contains("theme"))
-            this.theme = document.getString("theme");
+        if (document.contains("browseEvent")) {
+            this.browseEventRef = document.getDocumentReference("browseEvent").getId();
+        }
     }
 
     public String getDocumentId() {
@@ -80,22 +74,6 @@ public class Event {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public Date getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public Date getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(Date updatedAt) {
-        this.updatedAt = updatedAt;
     }
 
     public String getDayOfWeek() {
@@ -190,14 +168,6 @@ public class Event {
         this.imageThumbURL = imageThumbURL;
     }
 
-    public String getTheme() {
-        return theme;
-    }
-
-    public void setTheme(String theme) {
-        this.theme = theme;
-    }
-
     public void setImageFeatureURL(String imageFeatureURL) {
         this.imageFeatureURL = imageFeatureURL;
     }
@@ -209,11 +179,19 @@ public class Event {
         this.browseEvent = browseEvent;
     }
 
-    public BrowseVenue getBrowseVenue() {
-        return browseVenue;
+    public String getBrowseEventRef() {
+        return browseEventRef;
     }
 
-    public void setBrowseVenue(BrowseVenue browseVenue) {
-        this.browseVenue = browseVenue;
+    public void setBrowseEventRef(String browseEventRef) {
+        this.browseEventRef = browseEventRef;
+    }
+
+    public DressCodeType getDressCodeType() {
+        return dressCodeType;
+    }
+
+    public void setDressCodeType(DressCodeType dressCodeType) {
+        this.dressCodeType = dressCodeType;
     }
 }

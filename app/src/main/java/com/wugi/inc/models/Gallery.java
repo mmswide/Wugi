@@ -12,8 +12,6 @@ public class Gallery {
 
     private String documentID;
     private Venue venue;
-    private Date createdAt;
-    private Date updatedAt;
     private Date eventDate;
     private boolean active;
     private String title;
@@ -21,10 +19,6 @@ public class Gallery {
 
     public Gallery(DocumentSnapshot document){
         this.documentID = document.getId();
-        if (document.contains("createdAt"))
-            this.createdAt = document.getDate("createdAt");
-        if (document.contains("updatedAt"))
-            this.updatedAt = document.getDate("updatedAt");
         if (document.contains("eventDate"))
             this.eventDate = document.getDate("eventDate");
         if (document.contains("active"))
@@ -49,22 +43,6 @@ public class Gallery {
 
     public void setVenue(Venue venue) {
         this.venue = venue;
-    }
-
-    public Date getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public Date getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(Date updatedAt) {
-        this.updatedAt = updatedAt;
     }
 
     public Date getEventDate() {

@@ -92,6 +92,8 @@ public class SettingFragment extends Fragment {
     EditText edit_first;
     @BindView(R.id.edit_last)
     EditText edit_last;
+    @BindView(R.id.edit_email)
+    EditText edit_email;
     @BindView(R.id.rl_password)
     RelativeLayout rl_password;
     @BindView(R.id.rl_about)
@@ -142,9 +144,9 @@ public class SettingFragment extends Fragment {
                         if (task.isSuccessful()) {
                             DocumentSnapshot document = task.getResult();
                             if (document != null) {
-                                Log.d(TAG, "DocumentSnapshot data: " + task.getResult().getData());
                                 edit_first.setText(document.getString("firstName"));
                                 edit_last.setText(document.getString("lastName"));
+                                edit_email.setText(document.getString("email"));
                                 bPushNotification = document.getBoolean("pushNotification");
 
                                 switch_notification.setChecked(bPushNotification);

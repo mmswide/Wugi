@@ -60,8 +60,6 @@ public class SliderAdapter extends PagerAdapter {
         Photo photo = photoList.get(position);
         Picasso.with(context)
                 .load(photo.getFilename())
-                .resize((int)photo.getWidth()/4, (int)photo.getHeight()/4)
-                .centerCrop()
                 .into(photoView);
 
         ((ViewPager) container).addView(viewLayout);

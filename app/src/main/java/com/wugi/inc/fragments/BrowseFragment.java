@@ -19,7 +19,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -31,7 +30,6 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.wugi.inc.R;
 import com.wugi.inc.adapters.BrowseRecyclerAdapter;
 import com.wugi.inc.models.BrowseEvent;
-import com.wugi.inc.models.BrowseVenue;
 import com.wugi.inc.models.BrowseVenueType;
 import com.wugi.inc.models.Type;
 import com.wugi.inc.utils.OnSwipeTouchListener;
@@ -56,7 +54,7 @@ public class BrowseFragment extends Fragment implements View.OnClickListener {
     private String mParam1;
     private String mParam2;
     private ArrayList<BrowseEvent> browseEventList = new ArrayList<BrowseEvent>();
-    private ArrayList<BrowseVenue> browseVenueList = new ArrayList<BrowseVenue>();
+    private ArrayList<BrowseEvent> browseVenueList = new ArrayList<BrowseEvent>();
     private ArrayList<BrowseVenueType> browseVenueTYpeList = new ArrayList<BrowseVenueType>();
     private BrowseRecyclerAdapter adapter;
 
@@ -96,8 +94,9 @@ public class BrowseFragment extends Fragment implements View.OnClickListener {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         Date today = new Date();
         String todayStr = dateFormat.format(today);
+        todayStr = todayStr + " 04:00:00 +0000";
 
-        todayStr = "2017-12-01" + " 04:00:00 +0000";
+//        todayStr = "2017-12-01" + " 04:00:00 +0000";
 
         Date convertedDate = new Date();
         SimpleDateFormat outputFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss ZZZZZ");
@@ -198,9 +197,9 @@ public class BrowseFragment extends Fragment implements View.OnClickListener {
                         if (task.isSuccessful()) {
                             for (DocumentSnapshot document : task.getResult()) {
                                 Log.d(TAG, document.getId() + " => " + document.getData());
-                                if (document.getDocumentReference("browseVenue") != null) {
-                                    DocumentReference browseVenueReference = document.getDocumentReference("browseVenue");
-                                    db.collection("BrowseVenue").document(browseVenueReference.getId()).get()
+                                if (document.getDocumentReference("browseEvent") != null) {
+                                    DocumentReference browseVenueReference = document.getDocumentReference("browseEvent");
+                                    db.collection("BrowseEvent").document(browseVenueReference.getId()).get()
                                             .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                                                 @Override
                                                 public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -208,10 +207,10 @@ public class BrowseFragment extends Fragment implements View.OnClickListener {
                                                         DocumentSnapshot document = task.getResult();
                                                         if (document != null) {
                                                             Log.d(TAG, "DocumentSnapshot data: " + task.getResult().getData());
-                                                            BrowseVenue browseVenue = new BrowseVenue(document);
+                                                            BrowseEvent browseVenue = new BrowseEvent(document);
 
                                                             boolean flag = false;
-                                                            for (BrowseVenue venue : browseVenueList) {
+                                                            for (BrowseEvent venue : browseVenueList) {
                                                                 if (venue.getDocumentId().equals(browseVenue.getDocumentId())) {
                                                                     flag = true;
                                                                     break;
@@ -252,40 +251,42 @@ public class BrowseFragment extends Fragment implements View.OnClickListener {
                             for (DocumentSnapshot document : task.getResult()) {
                                 Log.d(TAG, document.getId() + " => " + document.getData());
 
-                                if (document.getDocumentReference("browseVenueType") != null) {
-                                    final ProgressDialog dialog = Utils.createProgressDialog(getContext());
-                                    DocumentReference browseEventReference = document.getDocumentReference("browseVenueType");
-                                    db.collection("BrowseVenueType").document(browseEventReference.getId()).get()
-                                            .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                                                @Override
-                                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                                    dialog.dismiss();
-                                                    if (task.isSuccessful()) {
-                                                        DocumentSnapshot document = task.getResult();
-                                                        if (document != null) {
-                                                            Log.d(TAG, "DocumentSnapshot data: " + task.getResult().getData());
-                                                            BrowseVenueType browseVenueType = new BrowseVenueType(document);
+                                if (document.contains("browseVenueType") ) {
+                                    if ( document.getDocumentReference("browseVenueType") != null) {
+                                        final ProgressDialog dialog = Utils.createProgressDialog(getContext());
+                                        DocumentReference browseEventReference = document.getDocumentReference("browseVenueType");
+                                        db.collection("BrowseVenueType").document(browseEventReference.getId()).get()
+                                                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                                    @Override
+                                                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                                        dialog.dismiss();
+                                                        if (task.isSuccessful()) {
+                                                            DocumentSnapshot document = task.getResult();
+                                                            if (document != null) {
+                                                                Log.d(TAG, "DocumentSnapshot data: " + task.getResult().getData());
+                                                                BrowseVenueType browseVenueType = new BrowseVenueType(document);
 
-                                                            boolean flag = false;
-                                                            for (BrowseVenueType venueType : browseVenueTYpeList) {
-                                                                if (venueType.getDocumentId().equals(browseVenueType.getDocumentId())) {
-                                                                    flag = true;
-                                                                    break;
+                                                                boolean flag = false;
+                                                                for (BrowseVenueType venueType : browseVenueTYpeList) {
+                                                                    if (venueType.getDocumentId().equals(browseVenueType.getDocumentId())) {
+                                                                        flag = true;
+                                                                        break;
+                                                                    }
                                                                 }
-                                                            }
-                                                            if (flag == false) {
-                                                                BrowseFragment.this.browseVenueTYpeList.add(browseVenueType);
-                                                                BrowseFragment.this.adapter.refresh(null, null, browseVenueTYpeList, Type.TYPE_TYPE);
-                                                            }
+                                                                if (flag == false) {
+                                                                    BrowseFragment.this.browseVenueTYpeList.add(browseVenueType);
+                                                                    BrowseFragment.this.adapter.refresh(null, null, browseVenueTYpeList, Type.TYPE_TYPE);
+                                                                }
 
+                                                            } else {
+                                                                Log.d(TAG, "No such document");
+                                                            }
                                                         } else {
-                                                            Log.d(TAG, "No such document");
+                                                            Log.d(TAG, "get failed with ", task.getException());
                                                         }
-                                                    } else {
-                                                        Log.d(TAG, "get failed with ", task.getException());
                                                     }
-                                                }
-                                            });
+                                                });
+                                    }
                                 }
                             }
                         } else {

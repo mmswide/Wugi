@@ -113,7 +113,6 @@ public class SliderActivity extends AppCompatActivity {
         String url = photo.getFilename();
         Picasso.with(getApplicationContext())
                 .load(url)
-                .resize((int)photo.getWidth()/3, (int)photo.getHeight()/3)
                 .into(new Target() {
             @Override public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
                 Intent i = new Intent(Intent.ACTION_SEND);

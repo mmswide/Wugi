@@ -113,9 +113,11 @@ public class EventDetailActivity extends AppCompatActivity {
         tv_event_day.setText(startDateStr);
 
         ArrayList<String> addrStrs = new ArrayList<String>();
+
         for (String addr : event.getVenue().getAddress()) {
             addrStrs.add(addr);
         }
+
         tv_address.setText(TextUtils.join("\n", addrStrs));
 
         double distance = Utils.distance(this.latitude,
@@ -126,16 +128,31 @@ public class EventDetailActivity extends AppCompatActivity {
 
         String dotStr = "<font color=#438c7e size=32>• </font>";
         tv_description.setText(Html.fromHtml(dotStr + event.getDescription()));
-        tv_theme.setText(Html.fromHtml(dotStr + event.getTheme()));
+        tv_theme.setText(Html.fromHtml(dotStr + event.getBrowseEvent().getEventName()));
 
         ArrayList<String> dressStrs = new ArrayList<String>();
-        for (int i=0;i<event.getDressCode().size();i++) {
-            String dress = event.getDressCode().get(i);
-            if (i != event.getDressCode().size()-1) {
-                dressStrs.add(dotStr + dress + "<br>");
+
+        if (event.getDressCodeType() != null) {
+            String dressCodeType = event.getDressCodeType().getName();
+            if (event.getDressCode() != null && event.getDressCode().size() > 0) {
+                dressStrs.add(dotStr + dressCodeType + "<br>");
             } else {
-                dressStrs.add(dotStr + dress);
+                dressStrs.add(dotStr + dressCodeType);
             }
+        }
+
+        String twoDotStr = "<font color=#438c7e size=32>&nbsp;&nbsp;&nbsp;• </font>";
+
+        if (event.getDressCode() != null) {
+            for (int i=0;i<event.getDressCode().size();i++) {
+                String dress = event.getDressCode().get(i);
+                if (i != event.getDressCode().size()-1) {
+                    dressStrs.add(twoDotStr + dress + "<br>");
+                } else {
+                    dressStrs.add(twoDotStr + dress);
+                }
+            }
+
         }
 
         tv_dress_code.setText(Html.fromHtml(TextUtils.join("\n", dressStrs)));

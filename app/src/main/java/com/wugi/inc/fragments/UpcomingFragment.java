@@ -34,7 +34,10 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.wugi.inc.R;
 import com.wugi.inc.adapters.UpcomingRecyclerAdapter;
 import com.wugi.inc.models.BrowseEvent;
+import com.wugi.inc.models.BrowseVenueType;
+import com.wugi.inc.models.DressCodeType;
 import com.wugi.inc.models.Event;
+import com.wugi.inc.models.Neighborhood;
 import com.wugi.inc.models.Venue;
 import com.wugi.inc.utils.OnSwipeTouchListener;
 import com.wugi.inc.utils.Utils;
@@ -126,8 +129,54 @@ public class UpcomingFragment extends Fragment {
                                                         DocumentSnapshot document = task.getResult();
                                                         if (document != null) {
                                                             Log.d(TAG, "DocumentSnapshot data: " + task.getResult().getData());
-                                                            Venue venue = new Venue(document);
+                                                            final Venue venue = new Venue(document);
                                                             event.setVenue(venue);
+
+                                                            if (document.getDocumentReference("browseVenueType") != null) {
+                                                                DocumentReference venueReference = document.getDocumentReference("browseVenueType");
+                                                                db.collection("BrowseVenueType").document(venueReference.getId()).get()
+                                                                        .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                                                            @Override
+                                                                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                                                                if (task.isSuccessful()) {
+                                                                                    DocumentSnapshot document = task.getResult();
+                                                                                    if (document != null) {
+                                                                                        Log.d(TAG, "DocumentSnapshot data: " + task.getResult().getData());
+                                                                                        BrowseVenueType browseVenueType = new BrowseVenueType(document);
+                                                                                        venue.setBrowseVenueType(browseVenueType);
+
+                                                                                    } else {
+                                                                                        Log.d(TAG, "No such document");
+                                                                                    }
+                                                                                } else {
+                                                                                    Log.d(TAG, "get failed with ", task.getException());
+                                                                                }
+                                                                            }
+                                                                        });
+                                                            }
+
+                                                            if (document.getDocumentReference("neighborhood") != null) {
+                                                                DocumentReference neighborhoodReference = document.getDocumentReference("neighborhood");
+                                                                db.collection("Neighborhood").document(neighborhoodReference.getId()).get()
+                                                                        .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                                                            @Override
+                                                                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                                                                if (task.isSuccessful()) {
+                                                                                    DocumentSnapshot document = task.getResult();
+                                                                                    if (document != null) {
+                                                                                        Log.d(TAG, "DocumentSnapshot data: " + task.getResult().getData());
+                                                                                        Neighborhood neighborhood = new Neighborhood(document);
+                                                                                        venue.setNeighborhood(neighborhood);
+
+                                                                                    } else {
+                                                                                        Log.d(TAG, "No such document");
+                                                                                    }
+                                                                                } else {
+                                                                                    Log.d(TAG, "get failed with ", task.getException());
+                                                                                }
+                                                                            }
+                                                                        });
+                                                            }
 
                                                         } else {
                                                             Log.d(TAG, "No such document");
@@ -162,6 +211,29 @@ public class UpcomingFragment extends Fragment {
                                             });
                                 }
 
+                                if (document.getDocumentReference("dressCodeType") != null) {
+                                    DocumentReference dressCodeTypeReference = document.getDocumentReference("dressCodeType");
+                                    db.collection("DressCodeType").document(dressCodeTypeReference.getId()).get()
+                                            .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                                    if (task.isSuccessful()) {
+                                                        DocumentSnapshot document = task.getResult();
+                                                        if (document != null) {
+                                                            Log.d(TAG, "DocumentSnapshot data: " + task.getResult().getData());
+                                                            DressCodeType dressCodeType = new DressCodeType(document);
+                                                            event.setDressCodeType(dressCodeType);
+
+                                                        } else {
+                                                            Log.d(TAG, "No such document");
+                                                        }
+                                                    } else {
+                                                        Log.d(TAG, "get failed with ", task.getException());
+                                                    }
+                                                }
+                                            });
+                                }
+
                                 UpcomingFragment.this.eventList.add(event);
                             }
                             getActiveData();
@@ -178,8 +250,9 @@ public class UpcomingFragment extends Fragment {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         Date today = new Date();
         String todayStr = dateFormat.format(today);
+        todayStr = todayStr + " 04:00:00 +0000";
 
-        todayStr = "2017-12-01" + " 04:00:00 +0000";
+//        todayStr = "2017-12-01" + " 04:00:00 +0000";
 
         Date convertedDate = new Date();
         SimpleDateFormat outputFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss ZZZZZ");
@@ -198,8 +271,9 @@ public class UpcomingFragment extends Fragment {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Date today = new Date();
         String todayStr = sdf.format(today);
+        todayStr = todayStr + " 04:00:00 +0000";
 
-        todayStr = "2017-12-01" + " 07:00:00 +0000";
+//        todayStr = "2017-12-01" + " 07:00:00 +0000";
         Date convertedDate = new Date();
         SimpleDateFormat outputFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss ZZZZZ");
 
