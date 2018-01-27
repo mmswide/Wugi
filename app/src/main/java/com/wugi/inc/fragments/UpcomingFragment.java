@@ -51,6 +51,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.TimeZone;
 
 import static android.content.ContentValues.TAG;
 
@@ -67,6 +68,8 @@ public class UpcomingFragment extends Fragment implements SwipeRefreshLayout.OnR
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+
+    public static final TimeZone UTC_TIMEZONE = TimeZone.getTimeZone("UTC");
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -400,12 +403,17 @@ public class UpcomingFragment extends Fragment implements SwipeRefreshLayout.OnR
 
     private String getDayOfWeek(Date d) {
         SimpleDateFormat sdf = new SimpleDateFormat("EEE");
+        sdf.setTimeZone(UTC_TIMEZONE);
         String dayOfTheWeek = sdf.format(d);
         return dayOfTheWeek;
     }
     private String getDayFromDate(Date date) {
-        String dayStr = (String) DateFormat.format("dd",   date);
-        return dayStr;
+//        String dayStr = (String) DateFormat.format("dd",   date);
+//        return dayStr;
+        SimpleDateFormat sdf = new SimpleDateFormat("dd");
+        sdf.setTimeZone(UTC_TIMEZONE);
+        String dayOfTheWeek = sdf.format(date);
+        return dayOfTheWeek;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)

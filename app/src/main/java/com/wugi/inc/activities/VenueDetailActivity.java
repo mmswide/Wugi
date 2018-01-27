@@ -130,7 +130,7 @@ public class VenueDetailActivity extends AppCompatActivity {
         final ProgressDialog progressDialog = Utils.createProgressDialog(this);
         db.collection("Gallery")
                 .whereEqualTo("active", true)
-                .orderBy("eventDate", Query.Direction.ASCENDING)
+                .orderBy("eventDate", Query.Direction.DESCENDING)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -301,7 +301,7 @@ public class VenueDetailActivity extends AppCompatActivity {
                 }
             });
 
-            final Gallery gallery2 = this.galleryList.get(0);
+            final Gallery gallery2 = this.galleryList.get(1);
             Picasso.with(this).load(gallery2.getCover()).into(thumbnail2);
 
             thumbnail2.setOnClickListener(new View.OnClickListener() {
@@ -315,7 +315,7 @@ public class VenueDetailActivity extends AppCompatActivity {
                 }
             });
 
-            final Gallery gallery3 = this.galleryList.get(0);
+            final Gallery gallery3 = this.galleryList.get(2);
             Picasso.with(this).load(gallery3.getCover()).into(thumbnail3);
 
             thumbnail3.setOnClickListener(new View.OnClickListener() {
@@ -338,7 +338,7 @@ public class VenueDetailActivity extends AppCompatActivity {
                     break;
                 case 1:
                     cardView1.setVisibility(View.VISIBLE);
-                    cardView2.setVisibility(View.GONE);
+                    cardView2.setVisibility(View.INVISIBLE);
                     cardView3.setVisibility(View.GONE);
                     cardView4.setVisibility(View.GONE);
 
@@ -360,7 +360,7 @@ public class VenueDetailActivity extends AppCompatActivity {
                     cardView1.setVisibility(View.VISIBLE);
                     cardView2.setVisibility(View.VISIBLE);
                     cardView3.setVisibility(View.GONE);
-                    cardView4.setVisibility(View.INVISIBLE);
+                    cardView4.setVisibility(View.GONE);
 
                     final Gallery gallery_21 = this.galleryList.get(0);
                     Picasso.with(this).load(gallery_21.getCover()).into(thumbnail1);
