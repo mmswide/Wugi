@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.github.marlonlom.utilities.timeago.TimeAgo;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 import com.wugi.inc.R;
@@ -130,7 +131,9 @@ public class NotificationRecyclerAdapter extends RecyclerView.Adapter<RecyclerVi
             final Notification notification = notificationList.get(position);
             viewHolder.tv_title.setText(notification.getTitle());
 
-            String timeDiff = this.printDifference(notification.getCreatedAt(), new Date());
+//            String timeDiff = this.printDifference(notification.getCreatedAt(), new Date());
+            long timeInMillis = notification.getCreatedAt().getTime();
+            String timeDiff = TimeAgo.using(timeInMillis);
             viewHolder.tv_date.setText(timeDiff);
             viewHolder.tv_description.setText(notification.getDescription());
 
