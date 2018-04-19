@@ -2,6 +2,7 @@ package com.wugi.inc.fragments;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -22,7 +23,10 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.gson.Gson;
 import com.wugi.inc.R;
+import com.wugi.inc.activities.EventDetailActivity;
+import com.wugi.inc.activities.PhotoActivity;
 import com.wugi.inc.adapters.BrowseRecyclerAdapter;
 import com.wugi.inc.adapters.NotificationRecyclerAdapter;
 import com.wugi.inc.models.BrowseEvent;
@@ -169,6 +173,25 @@ public class NotificationFragment extends Fragment implements SwipeRefreshLayout
                 android.R.color.holo_orange_dark,
                 android.R.color.holo_blue_dark);
 
+        adapter.setOnItemClickListener(new NotificationRecyclerAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(int position, Notification notification) {
+                if (notification.getGallery() != null) {
+                    Intent intent = new Intent(mContext, PhotoActivity.class);
+                    Gson gson = new Gson();
+                    String jsonGalleryString = gson.toJson(notification.getGallery());
+                    intent.putExtra("gallery", jsonGalleryString);
+                    mContext.startActivity(intent);
+                }
+                if (notification.getEvent() != null) {
+                    Intent intent = new Intent(mContext, EventDetailActivity.class);
+                    Gson gson = new Gson();
+                    String jsonEventString = gson.toJson(notification.getEvent());
+                    intent.putExtra("event", jsonEventString);
+                    startActivity(intent);
+                }
+            }
+        });
         return view;
     }
 

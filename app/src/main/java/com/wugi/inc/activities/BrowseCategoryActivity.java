@@ -162,7 +162,6 @@ public class BrowseCategoryActivity extends AppCompatActivity {
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        progressDialog.dismiss();
                         if (task.isSuccessful()) {
                             for (DocumentSnapshot document : task.getResult()) {
                                 Log.d(TAG, document.getId() + " => " + document.getData());
@@ -287,7 +286,9 @@ public class BrowseCategoryActivity extends AppCompatActivity {
                                             });
                                 }
                             }
+                            progressDialog.dismiss();
                         } else {
+                            progressDialog.dismiss();
                             Log.w(TAG, "Error getting documents.", task.getException());
                         }
                     }
@@ -313,12 +314,10 @@ public class BrowseCategoryActivity extends AppCompatActivity {
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        progressDialog.dismiss();
                         if (task.isSuccessful()) {
                             for (DocumentSnapshot document : task.getResult()) {
                                 Log.d(TAG, document.getId() + " => " + document.getData());
                                 final Event event = new Event(document);
-
                                 if (document.getDocumentReference("venue") != null) {
                                     DocumentReference venueReference = document.getDocumentReference("venue");
                                     db.collection("Venue").document(venueReference.getId()).get()
@@ -424,7 +423,9 @@ public class BrowseCategoryActivity extends AppCompatActivity {
                                             });
                                 }
                             }
+                            progressDialog.dismiss();
                         } else {
+                            progressDialog.dismiss();
                             Log.w(TAG, "Error getting documents.", task.getException());
                         }
                     }
@@ -439,7 +440,6 @@ public class BrowseCategoryActivity extends AppCompatActivity {
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        progressDialog.dismiss();
                         if (task.isSuccessful()) {
                             for (DocumentSnapshot document : task.getResult()) {
                                 Log.d(TAG, document.getId() + " => " + document.getData());
@@ -496,7 +496,9 @@ public class BrowseCategoryActivity extends AppCompatActivity {
                                             });
                                 }
                             }
+                            progressDialog.dismiss();
                         } else {
+                            progressDialog.dismiss();
                             Log.w(TAG, "Error getting documents.", task.getException());
                         }
                     }

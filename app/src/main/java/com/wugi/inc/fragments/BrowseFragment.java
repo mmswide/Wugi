@@ -129,8 +129,6 @@ public class BrowseFragment extends Fragment implements View.OnClickListener {
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        progressDialog.dismiss();
-
                         if (task.isSuccessful()) {
                             for (DocumentSnapshot document : task.getResult()) {
                                 Log.d(TAG, document.getId() + " => " + document.getData());
@@ -168,7 +166,9 @@ public class BrowseFragment extends Fragment implements View.OnClickListener {
                                             });
                                 }
                             }
+                            progressDialog.dismiss();
                         } else {
+                            progressDialog.dismiss();
                             Log.w(TAG, "Error getting documents.", task.getException());
                         }
                     }
@@ -192,8 +192,6 @@ public class BrowseFragment extends Fragment implements View.OnClickListener {
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        progressDialog.dismiss();
-
                         if (task.isSuccessful()) {
                             for (DocumentSnapshot document : task.getResult()) {
                                 Log.d(TAG, document.getId() + " => " + document.getData());
@@ -231,7 +229,9 @@ public class BrowseFragment extends Fragment implements View.OnClickListener {
                                             });
                                 }
                             }
+                            progressDialog.dismiss();
                         } else {
+                            progressDialog.dismiss();
                             Log.w(TAG, "Error getting documents.", task.getException());
                         }
                     }
@@ -246,7 +246,6 @@ public class BrowseFragment extends Fragment implements View.OnClickListener {
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        progressDialog.dismiss();
                         if (task.isSuccessful()) {
                             for (DocumentSnapshot document : task.getResult()) {
                                 Log.d(TAG, document.getId() + " => " + document.getData());
@@ -289,7 +288,9 @@ public class BrowseFragment extends Fragment implements View.OnClickListener {
                                     }
                                 }
                             }
+                            progressDialog.dismiss();
                         } else {
+                            progressDialog.dismiss();
                             Log.w(TAG, "Error getting documents.", task.getException());
                         }
                     }

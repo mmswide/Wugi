@@ -37,14 +37,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="EDIT PROFILE"
-                android:fontFamily="sans-serif-medium"
                 style="@android:style/TextAppearance.Medium"/>
             <ImageView
                 android:id="@+id/iv_collapse"
                 android:layout_width="@dimen/arrow_size"
                 android:layout_height="@dimen/arrow_size"
                 android:layout_alignParentRight="true"
-                android:src="@drawable/down_arrow"/>
+                android:src="@drawable/right_arrow"/>
         </RelativeLayout>
 
         <LinearLayout
@@ -143,10 +142,12 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="1px"
+            android:visibility="gone"
             android:background="@android:color/darker_gray"></LinearLayout>
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:visibility="gone"
             android:paddingTop="@dimen/padding"
             android:paddingBottom="@dimen/padding"
             android:layout_marginLeft="@dimen/margin_left"

@@ -33,6 +33,16 @@ public class NotificationRecyclerAdapter extends RecyclerView.Adapter<RecyclerVi
     private List<Notification> notificationList;
     private NotificationItemRecyclerAdapter recyclerAdapter;
 
+    private OnItemClickListener listener;
+
+    public interface OnItemClickListener {
+        void onItemClick(int position, Notification notification);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.listener = listener;
+    }
+
     public void refresh(ArrayList<Notification> notificationList) {
         this.notificationList = notificationList;
         notifyDataSetChanged();
@@ -125,7 +135,7 @@ public class NotificationRecyclerAdapter extends RecyclerView.Adapter<RecyclerVi
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         if(holder instanceof NotificationViewHolder){
             NotificationViewHolder viewHolder = (NotificationViewHolder) holder;
             final Notification notification = notificationList.get(position);
@@ -159,6 +169,13 @@ public class NotificationRecyclerAdapter extends RecyclerView.Adapter<RecyclerVi
                     }
                 });
             }
+
+            viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    listener.onItemClick(position, notification);
+                }
+            });
         }
     }
 

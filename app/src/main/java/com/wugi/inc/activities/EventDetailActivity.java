@@ -108,7 +108,7 @@ public class EventDetailActivity extends AppCompatActivity {
         Picasso.with(this).load(event.getImageURL()).into(iv_event);
         Picasso.with(this).load(event.getVenue().getImageThumbURL()).into(iv_venue);
         tv_event_name.setText(event.getName());
-        SimpleDateFormat dateFormat = new SimpleDateFormat("MMMM dd yyyy");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MMMM dd, yyyy");
         String startDateStr = dateFormat.format(event.getStartDate());
         tv_event_day.setText(startDateStr);
 

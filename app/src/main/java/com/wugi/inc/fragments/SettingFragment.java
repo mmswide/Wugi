@@ -240,6 +240,8 @@ public class SettingFragment extends Fragment {
             }
         });
 
+        toggle();
+
         return view;
     }
 
@@ -290,7 +292,7 @@ public class SettingFragment extends Fragment {
             iv_collapse.setImageResource(R.drawable.down_arrow);
         } else {
             ll_name.setVisibility(View.GONE);
-            iv_collapse.setImageResource(R.drawable.up_arrow);
+            iv_collapse.setImageResource(R.drawable.right_arrow);
         }
     }
 
@@ -316,7 +318,7 @@ public class SettingFragment extends Fragment {
     @OnClick(R.id.rl_contact)
     void onContact() {
         Intent email = new Intent(Intent.ACTION_SEND);
-        email.putExtra(Intent.EXTRA_EMAIL, new String[]{ "rodk.music@gmail.com"});
+        email.putExtra(Intent.EXTRA_EMAIL, new String[]{ "info@wugi.us"});
         email.putExtra(Intent.EXTRA_SUBJECT, "Wugi App");
         email.putExtra(Intent.EXTRA_TEXT, "");
 

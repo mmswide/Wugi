@@ -60,8 +60,9 @@ public class SearchRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         if(holder instanceof SearchViewHolder){
             if (type == SearchType.EVENT_TYPE) {
                 final Event event = eventList.get(position);
-                Picasso.with(mContext).load(event.getImageThumbURL()).into(((SearchViewHolder) holder).thumbnail);
-
+                if (!event.getImageThumbURL().isEmpty()) {
+                    Picasso.with(mContext).load(event.getImageThumbURL()).into(((SearchViewHolder) holder).thumbnail);
+                }
                 ((SearchViewHolder) holder).thumbnail.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -76,7 +77,10 @@ public class SearchRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             }
             if (type == SearchType.VENUE_TYPE) {
                 final Venue venue = venueList.get(position);
-                Picasso.with(mContext).load(venue.getImageThumbURL()).into(((SearchViewHolder) holder).thumbnail);
+                if (!venue.getImageThumbURL().isEmpty()) {
+                    Picasso.with(mContext).load(venue.getImageThumbURL()).into(((SearchViewHolder) holder).thumbnail);
+                }
+
                 ((SearchViewHolder) holder).thumbnail.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {

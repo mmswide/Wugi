@@ -74,6 +74,7 @@ public class VenueDetailActivity extends AppCompatActivity {
     @BindView(R.id.thumbnail1)      SquareImageView thumbnail1;
     @BindView(R.id.thumbnail2)      SquareImageView thumbnail2;
     @BindView(R.id.thumbnail3)      SquareImageView thumbnail3;
+    @BindView(R.id.thumbnail4)      SquareImageView thumbnail4;
 
     Venue venue;
     private static final int REQUEST_PHONE_CALL = 1;
@@ -266,7 +267,7 @@ public class VenueDetailActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    @OnClick(R.id.card_view4)
+//    @OnClick(R.id.card_view4)
     void showPhotos() {
         Intent intent = new Intent(VenueDetailActivity.this, GalleryActivity.class);
         Gson gson = new Gson();
@@ -277,15 +278,18 @@ public class VenueDetailActivity extends AppCompatActivity {
 
     void showGallery() {
         int size = this.galleryList.size();
-        if (size > 3) {
-            cardView4.setVisibility(View.VISIBLE);
-
+        if (size >= 1) {
             rl_gallery_title.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     showPhotos();
                 }
             });
+        }
+        if (size > 3) {
+            cardView4.setVisibility(View.VISIBLE);
+
+
 
             final Gallery gallery1 = this.galleryList.get(0);
             Picasso.with(this).load(gallery1.getCover()).into(thumbnail1);
@@ -324,6 +328,19 @@ public class VenueDetailActivity extends AppCompatActivity {
                     Intent intent = new Intent(VenueDetailActivity.this, PhotoActivity.class);
                     Gson gson = new Gson();
                     String jsonGalleryString = gson.toJson(gallery3);
+                    intent.putExtra("gallery", jsonGalleryString);
+                    VenueDetailActivity.this.startActivity(intent);
+                }
+            });
+
+            final Gallery gallery4 = this.galleryList.get(3);
+            Picasso.with(this).load(gallery4.getCover()).into(thumbnail4);
+            thumbnail4.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(VenueDetailActivity.this, PhotoActivity.class);
+                    Gson gson = new Gson();
+                    String jsonGalleryString = gson.toJson(gallery4);
                     intent.putExtra("gallery", jsonGalleryString);
                     VenueDetailActivity.this.startActivity(intent);
                 }

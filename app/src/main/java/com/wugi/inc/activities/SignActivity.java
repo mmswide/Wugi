@@ -31,6 +31,7 @@ import android.text.style.ForegroundColorSpan;
 import android.text.style.RelativeSizeSpan;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -117,7 +118,7 @@ public class SignActivity extends AppCompatActivity {
     @BindView(R.id.upConfirmPassword) EditText upInputConfirm;
     @BindView(R.id.spinner)         Spinner genderSpinner;
     @BindView(R.id.btn_up_fb)
-    FancyButton signupFbButton;
+    LinearLayout signupFbButton;
     @BindView(R.id.fbButton)
     LoginButton fbButton;
     @BindView(R.id.ll_sign)
@@ -147,6 +148,8 @@ public class SignActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sign);
 
         ButterKnife.bind(this);
+        // TODo - Hide soft keyboard
+        this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
         inputFirstName.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
         inputLastName.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
@@ -624,13 +627,13 @@ public class SignActivity extends AppCompatActivity {
         finish();
     }
 
-    @OnClick(R.id.guestButton)
+    @OnClick({R.id.guestButton, R.id.signup_guestButton})
     void onGuest() {
         Intent intent = new Intent(SignActivity.this, GuestActivity.class);
         startActivity(intent);
         overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
     }
-    @OnClick(R.id.forgotButton)
+    @OnClick({R.id.forgotButton, R.id.signup_forgotButton})
     void onForgotPassword() {
         Intent intent = new Intent(SignActivity.this, ForgotPassActivity.class);
         startActivity(intent);

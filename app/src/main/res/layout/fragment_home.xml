@@ -16,7 +16,7 @@
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scrollbars="vertical"
+            android:scrollbars="none"
             android:paddingTop="@dimen/item_margin"
             android:paddingLeft="@dimen/item_margin"
             android:paddingRight="@dimen/item_margin"
